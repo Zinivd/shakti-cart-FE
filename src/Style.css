@@ -1,0 +1,40 @@
+.main {
+    width: 85%;
+    margin: auto;
+}
+
+@media screen and (min-width: 1140px) {
+
+    .ellipsis-main,
+    .products-main,
+    .discover-main,
+    .grid-main,
+    .offers-main {
+        padding: 20px 0px;
+    }
+
+}
+
+@media screen and (min-width: 767px) and (max-width: 1140px) {
+
+    .ellipsis-main,
+    .products-main,
+    .discover-main,
+    .grid-main,
+    .offers-main {
+        padding: 20px 0px;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .ellipsis-main,
+    .products-main,
+    .discover-main,
+    .grid-main,
+    .offers-main {
+        padding: 20px 0px;
+    }
+
+}

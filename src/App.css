@@ -1,0 +1,123 @@
+/* Heading CSS */
+.body-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+.body-head h5 {
+  color: var(--text-secondary);
+  font-weight: var(--fw-lg);
+  margin-bottom: 0px;
+}
+
+.body-head h5 span {
+  color: var(--yellow);
+}
+
+.body-head h6 {
+  color: var(--text-secondary);
+  font-weight: var(--fw-md);
+  margin-bottom: 0px;
+}
+
+.body-head h6 span {
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.body-head h6 span:hover,
+.body-head h6 span.active {
+  color: var(--purple);
+  text-decoration: 1px underline var(--purple);
+}
+
+/* Buttons CSS */
+/* Home Banner Button */
+.homebannerbtn {
+  background-color: var(--yellow);
+  color: var(--secondary);
+  font-weight: var(--fw-md);
+  border: 1px solid var(--yellow);
+  border-radius: 2px;
+  padding: 6px 20px;
+  transition: var(--transition);
+}
+
+.discoverbtn {
+  background-color: var(--secondary);
+  color: var(--text-primary);
+  font-weight: var(--fw-md);
+  border: 1px solid var(--secondary);
+  border-radius: 20px;
+  padding: 6px 20px;
+  transition: var(--transition);
+}
+
+/* Button Hover */
+.homebannerbtn:hover {
+  background-color: transparent;
+  color: var(--secondary);
+}
+
+.discoverbtn:hover {
+  background-color: transparent;
+  color: var(--secondary);
+}
+
+@media screen and (min-width: 1140px) {
+
+  /* Heading CSS */
+  .body-head h5 {
+    font-size: 18px;
+  }
+
+  .body-head h6 {
+    font-size: 14px;
+  }
+
+  /* Buttons CSS */
+  /* Home Banner Btn */
+  .homebannerbtn {
+    font-size: 14px;
+  }
+
+  .discoverbtn {
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width: 1140px) {
+
+  /* Heading CSS */
+  .body-head h5 {
+    font-size: 16px;
+  }
+
+  .body-head h6 {
+    font-size: 12px;
+  }
+
+  /* Buttons CSS */
+  /* Home Banner Btn */
+  .homebannerbtn {
+    font-size: 12px;
+  }
+
+  .discoverbtn {
+    font-size: 12px;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+
+  /* Heading CSS */
+  .body-head h5,
+  .body-head h6 {
+    text-align: center;
+  }
+}

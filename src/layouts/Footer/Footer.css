@@ -1,0 +1,152 @@
+#brands li a {
+    background-color: var(--secondary);
+    color: var(--text-primary);
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition);
+}
+
+#brands #facebook:hover {
+    background-color: #3A5696;
+    color: var(--secondary);
+}
+
+#brands #instagram:hover {
+    background: rgb(131, 58, 180);
+    background: linear-gradient(90deg, rgba(131, 58, 180, 1) 9%, rgba(253, 29, 29, 1) 70%, rgba(252, 176, 69, 1) 100%);
+    color: var(--secondary);
+}
+
+#brands #linkedin:hover {
+    background-color: #2864AA;
+    color: var(--secondary);
+}
+
+#brands #twitter:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+#brands #whatsapp:hover {
+    background-color: var(--green);
+    color: var(--secondary);
+}
+
+/* Footer */
+.footer {
+    background: #3C4242;
+    padding: 10px 5px;
+    z-index: 999;
+}
+
+.footer .container-fluid {
+    width: 90%;
+    margin: auto;
+    padding: 0px;
+}
+
+.footer .footerdiv {
+    display: grid;
+    align-items: start;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.footer .footerdiv .footer-headings h5 {
+    color: var(--secondary);
+    font-weight: var(--fw-lg);
+}
+
+.footer .nav-item a,
+.footer h6 {
+    color: var(--secondary);
+    font-weight: var(--fw-sm);
+}
+
+.footer .nav-item a:hover,
+.footer .nav-item a.active {
+    text-decoration: 1px underline var(--secondary);
+}
+
+@media screen and (min-width: 1098px) {
+
+    .footer .footerdiv {
+        grid-template-columns: 20% 20% 20% 20% 20%;
+    }
+
+    /* Company Info */
+    .footer .footerdiv .footer-headings h5 {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .footer .nav-item a,
+    .footer h6 {
+        font-size: 12px;
+    }
+
+}
+
+@media screen and (min-width: 767px) and (max-width: 1098px) {
+
+    .footer .footerlogo img {
+        height: 40px !important;
+    }
+
+    #brands li a {
+        height: 25px !important;
+        width: 25px !important;
+        font-size: 12px !important;
+    }
+
+    .footer .footerdiv {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        column-gap: 45px;
+    }
+
+    /* Company Info */
+    .footer .footerdiv .footer-headings h5 {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .footer .nav-item a,
+    .footer h6 {
+        font-size: 10px;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .footer .footerdiv {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        column-gap: 45px;
+        margin-top: 10px;
+    }
+
+    /* Company Info */
+    .footer .footerdiv .footer-headings ul {
+        margin-top: -20px !important;
+    }
+
+    .footer .footerdiv .footer-headings h5 {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .footer .nav-item a,
+    .footer h6 {
+        font-size: 12px;
+    }
+
+}

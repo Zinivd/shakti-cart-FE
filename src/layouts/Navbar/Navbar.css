@@ -1,0 +1,189 @@
+.navbar-nav .nav-link.active,
+.navbar-nav .show>.nav-link,
+.navbar-nav .nav-link:hover {
+    color: var(--text-primary) !important;
+}
+
+.navbar {
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    z-index: 999;
+    padding: 10px 0px 5px 0px;
+    background: var(--secondary);
+    border: none;
+    transition: background-color 1s ease 0s;
+}
+
+.navbar .container-fluid {
+    width: 90%;
+    margin: auto;
+    padding: 0px;
+}
+
+.navbar ul .nav-link {
+    color: var(--text-secondary);
+    font-weight: var(--fw-md);
+}
+
+.navbar .nav-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.navbar .navbar-collapse {
+    background-color: var(--secondary);
+}
+
+.search-bar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+}
+
+.search-bar i {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.search-bar input {
+    background-color: var(--input-bg);
+    padding: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-radius: 0px 5px 5px 0px !important;
+}
+
+.search-bar input:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.search-bar:focus-within {
+    border: 1px solid var(--main);
+}
+
+@media screen and (min-width: 1140px) {
+
+    .navbar ul .nav-link {
+        font-size: 13px;
+    }
+
+    .navbar ul .nav-link i {
+        font-size: 18px;
+    }
+
+    .icon-end {
+        justify-content: space-evenly !important;
+    }
+
+}
+
+@media screen and (min-width: 990px) and (max-width: 1139px) {
+
+    .logo-div img {
+        display: none;
+    }
+
+    .navbar-brand img {
+        height: 45px !important;
+    }
+
+    .icon-end {
+        justify-content: space-evenly !important;
+    }
+
+}
+
+@media screen and (max-width: 989px) {
+
+    .logo-div img {
+        height: 40px !important;
+    }
+
+    .navbar-brand {
+        display: none;
+    }
+
+    .icon-end {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .navbar .container-fluid {
+        padding-inline: 0px;
+    }
+
+    .navbar-collapse {
+        padding: 0px 15px 10px 15px;
+    }
+
+    .responsive-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: auto;
+        width: 95%;
+    }
+
+    .responsive-button div .navbar-toggler {
+        background-color: var(--main);
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .responsive-button div i {
+        font-size: 18px;
+        color: var(--secondary);
+    }
+
+    .search-bar {
+        margin-top: 5px;
+    }
+
+    .icon-end {
+        justify-content: space-between !important;
+        margin-top: 5px;
+    }
+
+    .toggler-icon {
+        position: relative;
+        transition: transform var(--transition), opacity var(--transition);
+    }
+
+    /* Hide the current icon smoothly */
+    .navbar-toggler[aria-expanded="true"] .toggler-icon {
+        transform: rotate(180deg);
+        /* opacity: 0; */
+    }
+
+}
+
+@media screen and (min-width: 1140px) {
+    .responsive-button {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1139px) {
+
+    .navbar ul .nav-link {
+        font-size: 12px;
+    }
+
+    .navbar ul .nav-link i {
+        font-size: 16px;
+    }
+
+}
