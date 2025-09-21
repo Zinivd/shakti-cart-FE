@@ -52,23 +52,40 @@
     padding: 20px 0px;
 }
 
+.main {
+    width: 90%;
+    margin: auto;
+}
+
+@media screen and (max-width: 1098px) {
+    .main {
+        width: 95%;
+        margin: auto;
+    }
+}
+
 @media screen and (min-width: 1098px) {
-    .main {
-        width: 89%;
-        margin: auto;
+
+    /* Heading CSS */
+    .body-head h5 {
+        font-size: 18px;
     }
+
+    .body-head h6 {
+        font-size: 14px;
+    }
+
 }
 
-@media screen and (min-width: 767px) and (max-width: 1098px) {
-    .main {
-        width: 90%;
-        margin: auto;
-    }
-}
+@media screen and (max-width: 1098px) {
 
-@media screen and (max-width: 767px) {
-    .main {
-        width: 90%;
-        margin: auto;
+    /* Heading CSS */
+    .body-head h5 {
+        font-size: 14px;
     }
+
+    .body-head h6 {
+        font-size: 12px;
+    }
+
 }

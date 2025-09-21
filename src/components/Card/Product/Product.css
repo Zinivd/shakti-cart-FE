@@ -166,7 +166,7 @@
 @media screen and (min-width: 767px) and (max-width: 1098px) {
 
     .product-list {
-        grid-template-columns: repeat(4, 22.5%);
+        grid-template-columns: repeat(3, 32%);
     }
 
     .product-img {
@@ -201,7 +201,7 @@
 @media screen and (max-width: 767px) {
 
     .product-list {
-        grid-template-columns: repeat(2, 48%);
+        grid-template-columns: repeat(2, 49%);
     }
 
     .product-img {

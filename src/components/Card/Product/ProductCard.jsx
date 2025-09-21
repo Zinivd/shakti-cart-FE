@@ -53,7 +53,12 @@ const ProductCard = (props) => {
         <div className="product-head">
           <div className="d-flex align-items-center column-gap-2">
             {props.icon && (
-              <img src={props.icon} alt={props.productname} className="mb-2" height="15px" />
+              <img
+                src={props.icon}
+                alt={props.productname}
+                className="mb-2"
+                height="15px"
+              />
             )}
             <h6 className="mb-2">{props.brand}</h6>
           </div>
@@ -63,12 +68,20 @@ const ProductCard = (props) => {
         </div>
         <div className="product-details">
           <h5 className="mb-2">{props.productname}</h5>
-          <h6 className="mb-2">
-            ₹ {props.price}
-            <span className="ps-2 text-decoration-line-through">
-              ₹ {props.slashprice}
-            </span>
-          </h6>
+          <div className="d-flex align-items-center justify-content-between">
+            <h6 className="mb-0">
+              ₹ {props.price}
+              <span className="ps-1 text-decoration-line-through">
+                ₹ {props.slashprice}
+              </span>
+            </h6>
+            {props.showCartBtn && (
+              <button className="cartbtn">
+                <i className="fas fa-shopping-cart"></i>
+                <span>Add</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </Link>

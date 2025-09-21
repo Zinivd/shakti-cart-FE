@@ -9,7 +9,7 @@
 @media screen and (min-width: 1098px) {
 
     .product-flex {
-        grid-template-columns: 25% 74%;
+        grid-template-columns: 22% 77%;
     }
 
     .filter-responsive {
@@ -40,12 +40,9 @@
     }
 
     .filter-responsive {
-        background-color: var(--secondary);
-        color: var(--text-secondary);
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin: auto;
+        column-gap: 5px;
     }
 
 }

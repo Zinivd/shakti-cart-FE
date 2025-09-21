@@ -3,7 +3,7 @@ import { VegIcon } from "../../../../public/Assets.js";
 import ProductCard from "./ProductCard.jsx";
 import "./Product.css";
 
-const Product = () => {
+const Product = (props) => {
   const productData = [
     {
       productImg:
@@ -90,7 +90,7 @@ const Product = () => {
     <div className="product">
       <div className="product-list">
         {productData.map((item, index) => (
-          <ProductCard key={index} {...item} />
+          <ProductCard key={index} {...item} showCartBtn={props.showCartBtn} />
         ))}
       </div>
     </div>

@@ -52,9 +52,9 @@
 
 .filterbtn {
   background-color: transparent;
-  color: var(--text-primary);
-  font-size: 14px;
-  padding: 0px 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  padding: 0px;
   border: 2px solid transparent;
   width: 100%;
   font-weight: var(--fw-md);
@@ -63,6 +63,31 @@
   grid-template-columns: 85% 15%;
   justify-content: space-between;
   align-items: center;
+  transition: var(--transition);
+}
+
+.sizebtn {
+  width: 100%;
+  background-color: var(--secondary);
+  color: var(--text-primary);
+  font-weight: var(--fw-md);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 5px;
+  transition: var(--transition);
+}
+
+.cartbtn {
+  background-color: var(--sub);
+  color: var(--secondary);
+  font-weight: var(--fw-sm);
+  border: 2px solid var(--sub);
+  border-radius: 3px;
+  padding: 2px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
   transition: var(--transition);
 }
 
@@ -79,6 +104,20 @@
 
 .shopnowbtn:hover,
 .darkbtn:hover {
+  background-color: var(--secondary);
+  color: var(--text-primary);
+}
+
+.filterbtn:hover {
+  color: var(--text-primary);
+}
+
+.sizebtn:hover {
+  background-color: var(--main);
+  color: var(--secondary);
+}
+
+.cartbtn:hover {
   background-color: var(--secondary);
   color: var(--text-primary);
 }
@@ -103,7 +142,9 @@
     font-size: 14px;
   }
 
-  .shopnowbtn {
+  .shopnowbtn,
+  .cartbtn,
+  .sizebtn {
     font-size: 12px;
   }
 
@@ -129,7 +170,9 @@
     font-size: 12px;
   }
 
-  .shopnowbtn {
+  .shopnowbtn,
+  .cartbtn,
+  .sizebtn {
     font-size: 10px;
   }
 

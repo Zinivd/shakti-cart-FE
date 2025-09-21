@@ -15,7 +15,6 @@
 }
 
 .navbar .container-fluid {
-    width: 90%;
     margin: 0px auto;
     padding: 0px;
     border-bottom: 2px solid var(--border);
@@ -77,6 +76,10 @@
 
 @media screen and (min-width: 1098px) {
 
+    .navbar .container-fluid {
+        width: 90%;
+    }
+
     .navbar ul .nav-link {
         font-size: 13px;
     }
@@ -93,6 +96,10 @@
 
 @media screen and (min-width: 990px) and (max-width: 1139px) {
 
+    .navbar .container-fluid {
+        width: 90%;
+    }
+
     .logo-div img {
         display: none;
     }
@@ -108,6 +115,10 @@
 }
 
 @media screen and (max-width: 989px) {
+
+    .navbar .container-fluid {
+        width: 100%;
+    }
 
     .logo-div img {
         height: 40px !important;
