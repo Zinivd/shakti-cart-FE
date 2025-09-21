@@ -40,7 +40,7 @@
     object-fit: cover;
 }
 
-@media screen and (min-width: 1140px) {
+@media screen and (min-width: 1098px) {
 
     .card1 {
         grid-template-columns: 20% 25% 35% 15%;
@@ -69,7 +69,7 @@
 
 }
 
-@media screen and (min-width: 767px) and (max-width: 1140px) {
+@media screen and (min-width: 767px) and (max-width: 1098px) {
 
     .card1 {
         grid-template-columns: 15% 35% 30% 20%;

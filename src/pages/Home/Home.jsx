@@ -36,7 +36,9 @@ const Home = () => {
             <span>Top Offers</span>
           </h6>
         </div>
-        <Product />
+        <div className="product-home">
+          <Product />
+        </div>
       </div>
 
       {/* Discover */}
@@ -66,7 +68,7 @@ const Home = () => {
             Outfit <span>Chemistry</span>
           </h5>
         </div>
-        <Grid/>
+        <Grid />
       </div>
 
       {/* Offers */}

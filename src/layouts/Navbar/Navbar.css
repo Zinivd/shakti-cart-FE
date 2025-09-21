@@ -6,19 +6,19 @@
 
 .navbar {
     width: 100%;
-    position: sticky;
+    position: sticky !important;
     top: 0px;
     z-index: 999;
-    padding: 10px 0px 5px 0px;
+    padding: 10px 0px 0px 0px !important;
     background: var(--secondary);
-    border: none;
     transition: background-color 1s ease 0s;
 }
 
 .navbar .container-fluid {
     width: 90%;
-    margin: auto;
+    margin: 0px auto;
     padding: 0px;
+    border-bottom: 2px solid var(--border);
 }
 
 .navbar ul .nav-link {
@@ -33,6 +33,12 @@
 
 .navbar .navbar-collapse {
     background-color: var(--secondary);
+}
+
+.navbar.solid {
+    background-color: var(--secondary);
+    transition: background-color 1s ease 0s;
+    box-shadow: var(--box-shadow);
 }
 
 .search-bar {
@@ -69,7 +75,7 @@
     border: 1px solid var(--main);
 }
 
-@media screen and (min-width: 1140px) {
+@media screen and (min-width: 1098px) {
 
     .navbar ul .nav-link {
         font-size: 13px;
@@ -170,7 +176,7 @@
 
 }
 
-@media screen and (min-width: 1140px) {
+@media screen and (min-width: 1098px) {
     .responsive-button {
         display: none;
     }

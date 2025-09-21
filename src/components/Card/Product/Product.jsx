@@ -37,8 +37,7 @@ const Product = () => {
       icon: VegIcon,
     },
     {
-      productImg:
-        "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
+      productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
       brand: "Lays",
       rating: "5",
       productname: "Lay's Spaish Tomato Tango Chips (82 g)",
@@ -67,8 +66,7 @@ const Product = () => {
       icon: VegIcon,
     },
     {
-      productImg:
-        "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
+      productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
       brand: "Lays",
       rating: "5",
       productname: "Lay's Spaish Tomato Tango Chips (82 g)",
@@ -78,8 +76,7 @@ const Product = () => {
       icon: VegIcon,
     },
     {
-      productImg:
-        "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
+      productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
       brand: "Lays",
       rating: "5",
       productname: "Lay's Spaish Tomato Tango Chips (82 g)",

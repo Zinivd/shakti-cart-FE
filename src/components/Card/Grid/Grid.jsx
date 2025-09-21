@@ -23,6 +23,11 @@ const Grid = () => {
         interval: 3000,
         arrows: false,
         pagination: false,
+        breakpoints: {
+          767: {
+            perPage: 1,
+          },
+        },
       }).mount();
 
       return () => splide.destroy();
@@ -50,7 +55,7 @@ const Grid = () => {
   return (
     <div className="splide grid-cl mb-4" ref={splideRef}>
       <div className="splide__track">
-        <ul className="splide__list column-gap-3 mb-0">
+        <ul className="splide__list column-gap-md-3 mb-0">
           {slides.map((items, index) => (
             <li className="splide__slide" key={index}>
               <GridCard items={items} />

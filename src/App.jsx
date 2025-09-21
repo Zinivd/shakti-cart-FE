@@ -11,10 +11,11 @@ import Footer from "./layouts/Footer/Footer.jsx";
 
 // Home
 import Home from "./pages/Home/Home.jsx";
-import Category from "./pages/Category/Catgory.jsx";
+import Category from "./pages/Category/Category.jsx";
 
 // Common CSS
 import "./App.css";
+import Products from "./pages/Products/Products.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Category />} />
+            <Route path="/products" element={<Products />} />
           </Routes>
           <Footer />
         </Router>

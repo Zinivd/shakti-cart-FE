@@ -1,40 +1,74 @@
-.main {
-    width: 85%;
-    margin: auto;
+/* Heading CSS */
+.body-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 20px;
 }
 
-@media screen and (min-width: 1140px) {
-
-    .ellipsis-main,
-    .products-main,
-    .discover-main,
-    .grid-main,
-    .offers-main {
-        padding: 20px 0px;
-    }
-
+.body-head h5 {
+    color: var(--text-secondary);
+    font-weight: var(--fw-lg);
+    margin-bottom: 0px;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1140px) {
+.body-head h5 span {
+    color: var(--yellow);
+}
 
-    .ellipsis-main,
-    .products-main,
-    .discover-main,
-    .grid-main,
-    .offers-main {
-        padding: 20px 0px;
+.body-head h6 {
+    color: var(--text-secondary);
+    font-weight: var(--fw-md);
+    margin-bottom: 0px;
+}
+
+.body-head h6 span {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.body-head h6 a {
+    color: var(--text-secondary);
+    font-weight: var(--fw-sm);
+}
+
+.body-head h6 a.active {
+    color: var(--main);
+}
+
+.body-head h6 span:hover,
+.body-head h6 span.active {
+    color: var(--purple);
+    text-decoration: 1px underline var(--purple);
+}
+
+/* Div Paddings */
+.ellipsis-main,
+.products-main,
+.discover-main,
+.grid-main,
+.offers-main {
+    padding: 20px 0px;
+}
+
+@media screen and (min-width: 1098px) {
+    .main {
+        width: 89%;
+        margin: auto;
     }
+}
 
+@media screen and (min-width: 767px) and (max-width: 1098px) {
+    .main {
+        width: 90%;
+        margin: auto;
+    }
 }
 
 @media screen and (max-width: 767px) {
-
-    .ellipsis-main,
-    .products-main,
-    .discover-main,
-    .grid-main,
-    .offers-main {
-        padding: 20px 0px;
+    .main {
+        width: 90%;
+        margin: auto;
     }
-
 }

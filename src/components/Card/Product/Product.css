@@ -128,7 +128,7 @@
     text-overflow: ellipsis;
 }
 
-@media screen and (min-width: 1140px) {
+@media screen and (min-width: 1098px) {
 
     .product-list {
         grid-template-columns: repeat(4, 24%);
@@ -163,7 +163,7 @@
 
 }
 
-@media screen and (min-width: 767px) and (max-width: 1140px) {
+@media screen and (min-width: 767px) and (max-width: 1098px) {
 
     .product-list {
         grid-template-columns: repeat(4, 22.5%);

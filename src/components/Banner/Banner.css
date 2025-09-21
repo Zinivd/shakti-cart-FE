@@ -19,11 +19,11 @@
 }
 
 .banner-cl .splide__arrow--prev {
-    left: -1.5%;
+    left: -2%;
 }
 
 .banner-cl .splide__arrow--next {
-    right: -1.5%;
+    right: -2%;
 }
 
 .home-banner .splide__list {
@@ -62,7 +62,7 @@
     font-weight: var(--fw-md);
 }
 
-@media screen and (min-width: 1140px) {
+@media screen and (min-width: 1098px) {
 
     .home-banner .splide__list .carousel-content {
         padding-inline: 50px;
@@ -91,7 +91,7 @@
 
 }
 
-@media screen and (min-width: 767px) and (max-width: 1140px) {
+@media screen and (min-width: 767px) and (max-width: 1098px) {
 
     .home-banner .splide__list .carousel-content {
         padding-inline: 50px;

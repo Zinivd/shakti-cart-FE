@@ -2,27 +2,31 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Category.css";
 
-const Card1 = ({ categoryData }) => {
+const Card2 = ({ categoryData }) => {
   return (
     <>
       {categoryData.map((category, index) => (
         <div
-          className={`category-card-50 mb-3 ${category.categoryClass}`}
+          className={`category-card-30 mb-3 ${category.categoryClass}`}
           key={index}
         >
-          <div className="category-div-50">
-            <div className={`category-ct-50 ${category.categoryMargin}`}>
-              <h4 className="mb-2" style={{ textAlign: category.categoryText }}>
-                {category.categoryh4}
-              </h4>
+          <div className="category-div-30">
+            <div className={`category-ct-30 ${category.categoryMargin}`}>
               <h2 className="mb-2" style={{ textAlign: category.categoryText }}>
                 {category.categoryh2}
               </h2>
               <h6 className="mb-2" style={{ textAlign: category.categoryText }}>
                 {category.categoryh6}
               </h6>
+              <h4 className="mb-2" style={{ textAlign: category.categoryText }}>
+                {category.categoryh4}
+              </h4>
               <Link>
-                <button className="explorebtn">Explore Items</button>
+                <button
+                  className={`shopnowbtn d-flex ${category.categoryMargin}`}
+                >
+                  Explore Items
+                </button>
               </Link>
             </div>
           </div>
@@ -32,4 +36,4 @@ const Card1 = ({ categoryData }) => {
   );
 };
 
-export default Card1;
+export default Card2;
