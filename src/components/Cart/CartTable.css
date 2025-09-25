@@ -1,0 +1,162 @@
+.table-wrapper::-webkit-scrollbar,
+.dataTables_wrapper::-webkit-scrollbar {
+    display: none !important;
+}
+
+.table>:not(caption)>*>* {
+    background-color: transparent !important;
+}
+
+.table tbody tr {
+    background-color: var(--trow-bg) !important;
+    cursor: pointer;
+}
+
+table.dataTable>thead .sorting:after,
+table.dataTable>thead .sorting:before {
+    display: none !important;
+}
+
+table.dataTable {
+    margin: 10px 0px !important;
+}
+
+.table thead {
+    background-color: var(--gray);
+}
+
+/* List */
+.listtable {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--secondary);
+    border: 1px solid var(--border);
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.table thead th {
+    color: var(--secondary);
+    font-weight: var(--fw-sm);
+    padding-block: 15px;
+    text-transform: uppercase;
+}
+
+.table tbody th,
+.table tbody h5 {
+    color: var(--text-primary);
+    font-weight: var(--fw-sm);
+    text-transform: capitalize;
+}
+
+.table tbody h6,
+.table tbody td,
+.table tfoot td {
+    color: var(--text-secondary);
+    font-weight: var(--fw-sm);
+    text-transform: capitalize;
+}
+
+.table tbody td i {
+    color: var(--main);
+    cursor: pointer;
+}
+
+.page-link {
+    font-size: 10px;
+    color: var(--sub);
+}
+
+.active>.page-link,
+.page-link.active {
+    background-color: var(--main);
+    border-color: var(--main);
+    color: var(--secondary);
+}
+
+.bottom {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.dataTables_length,
+.dataTables_filter {
+    display: none;
+}
+
+
+@media screen and (min-width: 1140px) {
+
+    .dataTables_wrapper {
+        width: 100% !important;
+        overflow: auto;
+    }
+
+    .table thead th,
+    .table tbody th {
+        font-size: 14px;
+    }
+
+    .table tbody h5,
+    .table tbody h6,
+    .table tbody td,
+    .table tfoot td,
+    .table input,
+    .table tbody td i {
+        font-size: 12px;
+    }
+
+}
+
+@media screen and (min-width: 767px) and (max-width: 1140px) {
+
+    .table-wrapper {
+        width: 150% !important;
+        overflow: auto;
+    }
+
+    .table thead th,
+    .table tbody th {
+        font-size: 12px;
+    }
+
+    
+    .table tbody h5,
+    .table tbody h6,
+    .table tbody td,
+    .table tfoot td,
+    .table input,
+    .table tbody td i {
+        font-size: 10px;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .table-wrapper {
+        width: 250% !important;
+        overflow: auto;
+    }
+
+    .table thead th,
+    .table tbody th {
+        width: auto !important;
+        font-size: 12px;
+    }
+
+    
+    .table tbody h5,
+    .table tbody h6,
+    .table tbody td,
+    .table tfoot td,
+    .table input,
+    .table tbody td i {
+        font-size: 10px;
+    }
+
+}

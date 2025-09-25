@@ -18,7 +18,6 @@ const BannerCard = (props) => {
       <div className="carousel-img">
         <img
           src={props.bannerImg}
-          width="100%"
           className="d-flex mx-auto"
           alt=""
         />

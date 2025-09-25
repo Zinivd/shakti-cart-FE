@@ -136,7 +136,7 @@ const Navbar = () => {
               <li className="nav-item" id="cart">
                 <NavLink
                   className="nav-link d-flex align-items-center justify-content-center flex-column"
-                  to="cart"
+                  to="/cart"
                 >
                   <i className="bx bx-cart mb-1"></i>
                   Cart

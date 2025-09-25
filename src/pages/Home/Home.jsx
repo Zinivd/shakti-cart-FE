@@ -14,7 +14,7 @@ const Home = () => {
       <Banner />
 
       {/* Ellipsis */}
-      <div className="ellipsis-main">
+      <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Popular <span>Categories</span>
@@ -24,7 +24,7 @@ const Home = () => {
       </div>
 
       {/* Product Cards */}
-      <div className="products-main">
+      <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Shop All <span>Products</span>
@@ -42,27 +42,27 @@ const Home = () => {
       </div>
 
       {/* Discover */}
-      <div className="discover-main">
+      <div className="main-header">
         <Card1 />
       </div>
 
       {/* Product Cards */}
-      <div className="products-main">
+      <div className="main-header">
         <Product />
       </div>
 
       {/* Discover */}
-      <div className="discover-main">
+      <div className="main-header">
         <Card2 />
       </div>
 
       {/* Product Cards */}
-      <div className="products-main">
+      <div className="main-header">
         <Product />
       </div>
 
       {/* Grid Cards */}
-      <div className="grid-main">
+      <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Outfit <span>Chemistry</span>
@@ -72,7 +72,7 @@ const Home = () => {
       </div>
 
       {/* Offers */}
-      <div className="offers-main">
+      <div className="main-header">
         <Offer />
       </div>
     </div>

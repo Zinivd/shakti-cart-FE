@@ -5,17 +5,19 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Common CSS
+import "./App.css";
+
 // Layouts
 import Navbar from "./layouts/Navbar/Navbar.jsx";
 import Footer from "./layouts/Footer/Footer.jsx";
 
-// Home
+// Pages
 import Home from "./pages/Home/Home.jsx";
 import Category from "./pages/Category/Category.jsx";
-
-// Common CSS
-import "./App.css";
 import Products from "./pages/Products/Products.jsx";
+import Cart from "./pages/Cart/Cart.jsx";
+import Checkout from "./pages/Cart/Checkout.jsx";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Category />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
           <Footer />
         </Router>

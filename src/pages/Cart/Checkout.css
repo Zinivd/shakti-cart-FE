@@ -1,0 +1,79 @@
+.checkout-main {
+    display: grid;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.form label {
+    color: var(--text-primary);
+    font-weight: var(--fw-sm);
+    margin-bottom: 5px;
+}
+
+.form .form-control,
+.form .form-select {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 12px;
+}
+
+.form .form-control:focus,
+.form .form-select:focus {
+    background-color: var(--input-bg);
+    border: 1px solid var(--sub);
+    outline: none;
+    box-shadow: none;
+}
+
+.form .form-control::placeholder,
+.form .form-select::placeholder {
+    color: var(--text-tertiary);
+    font-size: 10px;
+}
+
+@media screen and (min-width: 1098px) {
+    .checkout-main {
+        grid-template-columns: 65% 33%;
+    }
+
+    .form label {
+        font-size: 14px;
+    }
+
+    .form .form-control,
+    .form .form-select {
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1098px) {
+    .checkout-main {
+        grid-template-columns: 65% 33%;
+    }
+
+    .form label {
+        font-size: 12px;
+    }
+
+    .form .form-control,
+    .form .form-select {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .checkout-main {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .form label {
+        font-size: 12px;
+    }
+
+    .form .form-control,
+    .form .form-select {
+        font-size: 10px;
+    }
+}

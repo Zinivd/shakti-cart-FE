@@ -9,11 +9,13 @@
     --secondary: #fff;
     --light: #E9E7E8;
     --bg-light: #F3F9FB;
+    --sub-light: #EDEFF6;
     --text-primary: #222222;
     --text-secondary: #666666;
     --text-tertiary: #ADADAD;
+    --text-quarterly: #3C4242;
     --border: #ECECEC;
-    --input-bg: #F9F9F9;
+    --input-bg: #EAF0F2;
     --green: #009400;
     --red: #DC2626;
     --yellow: #F4A300;
@@ -21,6 +23,7 @@
     --blue: #008ECC;
     --radium: #65FDF4;
     --brown: #362526;
+    --gray: #3C4242;
     --box-shadow: 0 0 0.875rem 0 rgba(33, 37, 41, 0.05);
     --transition: 0.5s ease-in-out;
 
@@ -98,16 +101,16 @@ textarea {
 }
 
 /* Number Input Spinner */
-.ct::-webkit-outer-spin-button,
-.ct::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.ct {
+input[type="number"] {
     -moz-appearance: textfield;
 }
 
-.ct::-ms-clear {
+input[type="number"]::-ms-clear {
     display: none;
 }

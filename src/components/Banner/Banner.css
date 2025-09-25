@@ -32,7 +32,7 @@
 }
 
 .home-banner .splide__list .splide_1 {
-    background-color: var(--main);
+    background: url('../../../public/assets/images/Home-BG.png'), var(--main);
 }
 
 .home-banner .splide__list .splide__slide {
@@ -64,6 +64,16 @@
 
 @media screen and (min-width: 1098px) {
 
+    .home-banner .splide__list img {
+        height: 500px;
+    }
+
+    .home-banner .splide__list .splide_1 {
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: contain;
+    }
+
     .home-banner .splide__list .carousel-content {
         padding-inline: 50px;
     }
@@ -92,6 +102,16 @@
 }
 
 @media screen and (min-width: 767px) and (max-width: 1098px) {
+
+    .home-banner .splide__list img {
+        height: 275px;
+    }
+
+    .home-banner .splide__list .splide_1 {
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: contain;
+    }
 
     .home-banner .splide__list .carousel-content {
         padding-inline: 50px;
@@ -126,7 +146,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column-reverse;
+        flex-direction: column;
+    }
+    
+    .home-banner .splide__list .splide_1 {
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: cover;
+    }
+
+    .home-banner .splide__list img {
+        height: 200px;
     }
 
     .home-banner .splide__list .carousel-content {

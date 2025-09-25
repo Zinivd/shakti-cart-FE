@@ -16,7 +16,7 @@
 
 .navbar .container-fluid {
     margin: 0px auto;
-    padding: 0px;
+    padding: 0px 0px 5px 0px;
     border-bottom: 2px solid var(--border);
 }
 
@@ -117,7 +117,7 @@
 @media screen and (max-width: 989px) {
 
     .navbar .container-fluid {
-        width: 100%;
+        width: 95%;
     }
 
     .logo-div img {

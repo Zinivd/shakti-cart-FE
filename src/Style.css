@@ -7,8 +7,20 @@
     row-gap: 20px;
 }
 
+.body-head h4 {
+    color: var(--text-primary);
+    font-weight: var(--fw-xl);
+    margin-bottom: 0px;
+}
+
+.body-head h4 span {
+    color: var(--sub);
+    padding-right: 5px;
+    font-weight: var(--fw-xxl) !important;
+}
+
 .body-head h5 {
-    color: var(--text-secondary);
+    color: var(--text-quarterly);
     font-weight: var(--fw-lg);
     margin-bottom: 0px;
 }
@@ -19,7 +31,7 @@
 
 .body-head h6 {
     color: var(--text-secondary);
-    font-weight: var(--fw-md);
+    font-weight: var(--fw-sm);
     margin-bottom: 0px;
 }
 
@@ -33,6 +45,7 @@
     font-weight: var(--fw-sm);
 }
 
+.body-head h6 a:hover,
 .body-head h6 a.active {
     color: var(--main);
 }
@@ -44,11 +57,7 @@
 }
 
 /* Div Paddings */
-.ellipsis-main,
-.products-main,
-.discover-main,
-.grid-main,
-.offers-main {
+.main-header {
     padding: 20px 0px;
 }
 
@@ -57,35 +66,39 @@
     margin: auto;
 }
 
-@media screen and (max-width: 1098px) {
-    .main {
-        width: 95%;
-        margin: auto;
-    }
-}
-
 @media screen and (min-width: 1098px) {
-
     /* Heading CSS */
-    .body-head h5 {
-        font-size: 18px;
+    .body-head h4 {
+        font-size: 20px;
     }
 
-    .body-head h6 {
-        font-size: 14px;
-    }
-
-}
-
-@media screen and (max-width: 1098px) {
-
-    /* Heading CSS */
     .body-head h5 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .body-head h6 {
         font-size: 12px;
     }
-
 }
+
+@media screen and (max-width: 1098px) {
+    /* Heading CSS */
+    .body-head h4 {
+        font-size: 16px;
+    }
+
+    .body-head h5 {
+        font-size: 14px;
+    }
+
+    .body-head h6 {
+        font-size: 10px;
+    }
+}
+
+/* @media screen and (max-width: 767px) {
+  .body-head h5,
+  .body-head h6 {
+    text-align: center;
+  }
+} */

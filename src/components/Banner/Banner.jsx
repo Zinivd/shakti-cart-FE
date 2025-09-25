@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { HomeBG } from "../../../public/Assets.js";
+import { HomeCL } from "../../../public/Assets.js";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import BannerCard from "./BannerCard.jsx";
@@ -28,7 +28,7 @@ const Banner = () => {
   const bannerData = [
     {
       bannerClass: "splide_1",
-      bannerImg: HomeBG,
+      bannerImg: HomeCL,
       bannerh6: "Let's Celebrate! | Over 6000 Chic Styles Now At 70% Off.",
       bannerh5: "Best Deal online on Clothing's",
       bannerh3: "SMART WEARABLE.",

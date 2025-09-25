@@ -1,6 +1,7 @@
 // Logo
 import Logo_Main from "./assets/images/Logo.png";
 import HomeBG from "./assets/images/Home-BG.png";
+import HomeCL from "./assets/images/Home-CL-1.png";
 import Ellipsis1 from "./assets/images/Ellipsis-1.png";
 import Ellipsis2 from "./assets/images/Ellipsis-2.png";
 import Ellipsis3 from "./assets/images/Ellipsis-3.png";
@@ -25,12 +26,16 @@ import Category2 from "./assets/images/Category-2.png";
 import Category3 from "./assets/images/Category-3.png";
 import Category4 from "./assets/images/Category-4.png";
 import Category5 from "./assets/images/Category-5.png";
+import Visa from "./assets/images/Visa.png";
+import PayPass from "./assets/images/PayPass.png";
+import PayPal from "./assets/images/PayPal.png";
+import Gpay from "./assets/images/GPay.png";
 
 export {
   // Logo
   Logo_Main,
-
   HomeBG,
+  HomeCL,
   Ellipsis1,
   Ellipsis2,
   Ellipsis3,
@@ -50,10 +55,13 @@ export {
   Offer2,
   OfferBG,
   VegIcon,
-
   Category1,
   Category2,
   Category3,
   Category4,
   Category5,
+  Visa,
+  PayPass,
+  PayPal,
+  Gpay,
 };

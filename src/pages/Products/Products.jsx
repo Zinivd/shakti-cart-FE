@@ -10,23 +10,19 @@ import "./Products.css";
 const Products = () => {
   return (
     <div className="main">
-      <div className="products-main pb-0">
+      <div className="main-header pb-0">
         <div className="body-head">
           <h6 className="d-flex column-gap-2 flex-wrap">
             <Link to="/">
-              <span>
                 Home
                 <i className="fa fa-angle-right ps-1"></i>
-              </span>
             </Link>
             <Link to="/categories">
-              <span>
                 All Categories
                 <i className="fa fa-angle-right ps-1"></i>
-              </span>
             </Link>
             <Link to="/products" className="active">
-              <span>All Products</span>
+              All Products
             </Link>
           </h6>
         </div>
@@ -71,12 +67,12 @@ const Products = () => {
       </div>
 
       {/* Discover */}
-      <div className="discover-main">
+      <div className="main-header">
         <Card2 />
       </div>
 
       {/* Product Cards */}
-      <div className="products-main">
+      <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Shop All <span>Products</span>
@@ -100,7 +96,7 @@ const Products = () => {
       </div>
 
       {/* Offers */}
-      <div className="offers-main">
+      <div className="main-header">
         <Offer />
       </div>
     </div>

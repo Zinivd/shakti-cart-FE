@@ -39,11 +39,13 @@
 .grid-2 img,
 .grid-5 img {
     margin: auto;
+    mix-blend-mode: multiply;
 }
 
 .grid-3 img,
 .grid-4 img {
     margin-left: auto;
+    mix-blend-mode: multiply;
 }
 
 @media screen and (min-width: 1098px) {

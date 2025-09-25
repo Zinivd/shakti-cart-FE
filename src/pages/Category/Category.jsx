@@ -171,12 +171,12 @@ const Category = () => {
       </div>
 
       {/* Discover */}
-      <div className="discover-main">
+      <div className="main-header">
         <Card1 />
       </div>
 
       {/* Product Cards */}
-      <div className="products-main">
+      <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Shop All <span>Products</span>
@@ -200,7 +200,7 @@ const Category = () => {
       </div>
 
       {/* Offers */}
-      <div className="offers-main">
+      <div className="main-header">
         <Offer />
       </div>
     </div>
