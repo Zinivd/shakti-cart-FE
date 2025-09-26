@@ -111,6 +111,16 @@
   transition: var(--transition);
 }
 
+.addressbtn {
+  background-color: var(--secondary);
+  color: var(--text-primary);
+  font-weight: var(--fw-md);
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  padding: 3px 10px;
+  transition: var(--transition);
+}
+
 .formbtn {
   background-color: var(--sub);
   color: var(--secondary);
@@ -144,7 +154,8 @@
   color: var(--text-primary);
 }
 
-.sizebtn:hover {
+.sizebtn:hover,
+.addressbtn:hover {
   background-color: var(--main);
   color: var(--secondary);
 }
@@ -174,7 +185,8 @@
   .sizebtn,
   .couponbtn,
   .darkbtn,
-  .formbtn {
+  .formbtn,
+  .addressbtn {
     font-size: 12px;
   }
 
@@ -195,7 +207,8 @@
   .cartbtn,
   .sizebtn,
   .couponbtn,
-  .formbtn {
+  .formbtn,
+  .addressbtn {
     font-size: 10px;
   }
 

@@ -18,6 +18,7 @@ import Category from "./pages/Category/Category.jsx";
 import Products from "./pages/Products/Products.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import Checkout from "./pages/Cart/Checkout.jsx";
+import Address from "./pages/Cart/Address.jsx";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/address" element={<Address />} />
           </Routes>
           <Footer />
         </Router>

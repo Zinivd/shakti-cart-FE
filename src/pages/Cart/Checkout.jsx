@@ -161,7 +161,9 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="mb-3">
-                <button className="formbtn">Continue to Delivery</button>
+                <Link to="/address">
+                  <button className="formbtn">Continue to Delivery</button>
+                </Link>
               </div>
               <div className="d-flex align-items-center column-gap-2">
                 <input type="checkbox" name="saveaddress" id="saveaddress1" />
