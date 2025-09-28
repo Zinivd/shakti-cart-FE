@@ -22,24 +22,6 @@ const Checkout = () => {
       setPhone(value);
     }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let newErrors = {};
-
-    if (pin.length !== 6) {
-      newErrors.pin = "Pin Code must be 6 digits";
-    }
-    if (phone.length !== 10) {
-      newErrors.phone = "Phone must be 10 digits";
-    }
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      alert("Form submitted");
-    }
-  };
   return (
     <div className="main">
       <div className="main-header pb-0">
@@ -167,7 +149,9 @@ const Checkout = () => {
               </div>
               <div className="d-flex align-items-center column-gap-2">
                 <input type="checkbox" name="saveaddress" id="saveaddress1" />
-                <label htmlFor="saveaddress1" className="mb-0">Save my information for a faster checkout</label>
+                <label htmlFor="saveaddress1" className="mb-0">
+                  Save my information for a faster checkout
+                </label>
               </div>
             </form>
           </div>

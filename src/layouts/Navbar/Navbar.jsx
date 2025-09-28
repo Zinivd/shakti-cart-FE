@@ -118,7 +118,7 @@ const Navbar = () => {
               <li className="nav-item" id="profile">
                 <NavLink
                   className="nav-link d-flex align-items-center justify-content-center flex-column"
-                  to="profile"
+                  to="/login"
                 >
                   <i className="bx bx-user mb-1"></i>
                   Profile

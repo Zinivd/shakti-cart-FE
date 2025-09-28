@@ -30,6 +30,7 @@ import Visa from "./assets/images/Visa.png";
 import PayPass from "./assets/images/PayPass.png";
 import PayPal from "./assets/images/PayPal.png";
 import Gpay from "./assets/images/GPay.png";
+import PortalBG from "./assets/images/Portal-BG.png";
 
 export {
   // Logo
@@ -64,4 +65,5 @@ export {
   PayPass,
   PayPal,
   Gpay,
+  PortalBG
 };

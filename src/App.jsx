@@ -19,6 +19,8 @@ import Products from "./pages/Products/Products.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import Checkout from "./pages/Cart/Checkout.jsx";
 import Address from "./pages/Cart/Address.jsx";
+import Login from "./pages/Portal/Login.jsx";
+import Register from "./pages/Portal/Register.jsx";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/address" element={<Address />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
           <Footer />
         </Router>

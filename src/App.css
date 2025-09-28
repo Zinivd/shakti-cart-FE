@@ -131,6 +131,18 @@
   transition: var(--transition);
 }
 
+.loginbtn {
+  width: 60%;
+  background-color: #222222;
+  color: var(--secondary);
+  font-weight: var(--fw-md);
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+  padding: 8px;
+  letter-spacing: 1px;
+  transition: var(--transition);
+}
+
 /* Button Hover */
 .homebannerbtn:hover,
 .discoverbtn:hover {
@@ -145,7 +157,8 @@
 .shopnowbtn:hover,
 .darkbtn:hover,
 .couponbtn:hover,
-.formbtn:hover {
+.formbtn:hover,
+.loginbtn:hover {
   background-color: var(--secondary);
   color: var(--text-primary);
 }
@@ -173,10 +186,10 @@
 @media screen and (min-width: 1098px) {
 
   /* Buttons CSS */
-  /* Home Banner Btn */
   .homebannerbtn,
   .discoverbtn,
-  .explorebtn {
+  .explorebtn,
+  .loginbtn {
     font-size: 14px;
   }
 
@@ -195,11 +208,11 @@
 @media screen and (max-width: 1098px) {
 
   /* Buttons CSS */
-  /* Home Banner Btn */
   .homebannerbtn,
   .discoverbtn,
   .explorebtn,
-  .darkbtn {
+  .darkbtn,
+  .loginbtn {
     font-size: 12px;
   }
 
