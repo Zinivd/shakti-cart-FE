@@ -61,7 +61,9 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="col-sm-12 mb-4">
-                  <button className="loginbtn">Login</button>
+                  <Link to="/profile">
+                    <button className="loginbtn">Login</button>
+                  </Link>
                 </div>
                 <div className="col-sm-12">
                   <h6>

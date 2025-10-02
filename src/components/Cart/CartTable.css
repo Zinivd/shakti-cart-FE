@@ -1,5 +1,4 @@
-.table-wrapper::-webkit-scrollbar,
-.dataTables_wrapper::-webkit-scrollbar {
+.table-wrapper::-webkit-scrollbar {
     display: none !important;
 }
 
@@ -10,15 +9,6 @@
 .table tbody tr {
     background-color: var(--trow-bg) !important;
     cursor: pointer;
-}
-
-table.dataTable>thead .sorting:after,
-table.dataTable>thead .sorting:before {
-    display: none !important;
-}
-
-table.dataTable {
-    margin: 10px 0px !important;
 }
 
 .table thead {
@@ -65,33 +55,9 @@ table.dataTable {
     cursor: pointer;
 }
 
-.page-link {
-    font-size: 10px;
-    color: var(--sub);
-}
-
-.active>.page-link,
-.page-link.active {
-    background-color: var(--main);
-    border-color: var(--main);
-    color: var(--secondary);
-}
-
-.bottom {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-}
-
-.dataTables_length,
-.dataTables_filter {
-    display: none;
-}
-
-
 @media screen and (min-width: 1140px) {
 
-    .dataTables_wrapper {
+    .table-wrapper {
         width: 100% !important;
         overflow: auto;
     }
@@ -140,7 +106,7 @@ table.dataTable {
 
     .table-wrapper {
         width: 250% !important;
-        overflow: auto;
+        overflow-x: scroll;
     }
 
     .table thead th,

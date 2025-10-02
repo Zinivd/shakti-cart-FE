@@ -124,10 +124,10 @@ const Navbar = () => {
                   Profile
                 </NavLink>
               </li>
-              <li className="nav-item" id="wishlist">
+              <li className="nav-item" id="/">
                 <NavLink
                   className="nav-link d-flex align-items-center justify-content-center flex-column"
-                  to="wishlist"
+                  to="/"
                 >
                   <i className="bx bx-heart mb-1"></i>
                   Wishlist

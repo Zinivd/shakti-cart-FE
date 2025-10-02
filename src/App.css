@@ -143,6 +143,28 @@
   transition: var(--transition);
 }
 
+.tabsbtn {
+  background-color: transparent;
+  color: var(--text-primary);
+  font-weight: var(--fw-md);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: var(--transition);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ordertabs {
+  background-color: transparent;
+  color: var(--text-primary);
+  font-weight: var(--fw-md);
+  border: 2px solid transparent;
+  border-radius: 5px 5px 0px 0px;
+  padding: 6px 30px;
+}
+
 /* Button Hover */
 .homebannerbtn:hover,
 .discoverbtn:hover {
@@ -183,13 +205,27 @@
   color: var(--secondary);
 }
 
+.tabsbtn.active,
+.tabsbtn:hover {
+  background-color: var(--sub);
+  color: var(--secondary);
+}
+
+.ordertabs.active,
+.ordertabs:hover {
+  background-color: var(--ter-light);
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--main);
+}
+
 @media screen and (min-width: 1098px) {
 
   /* Buttons CSS */
   .homebannerbtn,
   .discoverbtn,
   .explorebtn,
-  .loginbtn {
+  .loginbtn,
+  .ordertabs {
     font-size: 14px;
   }
 
@@ -199,7 +235,8 @@
   .couponbtn,
   .darkbtn,
   .formbtn,
-  .addressbtn {
+  .addressbtn,
+  .tabsbtn {
     font-size: 12px;
   }
 
@@ -212,7 +249,8 @@
   .discoverbtn,
   .explorebtn,
   .darkbtn,
-  .loginbtn {
+  .loginbtn,
+  .ordertabs {
     font-size: 12px;
   }
 
@@ -221,7 +259,8 @@
   .sizebtn,
   .couponbtn,
   .formbtn,
-  .addressbtn {
+  .addressbtn,
+  .tabsbtn {
     font-size: 10px;
   }
 
