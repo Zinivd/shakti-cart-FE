@@ -3,14 +3,17 @@
 }
 
 .qtydiv {
-    display: flex;
-    justify-content: start;
+    width: 125px;
+    display: grid;
+    grid-template-columns: 30px 50px 30px;
+    justify-content: space-between;
     align-items: center;
-    column-gap: 15px;
+    background-color: var(--ter-light);
+    border: 2px solid var(--border);
+    border-radius: 5px;
 }
 
 .qtydiv input {
-    width: 50px !important;
     background-color: transparent;
     padding: 6px 0px;
     text-align: center;
@@ -47,7 +50,7 @@
     .input-group input {
         font-size: 12px;
     }
-    
+
     .cart-summary-table {
         width: 30%;
     }

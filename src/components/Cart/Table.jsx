@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./CartTable.css";
 
 const CartTable = () => {
@@ -84,20 +84,20 @@ const CartTable = () => {
               </td>
               <td>{item.price}</td>
               <td>
-                <div className="qtydiv">
+                <span className="qtydiv">
                   <button className="qtybtn minus" onClick={() => decQty()}>
                     -
                   </button>
                   <input
                     type="number"
                     className="text-center count"
-                    value={quantity}
+                    value={999}
                     readOnly
                   />
                   <button className="qtybtn plus" onClick={() => incQty()}>
                     +
                   </button>
-                </div>
+                </span>
               </td>
               <td>{item.shipping}</td>
               <td>{item.subtotal}</td>

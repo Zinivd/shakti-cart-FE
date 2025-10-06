@@ -6,6 +6,7 @@ import "./Product.css";
 const Product = (props) => {
   const productData = [
     {
+      id: 1,
       productImg:
         "https://www.unibicfoods.com/wp-content/uploads/2022/12/cashew-badam.png",
       brand: "Unibic",
@@ -17,6 +18,7 @@ const Product = (props) => {
       icon: VegIcon,
     },
     {
+      id: 2,
       productImg:
         "https://images-eu.ssl-images-amazon.com/images/I/51uDcl29JoL._AC_UL600_SR600,600_.jpg",
       brand: "Nivea",
@@ -27,6 +29,7 @@ const Product = (props) => {
       badge: "Top Rated",
     },
     {
+      id: 3,
       productImg:
         "https://cdn.shopify.com/s/files/1/0523/9934/1736/products/102761-2_7-kurkure-namkeen-masala-munch.jpg?v=1633507330",
       brand: "Kurkure",
@@ -37,6 +40,7 @@ const Product = (props) => {
       icon: VegIcon,
     },
     {
+      id: 4,
       productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
       brand: "Lays",
       rating: "5",
@@ -46,6 +50,7 @@ const Product = (props) => {
       icon: VegIcon,
     },
     {
+      id: 5,
       productImg:
         "https://images-eu.ssl-images-amazon.com/images/I/51uDcl29JoL._AC_UL600_SR600,600_.jpg",
       brand: "Nivea",
@@ -55,6 +60,7 @@ const Product = (props) => {
       slashprice: "30",
     },
     {
+      id: 6,
       productImg:
         "https://cdn.shopify.com/s/files/1/0523/9934/1736/products/102761-2_7-kurkure-namkeen-masala-munch.jpg?v=1633507330",
       brand: "Kurkure",
@@ -66,6 +72,7 @@ const Product = (props) => {
       icon: VegIcon,
     },
     {
+      id: 7,
       productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
       brand: "Lays",
       rating: "5",
@@ -76,6 +83,7 @@ const Product = (props) => {
       icon: VegIcon,
     },
     {
+      id: 9,
       productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
       brand: "Lays",
       rating: "5",

@@ -1,5 +1,7 @@
 .navbar-nav .nav-link.active,
 .navbar-nav .show>.nav-link,
+.icons-div i:hover,
+.icons-div i.active
 .navbar-nav .nav-link:hover {
     color: var(--text-primary) !important;
 }
@@ -151,18 +153,24 @@
     }
 
     .responsive-button div .navbar-toggler {
-        background-color: var(--main);
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
+        background-color: var(--secondary);
+        border: none;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0px;
     }
 
-    .responsive-button div i {
-        font-size: 18px;
-        color: var(--secondary);
+    .responsive-button div .navbar-toggler:focus {
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .responsive-button div .navbar-toggler i,
+    .icons-div i {
+        font-size: 23px;
+        color: var(--text-secondary);
     }
 
     .search-bar {

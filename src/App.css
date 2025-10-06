@@ -1,10 +1,10 @@
 /* Buttons CSS */
 /* Home Banner Button */
 .homebannerbtn {
-  background-color: var(--yellow);
+  background-color: var(--sub);
   color: var(--secondary);
   font-weight: var(--fw-md);
-  border: 1px solid var(--yellow);
+  border: 1px solid var(--sub);
   border-radius: 2px;
   padding: 6px 20px;
   transition: var(--transition);
@@ -92,12 +92,13 @@
 }
 
 .qtybtn {
+  width: 100%;
   background-color: transparent;
   color: var(--text-primary);
   font-weight: var(--fw-md);
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px;
 }
 
 .couponbtn {
@@ -165,6 +166,40 @@
   padding: 6px 30px;
 }
 
+.addcartbtn {
+  background-color: var(--secondary);
+  color: var(--sub);
+  padding: 6px 20px;
+  border: 2px solid var(--sub);
+  border-radius: 5px;
+  font-weight: var(--fw-md);
+  transition: var(--transition);
+}
+
+.buybtn {
+  background-color: var(--sub);
+  color: var(--secondary);
+  padding: 6px 20px;
+  border: 2px solid var(--sub);
+  border-radius: 5px;
+  font-weight: var(--fw-md);
+  transition: var(--transition);
+}
+
+.iconbtn {
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  border-radius: 50%;
+  border: none;
+  width: 35px;
+  height: 35px;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+
 /* Button Hover */
 .homebannerbtn:hover,
 .discoverbtn:hover {
@@ -180,7 +215,8 @@
 .darkbtn:hover,
 .couponbtn:hover,
 .formbtn:hover,
-.loginbtn:hover {
+.loginbtn:hover,
+.buybtn:hover {
   background-color: var(--secondary);
   color: var(--text-primary);
 }
@@ -190,7 +226,8 @@
 }
 
 .sizebtn:hover,
-.addressbtn:hover {
+.addressbtn:hover,
+.iconbtn:hover {
   background-color: var(--main);
   color: var(--secondary);
 }
@@ -206,7 +243,8 @@
 }
 
 .tabsbtn.active,
-.tabsbtn:hover {
+.tabsbtn:hover,
+.addcartbtn:hover {
   background-color: var(--sub);
   color: var(--secondary);
 }
@@ -225,7 +263,9 @@
   .discoverbtn,
   .explorebtn,
   .loginbtn,
-  .ordertabs {
+  .ordertabs,
+  .addcartbtn,
+  .buybtn {
     font-size: 14px;
   }
 
@@ -250,7 +290,9 @@
   .explorebtn,
   .darkbtn,
   .loginbtn,
-  .ordertabs {
+  .ordertabs,
+  .addcartbtn,
+  .buybtn {
     font-size: 12px;
   }
 

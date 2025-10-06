@@ -14,12 +14,12 @@ const Products = () => {
         <div className="body-head">
           <h6 className="d-flex column-gap-2 flex-wrap">
             <Link to="/">
-                Home
-                <i className="fa fa-angle-right ps-1"></i>
+              Home
+              <i className="fa fa-angle-right ps-1"></i>
             </Link>
             <Link to="/categories">
-                All Categories
-                <i className="fa fa-angle-right ps-1"></i>
+              All Categories
+              <i className="fa fa-angle-right ps-1"></i>
             </Link>
             <Link to="/products" className="active">
               All Products
@@ -47,10 +47,7 @@ const Products = () => {
                 data-bs-target="#filter-offcanvas"
                 aria-controls="filter-offcanvas"
               >
-                <i
-                  className="fas fa-sliders"
-                  style={{ rotate: "90deg" }}
-                ></i>
+                <i className="fas fa-sliders" style={{ rotate: "90deg" }}></i>
                 Filters
               </h6>
               <h6 className="d-flex column-gap-3 flex-wrap">

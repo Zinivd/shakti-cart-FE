@@ -32,6 +32,12 @@ import PayPal from "./assets/images/PayPal.png";
 import Gpay from "./assets/images/GPay.png";
 import PortalBG from "./assets/images/Portal-BG.png";
 import Avatar from "./assets/images/Avatar.png";
+import TShirt1 from "./assets/images/TShirt_0.jpg";
+import TShirt2 from "./assets/images/TShirt_1.jpg";
+import TShirt3 from "./assets/images/TShirt_2.jpg";
+import TShirt4 from "./assets/images/TShirt_3.jpg";
+import TShirt5 from "./assets/images/TShirt_4.jpg";
+import DescriptionBG from "./assets/images/Description.png";
 
 export {
   // Logo
@@ -67,5 +73,11 @@ export {
   PayPal,
   Gpay,
   PortalBG,
-  Avatar
+  Avatar,
+  TShirt1,
+  TShirt2,
+  TShirt3,
+  TShirt4,
+  TShirt5,
+  DescriptionBG,
 };

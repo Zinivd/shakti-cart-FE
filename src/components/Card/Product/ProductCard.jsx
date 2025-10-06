@@ -22,10 +22,12 @@ const ProductCard = (props) => {
     }
   };
   return (
-    <Link className={`product-card mb-3`}>
-      <div className="product-img">
-        <img src={props.productImg} alt={props.productname} />
-      </div>
+    <div className={`product-card mb-3`}>
+      <Link to={`/products/${props.id}`}>
+        <div className="product-img">
+          <img src={props.productImg} alt={props.productname} />
+        </div>
+      </Link>
 
       {/* Badge */}
       {props.badge && (
@@ -84,7 +86,7 @@ const ProductCard = (props) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

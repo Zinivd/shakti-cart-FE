@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Logo_Main } from "../../../public/Assets";
 import "./Navbar.css";
 
@@ -33,12 +33,7 @@ const Navbar = () => {
         <div className="container-fluid">
           {/* Resposnive Navbar */}
           <div className="responsive-button">
-            <div className="logo-div">
-              <a href="">
-                <img src={Logo_Main} height="50px" title="" alt="" />
-              </a>
-            </div>
-            <div>
+            <div className="logo-div d-flex align-items-center column-gap-2">
               <button
                 className="navbar-toggler collapsed"
                 type="button"
@@ -51,10 +46,21 @@ const Navbar = () => {
               >
                 <i
                   className={`bx ${
-                    isExpanded ? "bx-x" : "bx-menu-alt-right"
+                    isExpanded ? "bx-x" : "bx-menu"
                   } toggler-icon`}
                 ></i>
               </button>
+              <a href="">
+                <img src={Logo_Main} height="50px" title="" alt="" />
+              </a>
+            </div>
+            <div className="icons-div d-flex align-items-center column-gap-3">
+              <NavLink to="/">
+                  <i className="bx bx-heart"></i>
+              </NavLink>
+              <NavLink to="/cart">
+                  <i className="bx bx-cart"></i>
+              </NavLink>
             </div>
           </div>
 
