@@ -10,6 +10,7 @@ import "./App.css";
 
 // Layouts
 import Navbar from "./layouts/Navbar/Navbar.jsx";
+import ResponsiveNav from "./layouts/Navbar/ResponsiveNav.jsx";
 import Footer from "./layouts/Footer/Footer.jsx";
 
 // Pages
@@ -35,6 +36,7 @@ function App() {
             autoClose={2000}
           />
           <Navbar />
+          <ResponsiveNav />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Category />} />

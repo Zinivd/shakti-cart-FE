@@ -1,0 +1,54 @@
+@import url("https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css");
+
+@media screen and (min-width: 650px) {
+    .responsiveNav-container {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .responsiveNav-container {
+        background-color: var(--secondary);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 0px;
+        border-top: 2px solid var(--border);
+        position: fixed;
+        bottom: 0px;
+        padding: 10px 0px;
+        z-index: 999;
+    }
+
+    .respnavbtn {
+        outline: 0 !important;
+        border: 0 !important;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        color: var(--text-secondary);
+        transition: all ease-in-out 0.1s;
+        cursor: pointer;
+    }
+
+    .respnavbtn i {
+        font-size: 18px;
+    }
+
+    .respnavbtn {
+        font-weight: var(--fw-md);
+        font-size: 13px;
+    }
+
+    .respnav-item.active .respnavbtn {
+        color: var(--sub) !important;
+    }
+
+    .icon {
+        font-size: 25px;
+    }
+}

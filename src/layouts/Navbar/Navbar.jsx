@@ -55,7 +55,7 @@ const Navbar = () => {
               </a>
             </div>
             <div className="icons-div d-flex align-items-center column-gap-3">
-              <NavLink to="/">
+              <NavLink to="/profile#wishlist">
                   <i className="bx bx-heart"></i>
               </NavLink>
               <NavLink to="/cart">

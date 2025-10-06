@@ -40,7 +40,6 @@ import TShirt5 from "./assets/images/TShirt_4.jpg";
 import DescriptionBG from "./assets/images/Description.png";
 
 export {
-  // Logo
   Logo_Main,
   HomeBG,
   HomeCL,
