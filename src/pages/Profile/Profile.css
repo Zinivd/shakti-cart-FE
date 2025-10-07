@@ -20,4 +20,8 @@
     .profile {
         grid-template-columns: repeat(1, 1fr);
     }
+
+    .profile-right {
+        margin-top: 20px;
+    }
 }
