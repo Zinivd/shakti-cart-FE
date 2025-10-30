@@ -35,27 +35,19 @@ const Navbar = () => {
           <div className="responsive-button">
             <div className="logo-div d-flex align-items-center column-gap-2">
               <button
-                className="navbar-toggler collapsed"
+                className="navbar-toggler"
                 type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarcontent"
-                aria-controls="navbarcontent"
-                aria-label="Toggle navigation"
-                onClick={handleToggle}
-                aria-expanded={isExpanded ? "true" : "false"}
+                data-bs-toggle="offcanvas"
+                data-bs-target="#navOffcanvas"
               >
-                <i
-                  className={`bx ${
-                    isExpanded ? "bx-x" : "bx-menu"
-                  } toggler-icon`}
-                ></i>
+                <i className="bx bx-menu"></i>
               </button>
               <a href="">
                 <img src={Logo_Main} height="50px" title="" alt="" />
               </a>
             </div>
-            <div className="icons-div d-flex align-items-center column-gap-3">
-              <NavLink to="/profile#wishlist">
+            <div className="icons-div d-sm-flex d-lg-none align-items-center">
+              <NavLink to="/profile#wishlist" className="me-3">
                   <i className="bx bx-heart"></i>
               </NavLink>
               <NavLink to="/cart">

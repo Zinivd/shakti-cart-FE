@@ -1,0 +1,102 @@
+.feature-list {
+    display: grid;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.feature-card-img {
+    border-radius: 12px;
+    padding: 15px 15px 0px 15px;
+}
+
+.feature-card-img img {
+    object-fit:fill;
+    object-position: center;
+}
+
+.feature-bottom h6 {
+    color: var(--text-secondary);
+    font-weight: var(--fw-md);
+}
+
+.feature-card-img.blue {
+    background: rgba(59, 130, 246, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.green {
+    background: rgba(20, 162, 184, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.purple {
+    background: rgba(139, 92, 246, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.grass {
+    background: rgba(34, 197, 94, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.brown {
+    background: rgba(161, 98, 7, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.sky {
+    background: rgba(6, 182, 212, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.yellow {
+    background: rgba(234, 179, 8, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+.feature-card-img.gray {
+    background: rgba(107, 114, 128, 50) url('/public/assets/images/Feature-BG.png') no-repeat center center;
+    background-size: cover;
+}
+
+@media screen and (min-width: 1098px) {
+    .feature-list {
+        grid-template-columns: repeat(4, 22%);
+    }
+
+    .feature-card-img img {
+        height: 250px;
+    }
+
+    .feature-bottom h6 {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1098px) {
+    .feature-list {
+        grid-template-columns: repeat(4, 24%);
+    }
+
+    .feature-card-img img {
+        height: 225px;
+    }
+
+    .feature-bottom h6 {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .feature-list {
+        grid-template-columns: repeat(2, 49%);
+    }
+
+    .feature-card-img img {
+        height: 150px;
+    }
+
+    .feature-bottom h6 {
+        font-size: 12px;
+    }
+}

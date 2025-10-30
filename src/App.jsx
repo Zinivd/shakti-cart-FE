@@ -11,11 +11,12 @@ import "./App.css";
 // Layouts
 import Navbar from "./layouts/Navbar/Navbar.jsx";
 import ResponsiveNav from "./layouts/Navbar/ResponsiveNav.jsx";
+import NavOffcanvas from "./layouts/Navbar/NavOffcanvas.jsx";
 import Footer from "./layouts/Footer/Footer.jsx";
 
 // Pages
 import Home from "./pages/Home/Home.jsx";
-import Category from "./pages/Category/Category.jsx";
+import Categories from "./pages/Categories/Categories.jsx";
 import Products from "./pages/Products/Products.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import Checkout from "./pages/Cart/Checkout.jsx";
@@ -24,6 +25,7 @@ import Login from "./pages/Portal/Login.jsx";
 import Register from "./pages/Portal/Register.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
+import SearchBar from "./components/SearchBar/SearchBar.jsx";
 
 function App() {
   return (
@@ -37,9 +39,11 @@ function App() {
           />
           <Navbar />
           <ResponsiveNav />
+          <NavOffcanvas />
+          <SearchBar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Category />} />
+            <Route path="/categories" element={<Categories />} />
             <Route path="/products" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />

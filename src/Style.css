@@ -7,6 +7,17 @@
     row-gap: 20px;
 }
 
+.body-head h3 {
+    color: var(--text-primary);
+    font-weight: var(--fw-xl);
+    margin-bottom: 0px;
+}
+
+.body-head h3 span {
+    color: var(--sub);
+    font-weight: var(--fw-xl) !important;
+}
+
 .body-head h4 {
     color: var(--text-primary);
     font-weight: var(--fw-xl);
@@ -68,6 +79,10 @@
 
 @media screen and (min-width: 1098px) {
     /* Heading CSS */
+    .body-head h3 {
+        font-size: 22px;
+    }
+
     .body-head h4 {
         font-size: 20px;
     }
@@ -83,6 +98,10 @@
 
 @media screen and (max-width: 1098px) {
     /* Heading CSS */
+    .body-head h3 {
+        font-size: 18px;
+    }
+
     .body-head h4 {
         font-size: 16px;
     }

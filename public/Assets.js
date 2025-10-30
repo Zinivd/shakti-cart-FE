@@ -21,11 +21,6 @@ import Offer1 from "./assets/images/Offer-1.png";
 import Offer2 from "./assets/images/Offer-2.png";
 import OfferBG from "./assets/images/Offer-BG.png";
 import VegIcon from "./assets/images/Icon-Veg.png";
-import Category1 from "./assets/images/Category-1.png";
-import Category2 from "./assets/images/Category-2.png";
-import Category3 from "./assets/images/Category-3.png";
-import Category4 from "./assets/images/Category-4.png";
-import Category5 from "./assets/images/Category-5.png";
 import Visa from "./assets/images/Visa.png";
 import PayPass from "./assets/images/PayPass.png";
 import PayPal from "./assets/images/PayPal.png";
@@ -38,6 +33,20 @@ import TShirt3 from "./assets/images/TShirt_2.jpg";
 import TShirt4 from "./assets/images/TShirt_3.jpg";
 import TShirt5 from "./assets/images/TShirt_4.jpg";
 import DescriptionBG from "./assets/images/Description.png";
+import Women from "./assets/images/Category-Women.png";
+import Men from "./assets/images/Category-Men.png";
+import Kids from "./assets/images/Category-Kids.png";
+import Bottom from "./assets/images/Category-Bottom.png";
+import Night from "./assets/images/Category-Night.png";
+import Wedding from "./assets/images/Category-Wedding.png";
+import Shoes from "./assets/images/Feature-Shoes.png";
+import Foods from "./assets/images/Feature-Foods.png";
+import Sports from "./assets/images/Feature-Sports.png";
+import Jewels from "./assets/images/Feature-Jewels.png";
+import Notes from "./assets/images/Feature-Notes.png";
+import Bags from "./assets/images/Feature-Bags.png";
+import Skin from "./assets/images/Feature-Skin.png";
+import Electronics from "./assets/images/Feature-Electronics.png";
 
 export {
   Logo_Main,
@@ -62,11 +71,6 @@ export {
   Offer2,
   OfferBG,
   VegIcon,
-  Category1,
-  Category2,
-  Category3,
-  Category4,
-  Category5,
   Visa,
   PayPass,
   PayPal,
@@ -79,4 +83,18 @@ export {
   TShirt4,
   TShirt5,
   DescriptionBG,
+  Women,
+  Men,
+  Kids,
+  Bottom,
+  Night,
+  Wedding,
+  Shoes,
+  Foods,
+  Sports,
+  Jewels,
+  Notes,
+  Bags,
+  Skin,
+  Electronics,
 };

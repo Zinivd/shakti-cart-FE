@@ -1,0 +1,40 @@
+.offcanvas .nav-link.active,
+.offcanvas .show>.nav-link,
+.offcanvas .nav-link:hover {
+    color: var(--text-primary) !important;
+}
+
+.offcanvas ul .nav-link {
+    color: var(--text-secondary);
+    font-weight: var(--fw-md);
+    padding: 10px 0px;
+}
+
+.offcanvas .nav-item {
+    position: relative;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 1098px) {
+
+    .offcanvas ul .nav-link {
+        font-size: 13px;
+    }
+
+    .offcanvas ul .nav-link i {
+        font-size: 18px;
+    }
+
+}
+
+@media screen and (max-width: 1139px) {
+
+    .offcanvas ul .nav-link {
+        font-size: 12px;
+    }
+
+    .offcanvas ul .nav-link i {
+        font-size: 16px;
+    }
+
+}
