@@ -41,16 +41,27 @@
     cursor: pointer;
 }
 
+.product-details-content h3 {
+    font-weight: var(--fw-xl);
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
 .product-details-content h4 {
     font-weight: var(--fw-xl);
     color: var(--text-primary);
     text-transform: uppercase;
 }
 
-.product-details-content h4 span {
-    font-weight: var(--fw-md);
+.product-details-content h4 .mrp {
+    font-weight: var(--fw-sm);
     color: var(--text-secondary);
-    text-decoration: line-through;
+    text-decoration: 2px line-through;
+}
+
+.product-details-content h4 .offer-price {
+    font-weight: var(--fw-lg);
+    color: var(--sub);
 }
 
 .product-details-content h5 {
@@ -161,13 +172,18 @@
     .product-details-gallery-img img {
         height: 125px;
     }
+    
+    .product-details-content h3 {
+        font-size: 20px;
+    }
 
     .product-details-content h4 {
         font-size: 23px;
     }
 
-    .product-details-content h4 span {
-        font-size: 19px;
+    .product-details-content h4 .mrp,
+    .product-details-content h4 .offer-price {
+        font-size: 15px;
     }
 
     .product-details-content h5 {
@@ -216,13 +232,18 @@
     .product-details-gallery-img img {
         height: 125px;
     }
+    
+    .product-details-content h3 {
+        font-size: 17px;
+    }
 
     .product-details-content h4 {
         font-size: 20px;
     }
 
-    .product-details-content h4 span {
-        font-size: 17px;
+    .product-details-content h4 .mrp,
+    .product-details-content h4 .offer-price {
+        font-size: 13px;
     }
 
     .product-details-content h5 {
@@ -266,13 +287,18 @@
     .product-details-gallery-img img {
         height: 100px;
     }
+    
+    .product-details-content h3 {
+        font-size: 17px;
+    }
 
     .product-details-content h4 {
         font-size: 20px;
     }
 
-    .product-details-content h4 span {
-        font-size: 17px;
+    .product-details-content h4 .mrp,
+    .product-details-content h4 .offer-price {
+        font-size: 13px;
     }
 
     .product-details-content h5 {

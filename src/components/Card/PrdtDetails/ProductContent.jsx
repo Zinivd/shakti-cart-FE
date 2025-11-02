@@ -34,7 +34,7 @@ const ProductContent = () => {
   };
   return (
     <div className="product-details-content pt-3">
-      <h4>Allen Solly</h4>
+      <h3 className="mb-3">Allen Solly</h3>
       <h5>Allen Solly Men's Solid Crew Neck T-Shirt</h5>
       <div className="star-div d-flex align-items-center column-gap-3">
         <div className="stars d-flex align-items-center column-gap-1">
@@ -47,7 +47,9 @@ const ProductContent = () => {
         <span>4.5</span>
       </div>
       <h4>
-        ₹ 1800.00 <span className="ms-2">₹ 2500.00</span>
+        ₹ 1800.00
+        <span className="mrp ms-2">₹ 2500.00</span>
+        <span className="offer-price ms-2">19% (Off)</span>
       </h4>
       <hr />
       <div className="colors-main">
@@ -83,7 +85,11 @@ const ProductContent = () => {
           <button className="qtybtn minus" onClick={() => decQty()}>
             -
           </button>
-          <input type="number" className="text-center count" value={quantity} />
+          <input
+            type="number"
+            className="text-center w-100 count"
+            value={quantity}
+          />
           <button className="qtybtn plus" onClick={() => incQty()}>
             +
           </button>
@@ -91,8 +97,8 @@ const ProductContent = () => {
       </div>
       <hr />
       <div className="d-flex align-items-center column-gap-2">
-        <button className="addcartbtn w-50">Add to Cart</button>
-        <button className="buybtn w-50">Buy Now</button>
+        <button className="addcartbtn w-50 py-2">Add to Cart</button>
+        <button className="buybtn w-50 py-2">Buy Now</button>
       </div>
     </div>
   );

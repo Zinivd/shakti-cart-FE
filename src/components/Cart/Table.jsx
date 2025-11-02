@@ -90,7 +90,7 @@ const CartTable = () => {
                   </button>
                   <input
                     type="number"
-                    className="text-center count"
+                    className="text-center w-100 count"
                     value={999}
                     readOnly
                   />
