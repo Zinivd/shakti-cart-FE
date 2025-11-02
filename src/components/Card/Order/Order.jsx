@@ -20,11 +20,11 @@ const Order = () => {
           </div>
 
           <div className="tab-pane fade" id="cancelOrders" role="tabpanel">
-            <h5>No cancelled orders</h5>
+            <h6 className="text-center mt-4" style={{fontSize: "14px"}}>No cancelled orders</h6>
           </div>
 
           <div className="tab-pane fade" id="completedOrders" role="tabpanel">
-            <h5>No completed orders</h5>
+            <h6 className="text-center mt-4" style={{fontSize: "14px"}}>No completed orders</h6>
           </div>
 
           {/* <div className="tab-pane fade" id="orderdetails" role="tabpanel">

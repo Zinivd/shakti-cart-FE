@@ -62,12 +62,12 @@ const NavOffcanvas = () => {
             </li>
             <hr className="w-50 mx-auto" />
             <li className="nav-item d-flex align-items-center justify-content-between mt-5">
-              <NavLink className="nav-link">
-                <button className="homebannerbtn rounded-1 text-uppercase">
+              <NavLink className="nav-link" to="/login">
+                <button className="homebannerbtn rounded-1 text-dark text-uppercase">
                   Sign In
                 </button>
               </NavLink>
-              <NavLink className="nav-link">
+              <NavLink className="nav-link" to="/register">
                 <button className="darkbtn rounded-1 text-uppercase">
                   Sign Up
                 </button>
