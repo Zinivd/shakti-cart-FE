@@ -5,10 +5,8 @@
 .card1 {
     background-color: #32333B;
     display: grid;
-    justify-content: space-evenly;
     align-items: center;
     border-radius: 20px;
-    padding: 0px 20px;
     height: 100%;
 }
 
@@ -44,6 +42,8 @@
 
     .card1 {
         grid-template-columns: 20% 25% 35% 15%;
+        justify-content: space-evenly;
+        padding: 0px 20px;
     }
 
     .card1-left h4 {
@@ -72,11 +72,13 @@
 @media screen and (min-width: 767px) and (max-width: 1098px) {
 
     .card1 {
-        grid-template-columns: 15% 35% 30% 20%;
+        grid-template-columns: 14% 34% 29% 19%;
+        justify-content: space-evenly;
+        padding: 0px 20px;
     }
 
     .card1-left h4 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .card1-left h6,
@@ -89,7 +91,7 @@
     }
 
     .card1-right h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .card1-center img {
@@ -101,8 +103,20 @@
 @media screen and (max-width: 767px) {
 
     .card1 {
-        grid-template-columns: 175px 250px 250px 150px;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: space-between;
+        row-gap: 20px;
+        padding: 10px 0px 20px 0px;
         overflow-x: auto;
+    }
+
+    .card1-left,
+    .card1-right {
+        padding-left: 20px;
+    }
+
+    .card1-right {
+        margin: auto !important;
     }
 
     .card1-left h4 {

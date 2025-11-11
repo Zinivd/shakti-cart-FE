@@ -25,7 +25,6 @@ import Login from "./pages/Portal/Login.jsx";
 import Register from "./pages/Portal/Register.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
-import SearchBar from "./components/SearchBar/SearchBar.jsx";
 
 function App() {
   return (
@@ -40,7 +39,6 @@ function App() {
           <Navbar />
           <ResponsiveNav />
           <NavOffcanvas />
-          <SearchBar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />

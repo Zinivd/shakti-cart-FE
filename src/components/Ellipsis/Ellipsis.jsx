@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Ellipsis1,
   Ellipsis2,
@@ -48,8 +48,8 @@ const Ellipsis = () => {
     },
   ];
   return (
-    <div className="ellipsis">
-      <div className="ellipsis-list">
+    <div className="ellipsis splide__track">
+      <div className="ellipsis-list splide__list">
         {ellipsisData.map((item, index) => (
           <EllipsisCard key={index} {...item} />
         ))}

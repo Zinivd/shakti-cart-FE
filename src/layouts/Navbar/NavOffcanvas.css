@@ -37,4 +37,8 @@
         font-size: 16px;
     }
 
+    #navOffcanvas {
+        width: 80%;
+    }
+
 }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const EllipsisCard = (props) => {
   return (
-    <Link className={`ellipsis-card`}>
+    <Link className={`ellipsis-card splide__slide`}>
       <div className="ellipsis-img">
         <img src={props.ellipsisImg} alt="" />
       </div>

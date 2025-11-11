@@ -13,7 +13,9 @@ const Card_2 = () => {
       </div>
       <div className="card2-right mx-auto">
         <h4 className="mb-1">Pay with 4 installment, 0% interest</h4>
-        <h2 className="mb-0"><span className="fw-bolder">Buy Now,</span> Pay Later</h2>
+        <h2 className="mb-0">
+          <span className="fw-bolder">Buy Now,</span> Pay Later
+        </h2>
       </div>
       <div className="card2-right ms-auto">
         <button className="discoverbtn text-dark">Discover Now</button>

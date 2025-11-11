@@ -14,7 +14,7 @@ const Card_1 = () => {
         <img src={Discover1} alt="Discover" />
       </div>
       <div className="card1-right mx-auto">
-        <h4 className="mb-3">Opplo Watch Sport Series 8</h4>
+        <h4 className="mb-2">Opplo Watch Sport Series 8</h4>
         <h2 className="mb-0">A healthy leap ahead</h2>
       </div>
       <div className="card1-right ms-auto">

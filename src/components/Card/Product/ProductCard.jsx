@@ -48,7 +48,13 @@ const ProductCard = (props) => {
           <i className={isWished ? "fas fa-heart" : "fa-regular fa-heart"}></i>
         </span>
       </h6>
-      <hr />
+
+      {/* Rating */}
+      <h6 className="product-rating">
+        <i className="fas fa-star text-warning"></i> {props.rating}
+      </h6>
+
+      <hr className="mt-0" />
 
       {/* Product Content */}
       <div className="product-content">
@@ -64,9 +70,9 @@ const ProductCard = (props) => {
             )}
             <h6 className="mb-2">{props.brand}</h6>
           </div>
-          <h5 className="mb-2">
+          {/* <h5 className="mb-2">
             <i className="fas fa-star text-warning"></i> {props.rating}
-          </h5>
+          </h5> */}
         </div>
         <div className="product-details">
           <h5 className="mb-2">{props.productname}</h5>

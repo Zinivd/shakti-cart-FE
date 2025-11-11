@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Logo_Main } from "../../../public/Assets";
+import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -32,27 +33,32 @@ const Navbar = () => {
       <nav className={`navbar navbar-expand-lg ${isExpanded ? "solid" : ""}`}>
         <div className="container-fluid">
           {/* Resposnive Navbar */}
-          <div className="responsive-button">
-            <div className="logo-div d-flex align-items-center column-gap-2">
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#navOffcanvas"
-              >
-                <i className="bx bx-menu"></i>
-              </button>
-              <a href="">
-                <img src={Logo_Main} height="50px" title="" alt="" />
-              </a>
-            </div>
-            <div className="icons-div d-sm-flex d-lg-none align-items-center">
-              <NavLink to="/profile#wishlist" className="me-3">
+          <div className="responsive-div w-100">
+            <div className="responsive-button">
+              <div className="logo-div d-flex align-items-center column-gap-2">
+                <button
+                  className="navbar-toggler"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#navOffcanvas"
+                >
+                  <i className="bx bx-menu"></i>
+                </button>
+                <a href="">
+                  <img src={Logo_Main} height="50px" title="" alt="" />
+                </a>
+              </div>
+              <div className="icons-div d-sm-flex d-lg-none align-items-center">
+                <NavLink to="/profile#wishlist" className="me-3">
                   <i className="bx bx-heart"></i>
-              </NavLink>
-              <NavLink to="/cart">
+                </NavLink>
+                <NavLink to="/cart">
                   <i className="bx bx-cart"></i>
-              </NavLink>
+                </NavLink>
+              </div>
+            </div>
+            <div className="my-0">
+              <SearchBar />
             </div>
           </div>
 

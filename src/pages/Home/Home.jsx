@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "../../components/Banner/Banner.jsx";
 import Ellipsis from "../../components/Ellipsis/Ellipsis.jsx";
 import Product from "../../components/Card/Product/Product.jsx";
@@ -8,6 +8,42 @@ import Grid from "../../components/Card/Grid/Grid.jsx";
 import Offer from "../../components/Card/Offer/Offer.jsx";
 
 const Home = () => {
+  useEffect(() => {
+    const splide = new Splide(".home_ellipsis", {
+      type: "loop",
+      perPage: 7,
+      perMove: 1,
+      autoplay: false,
+      pagination: false,
+      arrows: false,
+      breakpoints: {
+        1098: {
+          perPage: 6,
+          arrows: true,
+        },
+        768: {
+          perPage: 5,
+          arrows: true,
+        },
+        580: {
+          perPage: 4,
+          arrows: true,
+        },
+        480: {
+          perPage: 2,
+          arrows: true,
+        },
+        300: {
+          perPage: 3,
+          arrows: true,
+        },
+      },
+    }).mount();
+
+    return () => {
+      splide.destroy();
+    };
+  }, []);
   return (
     <div className="main">
       {/* Banner */}
@@ -20,7 +56,9 @@ const Home = () => {
             Popular <span>Categories</span>
           </h5>
         </div>
-        <Ellipsis />
+        <div className="home_ellipsis splide">
+          <Ellipsis />
+        </div>
       </div>
 
       {/* Product Cards */}

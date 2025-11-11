@@ -3,7 +3,7 @@ import React from "react";
 const SearchBar = () => {
   return (
     <div>
-      <ul className="navbar-nav col-sm-12 px-3 d-md-none mt-2 mb-3">
+      <ul className="navbar-nav col-sm-12 px-2 d-md-none my-2">
         <li className="search-bar">
           <i className="bx bx-search text-center"></i>
           <input

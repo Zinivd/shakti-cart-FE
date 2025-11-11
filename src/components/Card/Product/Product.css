@@ -11,8 +11,8 @@
 }
 
 .product-card {
-    border-radius: 10px;
-    border: 2px solid var(--border);
+    border-radius: 0px;
+    /* border: 2px solid var(--border); */
     position: relative;
 }
 
@@ -22,8 +22,8 @@
 }
 
 .product-img {
-    background-color: var(--secondary);
-    border-radius: 10px;
+    background-color: var(--sub-light);
+    border-radius: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,7 +33,7 @@
 .product-img img {
     display: block;
     margin: auto;
-    object-fit: contain;
+    object-fit: cover;
     mix-blend-mode: multiply;
 }
 
@@ -68,6 +68,23 @@
     right: 10px;
     transition: transform 0.2s ease;
     cursor: pointer;
+}
+
+.product-card .product-rating {
+    background-color: var(--secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 4px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: auto;
+    position: absolute;
+    bottom: 35%;
+    left: 10px;
 }
 
 .product-card .heart.active,

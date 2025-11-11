@@ -17,6 +17,7 @@
 }
 
 .navbar .container-fluid {
+    display: block;
     margin: 0px auto;
     padding: 0px 0px 5px 0px;
     border-bottom: 2px solid var(--border);
@@ -74,6 +75,10 @@
 
 .search-bar:focus-within {
     border: 1px solid var(--main);
+}
+
+.navbar>.container-fluid {
+    display: block !important;
 }
 
 @media screen and (min-width: 1098px) {

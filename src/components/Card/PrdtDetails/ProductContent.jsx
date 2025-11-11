@@ -80,7 +80,7 @@ const ProductContent = () => {
           ))}
         </div>
       </div>
-      <div className="qty-main">
+      {/* <div className="qty-main">
         <span className="qtydiv" style={{ width: "175px" }}>
           <button className="qtybtn minus" onClick={() => decQty()}>
             -
@@ -94,9 +94,9 @@ const ProductContent = () => {
             +
           </button>
         </span>
-      </div>
+      </div> */}
       <hr />
-      <div className="d-flex align-items-center column-gap-2">
+      <div className="d-flex align-items-center column-gap-2 mt-4">
         <button className="addcartbtn w-50 py-2">Add to Cart</button>
         <button className="buybtn w-50 py-2">Buy Now</button>
       </div>
