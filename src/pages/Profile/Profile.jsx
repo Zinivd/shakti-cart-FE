@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Tabs from "../../components/Tabs/Tabs";
 import "./Profile.css";
 import Info from "./Info";
@@ -8,6 +8,18 @@ import Wishlist from "./Wishlist.jsx";
 import MyOrder from "./MyOrder.jsx";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("access-token");
+    const user = localStorage.getItem("user");
+
+
+    if (!token || !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <div className="main">
       <div className="main-header">
@@ -27,6 +39,7 @@ const Profile = () => {
           <div className="profile-left">
             <Tabs />
           </div>
+
           <div className="profile-right">
             <div className="tab-content" id="profileTabContent">
               <div
@@ -36,12 +49,15 @@ const Profile = () => {
               >
                 <Info />
               </div>
+
               <div className="tab-pane fade" id="wishlist" role="tabpanel">
                 <Wishlist />
               </div>
+
               <div className="tab-pane fade" id="myorder" role="tabpanel">
                 <MyOrder />
               </div>
+
               <div className="tab-pane fade" id="address" role="tabpanel">
                 <Address />
               </div>

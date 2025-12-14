@@ -100,14 +100,14 @@ const Home = () => {
       </div>
 
       {/* Grid Cards */}
-      <div className="main-header">
+      {/* <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Outfit <span>Chemistry</span>
           </h5>
         </div>
         <Grid />
-      </div>
+      </div> */}
 
       {/* Offers */}
       <div className="main-header">

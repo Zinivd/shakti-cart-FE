@@ -1,14 +1,41 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { addToWishlist } from "../../../service/api";
+import { toast } from "react-toastify";
 
 const ProductCard = (props) => {
-  // Like
   const [isWished, setIsWished] = useState(false);
-  const toggleWish = () => {
-    setIsWished(!isWished);
+  const [loading, setLoading] = useState(false);
+
+  const handleWishlistClick = async (e) => {
+    e.preventDefault(); 
+    e.stopPropagation();
+
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      debugger
+      const body = {
+      product_id: props.id,
+    };
+      const response = await addToWishlist(body);
+
+      if (response) {
+        setIsWished(true);
+        toast.success("Added to wishlist");
+      } else {
+        toast.error("Failed to add wishlist");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Badge Color
+  // Badge color
   const getBadgeColor = (badge) => {
     switch (badge) {
       case "Best Seller":
@@ -21,8 +48,9 @@ const ProductCard = (props) => {
         return "#9c27b0";
     }
   };
+
   return (
-    <div className={`product-card mb-3`}>
+    <div className="product-card mb-3">
       <Link to={`/products/${props.id}`}>
         <div className="product-img">
           <img src={props.productImg} alt={props.productname} />
@@ -39,10 +67,10 @@ const ProductCard = (props) => {
         </h6>
       )}
 
-      {/* Heart */}
+      {/* ❤️ Wishlist */}
       <h6
         className={`heart m-0 ${isWished ? "active" : ""}`}
-        onClick={toggleWish}
+        onClick={handleWishlistClick}
       >
         <span>
           <i className={isWished ? "fas fa-heart" : "fa-regular fa-heart"}></i>
@@ -56,24 +84,20 @@ const ProductCard = (props) => {
 
       <hr className="mt-0" />
 
-      {/* Product Content */}
+      {/* Content */}
       <div className="product-content">
         <div className="product-head">
           <div className="d-flex align-items-center column-gap-2">
             {props.icon && (
-              <img
-                src={props.icon}
-                alt={props.productname}
-                className="mb-2"
-                height="15px"
-              />
+              <img src={props.icon} alt={props.productname} height="15px" />
             )}
             <h6 className="mb-2">{props.brand}</h6>
           </div>
-          {/* <h5 className="mb-2">
+           {/* <h5 className="mb-2">
             <i className="fas fa-star text-warning"></i> {props.rating}
           </h5> */}
         </div>
+
         <div className="product-details">
           <h5 className="mb-2">{props.productname}</h5>
           <div className="d-flex align-items-center justify-content-between">
@@ -83,6 +107,7 @@ const ProductCard = (props) => {
                 ₹ {props.slashprice}
               </span>
             </h6>
+
             {props.showCartBtn && (
               <button className="cartbtn">
                 <i className="fas fa-shopping-cart"></i>

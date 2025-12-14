@@ -1,114 +1,163 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
+import { getCartProducts, removeCartProduct } from "../../service/api";
 import "./CartTable.css";
 
+const SAMPLE_IMAGE =
+  "https://via.placeholder.com/80x80.png?text=Product";
+
 const CartTable = () => {
-  const [quantity, setQuantity] = useState(1);
-  const incQty = () => {
-    setQuantity((prev) => prev + 1);
-  };
-  const decQty = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const [cartProducts, setCartProducts] = useState([]);
+  const [loadingId, setLoadingId] = useState(null);
+
+  useEffect(() => {
+    fetchCartProducts();
+  }, []);
+
+  const fetchCartProducts = async () => {
+    try {
+      const response = await getCartProducts();
+
+      if (response?.data?.success && Array.isArray(response.data.data)) {
+        const mappedCart = response.data.data.map((item) => {
+          const price = Number(item.product?.selling_price || 0);
+          const qty = Number(item.quantity || 1);
+
+          return {
+            id: item.product_id, 
+            name: item.product?.product_name,
+            color: item.product?.color,
+            price,
+            quantity: qty,
+            subtotal: price * qty,
+            image:
+              item.product?.images?.length > 0
+                ? item.product.images[0]
+                : SAMPLE_IMAGE,
+          };
+        });
+
+        setCartProducts(mappedCart);
+      } else {
+        setCartProducts([]);
+      }
+    } catch (error) {
+      console.error("Error fetching cart products:", error);
+      setCartProducts([]);
+    }
   };
 
-  const cartProducts = [
-    {
-      productImg:
-        "https://cdn.shopify.com/s/files/1/0523/9934/1736/products/102761-2_7-kurkure-namkeen-masala-munch.jpg?v=1633507330",
-      productname: "Kurkure Masala Munch (mixture) (75 g)",
-      productColor: "Yellow",
-      price: "₹ 100.00",
-      shipping: "FREE",
-      subtotal: "₹ 100.00",
-      total: "₹ 100.00",
-    },
-    {
-      productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
-      productname: "Lay's Spaish Tomato Tango Chips (82 g)",
-      productColor: "Red",
-      price: "₹ 50.00",
-      shipping: "FREE",
-      subtotal: "₹ 98.00",
-      total: "₹ 100.00",
-    },
-    {
-      productImg:
-        "https://cdn.shopify.com/s/files/1/0523/9934/1736/products/102761-2_7-kurkure-namkeen-masala-munch.jpg?v=1633507330",
-      productname: "Kurkure Masala Munch (mixture) (75 g)",
-      productColor: "Yellow",
-      price: "₹ 100.00",
-      shipping: "FREE",
-      subtotal: "₹ 100.00",
-      total: "₹ 100.00",
-    },
-    {
-      productImg: "https://m.media-amazon.com/images/I/71Af8qfZQUL.jpg",
-      productname: "Lay's Spaish Tomato Tango Chips (82 g)",
-      productColor: "Red",
-      price: "₹ 50.00",
-      shipping: "FREE",
-      subtotal: "₹ 98.00",
-      total: "₹ 100.00",
-    },
-  ];
+  const handleRemoveCart = async (productId) => {
+  try {
+    const response = await removeCartProduct({
+      product_id: productId,
+    });
+
+    if (response?.data?.success) {
+      // Refresh cart after delete
+      fetchCartProducts();
+    } else {
+      console.error("Failed to remove product");
+    }
+  } catch (error) {
+    console.error("Remove cart error:", error);
+  }
+};
+
+  const incQty = (index) => {
+    setCartProducts((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+              subtotal: (item.quantity + 1) * item.price,
+            }
+          : item
+      )
+    );
+  };
+
+  const decQty = (index) => {
+    setCartProducts((prev) =>
+      prev.map((item, i) =>
+        i === index && item.quantity > 1
+          ? {
+              ...item,
+              quantity: item.quantity - 1,
+              subtotal: (item.quantity - 1) * item.price,
+            }
+          : item
+      )
+    );
+  };
+
   return (
     <div className="table-wrapper">
       <table className="table">
         <thead>
           <tr>
-            <th>Product Details</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Shipping</th>
-            <th>Subtotal</th>
-            <th>Total</th>
-            <th>Action</th>
+            <th>PRODUCT DETAILS</th>
+            <th>PRICE</th>
+            <th>QUANTITY</th>
+            <th>SHIPPING</th>
+            <th>SUBTOTAL</th>
+            <th>TOTAL</th>
+            <th>ACTION</th>
           </tr>
         </thead>
+
         <tbody>
-          {cartProducts.map((item, index) => (
-            <tr key={index}>
-              <td>
-                <div className="d-flex align-items-start column-gap-2 product-td">
-                  <img
-                    src={item.productImg}
-                    height="100px"
-                    className="object-fit-contain rounded-2"
-                    alt=""
-                  />
-                  <div className="cart-product">
-                    <h5 className="my-1">{item.productname}</h5>
-                    <h6 className="mb-1">Color: {item.productColor}</h6>
-                    <h6 className="mb-0">Size: M</h6>
-                  </div>
-                </div>
-              </td>
-              <td>{item.price}</td>
-              <td>
-                <span className="qtydiv">
-                  <button className="qtybtn minus" onClick={() => decQty()}>
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    className="text-center w-100 count"
-                    value={999}
-                    readOnly
-                  />
-                  <button className="qtybtn plus" onClick={() => incQty()}>
-                    +
-                  </button>
-                </span>
-              </td>
-              <td>{item.shipping}</td>
-              <td>{item.subtotal}</td>
-              <td>{item.total}</td>
-              <td>
-                <div className="d-flex align-items-center">
-                  <i className="fas fa-trash-can"></i>
-                </div>
+          {cartProducts.length === 0 ? (
+            <tr>
+              <td colSpan="7" className="text-center">
+                Cart is empty
               </td>
             </tr>
-          ))}
+          ) : (
+            cartProducts.map((item, index) => (
+              <tr key={item.id}>
+                <td>
+                  <div className="d-flex column-gap-2 align-items-center">
+                    <img
+                      src={item.image}
+                      height="80"
+                      width="80"
+                      alt={item.name}
+                    />
+                    <div>
+                      <h6>{item.name}</h6>
+                      <p>Color: {item.color}</p>
+                    </div>
+                  </div>
+                </td>
+
+                <td>₹ {item.price}</td>
+
+                <td>
+                  <button onClick={() => decQty(index)}>-</button>
+                  <span className="mx-2">{item.quantity}</span>
+                  <button onClick={() => incQty(index)}>+</button>
+                </td>
+
+                <td>Free</td>
+
+                <td>₹ {item.subtotal}</td>
+
+                <td>₹ {item.subtotal}</td>
+
+                <td>
+                  <i
+                    className={`fas fa-trash-can ${
+                      loadingId === item.id ? "disabled" : ""
+                    }`}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleRemoveCart(item.id)}
+                  ></i>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

@@ -1,24 +1,105 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PortalBG } from "../../../public/Assets";
+import { registerUser } from "../../service/api";
 import "./Portal.css";
 
 const Register = () => {
-  const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    user_type: "customer",
+  });
+
   const [errors, setErrors] = useState({});
-  // Phone Validation
-  const phoneValidate = (e) => {
-    const value = e.target.value;
-    if (value.length <= 10) {
-      setPhone(value);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState(""); 
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+ 
+    if (name === "phone" && value.length > 10) return;
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    
+    if (apiError) setApiError("");
+  };
+
+  const validateForm = () => {
+    let tempErrors = {};
+
+    if (!formData.name) tempErrors.name = "Name is required";
+    if (!formData.email) tempErrors.email = "Email is required";
+    if (!formData.phone) tempErrors.phone = "Phone number is required";
+    if (formData.phone.length !== 10)
+      tempErrors.phone = "Phone number must be 10 digits";
+    if (!formData.password) tempErrors.password = "Password is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    try {
+      setLoading(true);
+      setApiError(""); 
+
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        user_type: formData.user_type,
+      };
+
+      const response = await registerUser(payload);
+      debugger
+      console.log("Register Success:", response);
+ 
+     
+      if (response?.data?.success || response?.data?.status === "success") {
+       
+        navigate("/");
+      } else {
+   
+        setApiError(response?.data?.error || response?.data?.message || "Registration failed");
+      }
+    } catch (error) {
+      console.error("Register Error:", error);
+      
+      // Handle error response from API
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        setApiError(errorData.error || errorData.message || "Registration failed");
+      } else {
+        setApiError(error.message || "Registration failed. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <div className="portal-main my-4">
       <div className="portal-div">
         <div className="portal-left">
           <img src={PortalBG} width="100%" height="700px" alt="portal-bg" />
         </div>
+
         <div className="portal-right mt-3">
           <div className="body-head mb-4">
             <div>
@@ -27,80 +108,88 @@ const Register = () => {
               </h4>
               <h6 className="mb-0">Join To Us</h6>
             </div>
-            {/* <Link>
-              <h6>Back</h6>
-            </Link> */}
           </div>
 
           <div className="portal-form">
-            <form action="">
+            <form onSubmit={handleSubmit}>
               <div className="row">
+
+                {/* Show API Error Message */}
+                {apiError && (
+                  <div className="col-sm-12 mb-3">
+                    <div className="alert alert-danger" role="alert">
+                      {apiError}
+                    </div>
+                  </div>
+                )}
+
+                {/* Name */}
                 <div className="col-sm-12 mb-4">
-                  <label htmlFor="name">
-                    Full Name <span>*</span>
-                  </label>
+                  <label>Full Name *</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter your Full Name"
-                    autoFocus
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
+                  {errors.name && <small className="text-danger">{errors.name}</small>}
                 </div>
+
+                {/* Phone */}
                 <div className="col-sm-12 mb-4">
-                  <label htmlFor="name">
-                    Contact Number <span>*</span>
-                  </label>
+                  <label>Contact Number *</label>
                   <input
                     type="number"
                     className="form-control"
-                    placeholder="Enter your Contact Number"
-                    value={phone}
-                    onChange={phoneValidate}
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                   />
+                  {errors.phone && <small className="text-danger">{errors.phone}</small>}
                 </div>
+
+                {/* Email */}
                 <div className="col-sm-12 mb-4">
-                  <label htmlFor="email">
-                    Email Address <span>*</span>
-                  </label>
+                  <label>Email Address *</label>
                   <input
                     type="email"
                     className="form-control"
-                    placeholder="Enter your Email Address"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
+                  {errors.email && <small className="text-danger">{errors.email}</small>}
                 </div>
+
+                {/* Password */}
                 <div className="col-sm-12 mb-4">
-                  <label htmlFor="password">
-                    Password <span>*</span>
-                  </label>
+                  <label>Password *</label>
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Enter your Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
                   />
+                  {errors.password && (
+                    <small className="text-danger">{errors.password}</small>
+                  )}
                 </div>
-                <div className="col-sm-12 mb-5">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center column-gap-2">
-                      <input type="checkbox" name="remember" id="remember" />
-                      <label htmlFor="remember" className="mb-0 text-muted">
-                        <h6 className="mb-0">
-                          By signing up you agree to our{" "}
-                          <Link className="text-dark fw-bold">
-                            terms and conditions
-                          </Link>
-                        </h6>
-                      </label>
-                    </div>
-                  </div>
-                </div>
+
+                {/* Submit */}
                 <div className="col-sm-12 mb-4">
-                  <button className="loginbtn">Create Account</button>
+                  <button className="loginbtn" disabled={loading}>
+                    {loading ? "Creating Account..." : "Create Account"}
+                  </button>
                 </div>
+
                 <div className="col-sm-12">
                   <h6>
-                    ALREADY AN USER ? <Link to="/login">LOGIN</Link>
+                    ALREADY A USER? <Link to="/login">LOGIN</Link>
                   </h6>
                 </div>
+
               </div>
             </form>
           </div>
