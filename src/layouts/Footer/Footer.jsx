@@ -117,11 +117,6 @@ const Footer = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item mb-2">
-                    <NavLink to="return" className="p-0">
-                      Returns & Refunds
-                    </NavLink>
-                  </li>
-                  <li className="nav-item mb-2">
                     <NavLink to="faq" className="p-0">
                       FAQ's
                     </NavLink>
@@ -129,6 +124,11 @@ const Footer = () => {
                   <li className="nav-item mb-2">
                     <NavLink to="career" className="p-0">
                       Career
+                    </NavLink>
+                  </li>
+                  <li className="nav-item mb-2">
+                    <NavLink to="sitemap" className="p-0">
+                      Sitemap
                     </NavLink>
                   </li>
                 </ul>
@@ -166,23 +166,23 @@ const Footer = () => {
                 <br />
                 <ul className="nav flex-column">
                   <li className="nav-item mb-2">
-                    <NavLink to="terms" className="p-0">
+                    <NavLink to="/terms-and-condition" className="p-0">
                       Terms & Conditions
                     </NavLink>
                   </li>
                   <li className="nav-item mb-2">
-                    <NavLink to="privacy" className="p-0">
+                    <NavLink to="/privacy-policy" className="p-0">
                       Privacy Policy
+                    </NavLink>
+                  </li>
+                  <li className="nav-item mb-2">
+                    <NavLink to="/refund-policy" className="p-0">
+                      Returns & Refund Policy
                     </NavLink>
                   </li>
                   <li className="nav-item mb-2">
                     <NavLink to="shipping" className="p-0">
                       Shipping Policy
-                    </NavLink>
-                  </li>
-                  <li className="nav-item mb-2">
-                    <NavLink to="sitemap" className="p-0">
-                      Sitemap
                     </NavLink>
                   </li>
                 </ul>

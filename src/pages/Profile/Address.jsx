@@ -8,6 +8,11 @@ const Address = () => {
         <h4 className="mb-0">
           <span>|</span> Address
         </h4>
+        <a data-bs-toggle="modal" data-bs-target="#addAddress">
+          <button type="button" className="formbtn">
+            Add Address
+          </button>
+        </a>
       </div>
       <AddressCard />
     </div>

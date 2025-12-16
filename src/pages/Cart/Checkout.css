@@ -4,6 +4,12 @@
     align-items: start;
 }
 
+.modal h4 {
+    font-size: 20px;
+    font-weight: var(--fw-xl);
+    margin-bottom: 0px;
+}
+
 .form label {
     color: var(--text-primary);
     font-weight: var(--fw-sm);

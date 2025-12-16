@@ -25,6 +25,11 @@ import Login from "./pages/Portal/Login.jsx";
 import Register from "./pages/Portal/Register.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
+import Terms_Condition from "./pages/Policy/Terms_Condition.jsx";
+import Privacy_Policy from "./pages/Policy/Privacy_Policy.jsx";
+import Refund_Policy from "./pages/Policy/Refund_Policy.jsx";
+import AddAddress from "./components/Popup/AddAddress.jsx";
+import EditAddress from "./components/Popup/EditAddress.jsx";
 
 function App() {
   return (
@@ -39,6 +44,8 @@ function App() {
           <Navbar />
           <ResponsiveNav />
           <NavOffcanvas />
+          <AddAddress />
+          <EditAddress />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />
@@ -50,6 +57,9 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/terms-and-condition" element={<Terms_Condition />} />
+            <Route path="/privacy-policy" element={<Privacy_Policy />} />
+            <Route path="/refund-policy" element={<Refund_Policy />} />
           </Routes>
           <Footer />
         </Router>
