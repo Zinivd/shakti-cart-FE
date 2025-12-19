@@ -1,12 +1,8 @@
-import { useState } from "react";
 import "./App.css";
 import "./Style.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-// Common CSS
-import "./App.css";
 
 // Layouts
 import Navbar from "./layouts/Navbar/Navbar.jsx";
@@ -28,33 +24,34 @@ import ProductDetails from "./pages/Products/ProductDetails.jsx";
 
 function App() {
   return (
-    <>
-      <div className="App">
-        <Router>
-          <ToastContainer
-            theme="dark"
-            position="bottom-right"
-            autoClose={2000}
-          />
-          <Navbar />
-          <ResponsiveNav />
-          <NavOffcanvas />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/address" element={<Address />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/products/:id" element={<ProductDetails />} />
-          </Routes>
-          <Footer />
-        </Router>
-      </div>
-    </>
+    <div className="App">
+      <Router>
+        <ToastContainer
+          theme="dark"
+          position="bottom-right"
+          autoClose={2000}
+        />
+
+        <Navbar />
+        <ResponsiveNav />
+        <NavOffcanvas />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:productId" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/address" element={<Address />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+
+        <Footer />
+      </Router>
+    </div>
   );
 }
 

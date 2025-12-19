@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import Card_2 from "../../components/Card/Discover/Card2";
 import Product from "../../components/Card/Product/Product";
@@ -11,8 +11,60 @@ import ProductContent from "../../components/Card/PrdtDetails/ProductContent";
 import Description from "../../components/Card/PrdtDetails/Description";
 import Reviews from "../../components/Card/Reviews/Reviews";
 import Comments from "../../components/Card/Reviews/Comments";
+import { getProductById } from "../../service/api";  // Import API function
 
 const ProductDetails = () => {
+  const { productId } = useParams(); // Get product ID from URL
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (productId) {
+      fetchProductDetails();
+    }
+  }, [productId]);
+  
+  const fetchProductDetails = async () => {
+    try {
+      setLoading(true);
+     
+      const response = await getProductById(productId);
+       debugger
+      if (response?.data?.success) {
+        setProduct(response?.data?.data);
+      }
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="main">
+        <div className="main-header">
+          <div className="body-head">
+            <h6>Loading product details...</h6>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="main">
+        <div className="main-header">
+          <div className="body-head">
+            <h6>Product not found</h6>
+            <Link to="/products">Back to Products</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="main">
       <div className="main-header">
@@ -27,25 +79,25 @@ const ProductDetails = () => {
               <i className="fa fa-angle-right ps-1"></i>
             </Link>
             <Link to="/products">
-              T-Shirts
+              {product.category_name || "Categories"}
               <i className="fa fa-angle-right ps-1"></i>
             </Link>
-            <Link to={`/products/id`} className="active">
-              Polo T-Shirt
+            <Link to={`/products/${productId}`} className="active">
+              {product.product_name || "Product"}
             </Link>
           </h6>
         </div>
 
         <div className="product-details-main">
           <div className="product-details-left">
-            <Gallery />
+            <Gallery images={product.images} productName={product.product_name} />
           </div>
           <div className="product-details-center">
             <ProductContent />
           </div>
           <div className="product-details-right">
             <OfferProduct />
-            <ShareProduct />
+            <ShareProduct productName={product.product_name} productId={productId} />
           </div>
         </div>
 
@@ -56,7 +108,7 @@ const ProductDetails = () => {
             </h4>
             <h6 className="text-decoration-underline">Description</h6>
           </div>
-          <Description />
+          <Description description={product.description} specifications={product.product_specification} />
         </div>
 
         {/* Reviews */}
@@ -68,7 +120,7 @@ const ProductDetails = () => {
             <h6 className="text-decoration-underline">Ratings</h6>
           </div>
           <div className="reviews-main my-3">
-            <Reviews />
+            <Reviews productId={productId} />
           </div>
         </div>
 
@@ -83,12 +135,12 @@ const ProductDetails = () => {
               <h6 className="text-decoration-underline">Comments</h6>
             </div>
           </div>
-          <Comments />
+          <Comments productId={productId} />
         </div>
 
         {/* Discover */}
         <div className="main-header">
-          <Card_2 />
+          <Card_2 categoryId={product.category_id} />
         </div>
 
         {/* Product Cards */}
@@ -98,7 +150,7 @@ const ProductDetails = () => {
               Similar <span>Products</span>
             </h5>
           </div>
-          <Product />
+          <Product categoryId={product.category_id} currentProductId={productId} />
           <div className="d-flex align-items-center justify-content-center my-3">
             <Link to="/products">
               <button className="darkbtn">

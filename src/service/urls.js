@@ -1,4 +1,4 @@
-const BASE_URL = "http://api-shakti.shakticart.com"; 
+const BASE_URL = "https://api-prod.shakticart.com"; 
 
 
 export const Urls = {
