@@ -186,3 +186,16 @@ export async function registerUser(body = {}) {
     return null;
   }
 }
+
+
+export async function getProductById(productId) {
+  try {
+    const url = buildUrlWithParams(Urls.getProductById, {
+      product_id: productId,
+    });
+    return await Client(url, {}, "get");
+  } catch (error) {
+    console.error("getProductById error", error);
+    return null;
+  }
+}

@@ -1,25 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { addToWishlist } from "../../../service/api";
+import { addToWishlist, addToCart } from "../../../service/api";
 import { toast } from "react-toastify";
 
 const ProductCard = (props) => {
   const [isWished, setIsWished] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // ❤️ Wishlist
   const handleWishlistClick = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     e.stopPropagation();
 
     if (loading) return;
-
     setLoading(true);
 
     try {
-      debugger
-      const body = {
-      product_id: props.id,
-    };
+      const body = { product_id: props.id };
       const response = await addToWishlist(body);
 
       if (response) {
@@ -32,6 +29,26 @@ const ProductCard = (props) => {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 🛒 Add to Cart
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const payload = {
+        product_id: props.id,
+        quantity: 1,
+      };
+
+      const res = await addToCart(payload);
+      if (res?.data?.success) {
+        toast.success("Added to Cart");
+      }
+    } catch (err) {
+      toast.error("Failed to add to cart");
     }
   };
 
@@ -51,6 +68,8 @@ const ProductCard = (props) => {
 
   return (
     <div className="product-card mb-3">
+
+      {/* Image → Product Details */}
       <Link to={`/products/${props.id}`}>
         <div className="product-img">
           <img src={props.productImg} alt={props.productname} />
@@ -67,14 +86,12 @@ const ProductCard = (props) => {
         </h6>
       )}
 
-      {/* ❤️ Wishlist */}
+      {/* Wishlist */}
       <h6
         className={`heart m-0 ${isWished ? "active" : ""}`}
         onClick={handleWishlistClick}
       >
-        <span>
-          <i className={isWished ? "fas fa-heart" : "fa-regular fa-heart"}></i>
-        </span>
+        <i className={isWished ? "fas fa-heart" : "fa-regular fa-heart"}></i>
       </h6>
 
       {/* Rating */}
@@ -86,20 +103,16 @@ const ProductCard = (props) => {
 
       {/* Content */}
       <div className="product-content">
-        <div className="product-head">
-          <div className="d-flex align-items-center column-gap-2">
-            {props.icon && (
-              <img src={props.icon} alt={props.productname} height="15px" />
-            )}
-            <h6 className="mb-2">{props.brand}</h6>
-          </div>
-           {/* <h5 className="mb-2">
-            <i className="fas fa-star text-warning"></i> {props.rating}
-          </h5> */}
+        <div className="product-head d-flex align-items-center column-gap-2">
+          {props.icon && (
+            <img src={props.icon} alt={props.productname} height="15px" />
+          )}
+          <h6 className="mb-2">{props.brand}</h6>
         </div>
 
         <div className="product-details">
           <h5 className="mb-2">{props.productname}</h5>
+
           <div className="d-flex align-items-center justify-content-between">
             <h6 className="mb-0">
               ₹ {props.price}
@@ -109,7 +122,7 @@ const ProductCard = (props) => {
             </h6>
 
             {props.showCartBtn && (
-              <button className="cartbtn">
+              <button className="cartbtn" onClick={handleAddToCart}>
                 <i className="fas fa-shopping-cart"></i>
                 <span>Add</span>
               </button>

@@ -1,12 +1,8 @@
-import { useState } from "react";
 import "./App.css";
 import "./Style.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-// Common CSS
-import "./App.css";
 
 // Layouts
 import Navbar from "./layouts/Navbar/Navbar.jsx";
