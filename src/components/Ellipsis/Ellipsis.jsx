@@ -1,57 +1,35 @@
-import React, { useEffect } from "react";
-import {
-  Ellipsis1,
-  Ellipsis2,
-  Ellipsis3,
-  Ellipsis4,
-  Ellipsis5,
-  Ellipsis6,
-  Ellipsis7,
-  Ellipsis8,
-} from "../../../public/Assets.js";
+import React, { useEffect, useState } from "react";
 import EllipsisCard from "./EllipsisCard.jsx";
 import "./Ellipsis.css";
+import { getAllCategories } from "../../service/api";
 
-const Ellipsis = () => {
-  const ellipsisData = [
-    {
-      ellipsisImg: Ellipsis1,
-      ellipsish6: "Clothing's",
-    },
-    {
-      ellipsisImg: Ellipsis2,
-      ellipsish6: "Pen",
-    },
-    {
-      ellipsisImg: Ellipsis3,
-      ellipsish6: "Gaming",
-    },
-    {
-      ellipsisImg: Ellipsis4,
-      ellipsish6: "Sport Equip",
-    },
-    {
-      ellipsisImg: Ellipsis5,
-      ellipsish6: "Kitchen",
-    },
-    {
-      ellipsisImg: Ellipsis6,
-      ellipsish6: "Mobile",
-    },
-    {
-      ellipsisImg: Ellipsis7,
-      ellipsish6: "Office",
-    },
-    {
-      ellipsisImg: Ellipsis8,
-      ellipsish6: "Computers",
-    },
-  ];
+const Ellipsis = ({ onLoaded }) => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    const data = await getAllCategories();
+    setCategories(data || []);
+    onLoaded?.(data?.length || 0); // 🔥 PASS COUNT
+  };
+
+  if (!categories.length) {
+    return <p className="text-center">No categories found</p>;
+  }
+
   return (
     <div className="ellipsis splide__track">
       <div className="ellipsis-list splide__list">
-        {ellipsisData.map((item, index) => (
-          <EllipsisCard key={index} {...item} />
+        {categories.map((item) => (
+          <EllipsisCard
+            key={item.category_id}
+            ellipsisImg={item.image}   
+            ellipsish6={item.category_name}
+            categoryId={item.category_id}
+          />
         ))}
       </div>
     </div>

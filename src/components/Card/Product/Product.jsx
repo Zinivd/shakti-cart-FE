@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard.jsx";
 import Card1 from "../Discover/Card1.jsx";
 import Card2 from "../Discover/Card2.jsx";
 import Offer from "../Offer/Offer.jsx";
-import { getAllProducts } from "../../../service/api";
+import { getAllProducts, getProductsByCategory } from "../../../service/api";
 import "./Product.css";
 
 const Product = (props) => {
@@ -13,35 +13,52 @@ const Product = (props) => {
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [props.filters]);
 
   const loadProducts = async () => {
     try {
       setLoading(true);
 
-      const response = await getAllProducts();
-      const apiProducts = response?.data?.data || [];
+      let apiProducts = [];
 
-      const mappedProducts = apiProducts.map((item) => ({
+      // 🔥 SAFETY GUARD
+      if (props.filters && props.filters.category_id) {
+        const response = await getProductsByCategory(
+          props.filters.category_id
+        );
+        apiProducts = response?.data?.data || [];
+      } else {
+        const response = await getAllProducts();
+        apiProducts = response?.data?.data || [];
+      }
+
+      // 🔥 PRICE FILTER (SAFE DEFAULTS)
+      const min = props.filters?.minPrice ?? 0;
+      const max = props.filters?.maxPrice ?? 10000;
+
+      const filteredProducts = apiProducts.filter((p) => {
+        const price = Number(p.selling_price);
+        return price >= min && price <= max;
+      });
+
+      const mappedProducts = filteredProducts.map((item) => ({
         id: item.product_id,
         productImg:
-          item.images?.length > 0
-            ? item.images[0]
-            : "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
+          item.images?.[0] ||
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
         brand: item.brand,
         rating: "4.0",
         productname: item.product_name,
         price: item.selling_price,
         slashprice: item.actual_price,
-        badge: item.product_list_type
-          ? item.product_list_type.toUpperCase()
-          : "",
+        badge: item.product_list_type?.toUpperCase() || "",
         icon: VegIcon,
       }));
 
       setProducts(mappedProducts);
     } catch (error) {
-      console.error("Failed to load products", error);
+      console.error("Product load error:", error);
+      setProducts([]); // 🔥 prevent crash
     } finally {
       setLoading(false);
     }
@@ -54,30 +71,19 @@ const Product = (props) => {
   return (
     <div className="product">
       <div className="product-list">
-
         {products.map((item, index) => (
           <React.Fragment key={item.id}>
+            <ProductCard {...item} showCartBtn={props.showCartBtn} />
 
-            {/* Product Card */}
-            <ProductCard
-              {...item}
-              showCartBtn={props.showCartBtn}
-            />
-
-            {/* Insert card after every 8 products */}
             {(index + 1) % 8 === 0 && (
               <div className="inter-card-wrapper">
-
                 {(index + 1) === 8 && <Card1 />}
                 {(index + 1) === 16 && <Card2 />}
                 {(index + 1) === 24 && <Offer />}
-
               </div>
             )}
-
           </React.Fragment>
         ))}
-
       </div>
     </div>
   );

@@ -103,6 +103,18 @@ export async function getAllCategories() {
   }
 }
 
+// export async function getProductsByCategory(categoryId) {
+//   try {
+//     const url = `${Urls.getProductsByCategory}?category_id=${categoryId}`;
+//     const response = await Client(url, {}, "get");
+//     return response;
+//   } catch (error) {
+//     console.error("getProductsByCategory error", error);
+//     return null;
+//   }
+// }
+
+
 
 
 export async function addToWishlist(body = {}) {
