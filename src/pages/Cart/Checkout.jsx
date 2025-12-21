@@ -57,7 +57,7 @@ const Checkout = () => {
             <form action="">
               <div className="row">
                 <div className="col-sm-12 col-md-6 mb-3">
-                  <label htmlFor="firstname">First Name</label>
+                  <label htmlhtmlFor="firstname">First Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -66,7 +66,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-6 mb-3">
-                  <label htmlFor="lastname">Last Name</label>
+                  <label htmlhtmlFor="lastname">Last Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -74,7 +74,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-6 mb-3">
-                  <label htmlFor="country">Country / Region</label>
+                  <label htmlhtmlFor="country">Country / Region</label>
                   <input
                     type="text"
                     className="form-control"
@@ -82,7 +82,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-6 mb-3">
-                  <label htmlFor="company">Company Name</label>
+                  <label htmlhtmlFor="company">Company Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -90,7 +90,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-6 mb-3">
-                  <label htmlFor="address">Street Address</label>
+                  <label htmlhtmlFor="address">Street Address</label>
                   <input
                     type="text"
                     className="form-control"
@@ -98,7 +98,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-6 mb-3">
-                  <label htmlFor="landmark">Landmark</label>
+                  <label htmlhtmlFor="landmark">Landmark</label>
                   <input
                     type="text"
                     className="form-control"
@@ -106,7 +106,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-4 mb-3">
-                  <label htmlFor="city">City</label>
+                  <label htmlhtmlFor="city">City</label>
                   <input
                     type="text"
                     className="form-control"
@@ -114,7 +114,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-4 mb-3">
-                  <label htmlFor="state">State</label>
+                  <label htmlhtmlFor="state">State</label>
                   <input
                     type="text"
                     className="form-control"
@@ -122,7 +122,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-4 mb-3">
-                  <label htmlFor="pin">Pin Code</label>
+                  <label htmlhtmlFor="pin">Pin Code</label>
                   <input
                     type="number"
                     className="form-control"
@@ -132,7 +132,7 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-sm-12 col-md-4 mb-3">
-                  <label htmlFor="phone">Phone</label>
+                  <label htmlhtmlFor="phone">Phone</label>
                   <input
                     type="number"
                     className="form-control"
@@ -149,7 +149,7 @@ const Checkout = () => {
               </div>
               <div className="d-flex align-items-center column-gap-2">
                 <input type="checkbox" name="saveaddress" id="saveaddress1" />
-                <label htmlFor="saveaddress1" className="mb-0">
+                <label htmlhtmlFor="saveaddress1" className="mb-0">
                   Save my information for a faster checkout
                 </label>
               </div>

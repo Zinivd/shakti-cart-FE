@@ -17,12 +17,12 @@ const Shipping = () => {
         <ul className="list-unstyled mb-0">
           <li className="d-flex align-items-start column-gap-2">
             <input type="radio" name="address" id="address1" />
-            <label htmlFor="address1">Same as Billing Address</label>
+            <label htmlhtmlFor="address1">Same as Billing Address</label>
           </li>
           <hr />
           <li className="d-flex align-items-start column-gap-2">
             <input type="radio" name="address" id="address2" />
-            <label htmlFor="address2">Use a different shipping address</label>
+            <label htmlhtmlFor="address2">Use a different shipping address</label>
           </li>
         </ul>
       </div>
@@ -61,7 +61,7 @@ const Shipping = () => {
           <li>
             <div className="d-flex align-items-start column-gap-2">
               <input type="radio" name="payment" id="payment1" />
-              <label htmlFor="payment1" className="mb-2">
+              <label htmlhtmlFor="payment1" className="mb-2">
                 Credit Card <br />
                 <span className="text-muted">
                   We accept all major credit cards.
@@ -110,7 +110,7 @@ const Shipping = () => {
           <hr />
           <li className="d-flex align-items-start column-gap-2">
             <input type="radio" name="payment" id="payment2" />
-            <label htmlFor="payment2">
+            <label htmlhtmlFor="payment2">
               Cash On Delivery <br />
               <span className="text-muted">Pay with cash upon delivery.</span>
             </label>
@@ -118,7 +118,7 @@ const Shipping = () => {
           <hr />
           <li className="d-flex align-items-start column-gap-2">
             <input type="radio" name="payment" id="payment3" />
-            <label htmlFor="payment3">Paypal</label>
+            <label htmlhtmlFor="payment3">Paypal</label>
           </li>
         </ul>
       </div>

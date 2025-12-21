@@ -13,7 +13,7 @@ const Info = () => {
         <form action="">
           <div className="row">
             <div className="col-sm-12 col-md-6 mb-4">
-              <label htmlFor="firstname">First Name <span>*</span></label>
+              <label htmlhtmlFor="firstname">First Name <span>*</span></label>
               <input
                 type="text"
                 className="form-control"
@@ -23,7 +23,7 @@ const Info = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 mb-4">
-              <label htmlFor="lastname">Last Name <span>*</span></label>
+              <label htmlhtmlFor="lastname">Last Name <span>*</span></label>
               <input
                 type="text"
                 className="form-control"
@@ -32,7 +32,7 @@ const Info = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 mb-4">
-              <label htmlFor="email">Email Address <span>*</span></label>
+              <label htmlhtmlFor="email">Email Address <span>*</span></label>
               <input
                 type="email"
                 className="form-control"
@@ -41,7 +41,7 @@ const Info = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 mb-4">
-              <label htmlFor="contact">Contact Number <span>*</span></label>
+              <label htmlhtmlFor="contact">Contact Number <span>*</span></label>
               <input
                 type="number"
                 className="form-control"
@@ -50,11 +50,11 @@ const Info = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 mb-4">
-              <label htmlFor="gender">Gender <span>*</span></label>
+              <label htmlhtmlFor="gender">Gender <span>*</span></label>
               <div className="d-flex align-items-center column-gap-3">
                 <div className="d-flex align-items-center column-gap-2">
                   <input type="radio" name="gender" id="male" value="male" />
-                  <label htmlFor="male" className="mb-0">
+                  <label htmlhtmlFor="male" className="mb-0">
                     Male
                   </label>
                 </div>
@@ -65,7 +65,7 @@ const Info = () => {
                     id="female"
                     value="female"
                   />
-                  <label htmlFor="female" className="mb-0">
+                  <label htmlhtmlFor="female" className="mb-0">
                     Female
                   </label>
                 </div>

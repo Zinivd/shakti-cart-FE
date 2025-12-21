@@ -11,6 +11,7 @@ import Loader from "../../Loader/Loader.jsx";
 const Product = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const displayLimit = props.limit || 16;
 
   useEffect(() => {
     loadProducts();
@@ -65,6 +66,8 @@ const Product = (props) => {
     }
   };
 
+  const visibleProducts = products.slice(0, displayLimit);
+
   if (loading) {
     return <Loader />;
   }
@@ -86,6 +89,14 @@ const Product = (props) => {
           </React.Fragment>
         ))}
       </div>
+
+      {products.length > displayLimit && (
+        <div className="text-center mt-4">
+          <Link to="/products" className="btn btn-primary">
+            View All
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

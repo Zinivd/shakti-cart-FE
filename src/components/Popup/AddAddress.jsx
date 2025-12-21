@@ -5,7 +5,7 @@ const AddAddress = () => {
     <div
       className="modal fade"
       id="addAddress"
-      tabindex="-1"
+      tabIndex="-1"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       aria-labelledby="addAddress"
@@ -26,7 +26,7 @@ const AddAddress = () => {
           </div>
           <div className="modal-body form row">
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="add_f_name">
+              <label htmlFor="add_f_name">
                 First Name <span>*</span>
               </label>
               <input
@@ -37,7 +37,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="add_l_name">
+              <label htmlFor="add_l_name">
                 Last Name <span>*</span>
               </label>
               <input
@@ -48,7 +48,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="add_country">
+              <label htmlFor="add_country">
                 Country / Region <span>*</span>
               </label>
               <input
@@ -59,7 +59,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="add_company">
+              <label htmlFor="add_company">
                 Company Name <span>*</span>
               </label>
               <input
@@ -70,7 +70,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="add_street_address">
+              <label htmlFor="add_street_address">
                 Street Address <span>*</span>
               </label>
               <input
@@ -81,7 +81,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="add_landmark">
+              <label htmlFor="add_landmark">
                 Landmark <span>*</span>
               </label>
               <input
@@ -92,7 +92,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="add_city">
+              <label htmlFor="add_city">
                 City <span>*</span>
               </label>
               <input
@@ -103,7 +103,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="add_state">
+              <label htmlFor="add_state">
                 State <span>*</span>
               </label>
               <input
@@ -114,7 +114,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="add_pincode">
+              <label htmlFor="add_pincode">
                 Pincode <span>*</span>
               </label>
               <input
@@ -125,7 +125,7 @@ const AddAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="add_phone">
+              <label htmlFor="add_phone">
                 Phone <span>*</span>
               </label>
               <input

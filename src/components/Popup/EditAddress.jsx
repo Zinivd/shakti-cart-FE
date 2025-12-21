@@ -5,7 +5,7 @@ const EditAddress = () => {
     <div
       className="modal fade"
       id="editAddress"
-      tabindex="-1"
+      tabIndex="-1"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       aria-labelledby="editAddress"
@@ -26,7 +26,7 @@ const EditAddress = () => {
           </div>
           <div className="modal-body form row">
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="edit_f_name">
+              <label htmlFor="edit_f_name">
                 First Name <span>*</span>
               </label>
               <input
@@ -37,7 +37,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="edit_l_name">
+              <label htmlFor="edit_l_name">
                 Last Name <span>*</span>
               </label>
               <input
@@ -48,7 +48,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="edit_country">
+              <label htmlFor="edit_country">
                 Country / Region <span>*</span>
               </label>
               <input
@@ -59,7 +59,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="edit_company">
+              <label htmlFor="edit_company">
                 Company Name <span>*</span>
               </label>
               <input
@@ -70,7 +70,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="edit_street_address">
+              <label htmlFor="edit_street_address">
                 Street Address <span>*</span>
               </label>
               <input
@@ -81,7 +81,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label for="edit_landmark">
+              <label htmlFor="edit_landmark">
                 Landmark <span>*</span>
               </label>
               <input
@@ -92,7 +92,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="edit_city">
+              <label htmlFor="edit_city">
                 City <span>*</span>
               </label>
               <input
@@ -103,7 +103,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="edit_state">
+              <label htmlFor="edit_state">
                 State <span>*</span>
               </label>
               <input
@@ -114,7 +114,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="edit_pincode">
+              <label htmlFor="edit_pincode">
                 Pincode <span>*</span>
               </label>
               <input
@@ -125,7 +125,7 @@ const EditAddress = () => {
               />
             </div>
             <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
-              <label for="edit_phone">
+              <label htmlFor="edit_phone">
                 Phone <span>*</span>
               </label>
               <input

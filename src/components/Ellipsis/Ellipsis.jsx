@@ -21,8 +21,7 @@ const Ellipsis = ({ onLoaded }) => {
   }
 
   return (
-    <div className="ellipsis splide__track">
-      <div className="ellipsis-list splide__list">
+    <>
         {categories.map((item) => (
           <EllipsisCard
             key={item.category_id}
@@ -31,8 +30,7 @@ const Ellipsis = ({ onLoaded }) => {
             categoryId={item.category_id}
           />
         ))}
-      </div>
-    </div>
+    </>
   );
 };
 

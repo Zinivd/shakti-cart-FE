@@ -214,8 +214,9 @@ export async function registerUser(body = {}) {
 
 export async function getProductById(productId) {
   try {
-    const url = `http://127.0.0.1:8000/api/product/by-id?product_id=${productId}`;
-    return await Client(url, {}, "get");
+    const url = `${Urls.getProductById}?product_id=${productId}`;
+    const result = await Client(url, {}, "get");
+    return result;
   } catch (error) {
     console.error("getProductById error", error);
     return null;
