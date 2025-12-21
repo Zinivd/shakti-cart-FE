@@ -5,6 +5,7 @@ const CategoryCard = (props) => {
   return (
     <Link to={`/products?category=${props.categoryMain}`}>
       <div className="category-card mb-3">
+        <div className="category-card-overlay"></div>
         <div className="category-card-img">
           <img
             src={props.categoryImg || "/placeholder.png"}

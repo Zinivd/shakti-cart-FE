@@ -6,6 +6,17 @@
 
 .category-card {
     position: relative;
+    border-radius: 12px;
+}
+
+.category-card-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 21.25%, #000 122.29%);
+    border-radius: 12px;
 }
 
 .category-card-img img {
@@ -75,7 +86,7 @@
     .category-bottom h3 {
         font-size: 25px;
     }
-    
+
     .category-top h6 {
         font-size: 10px;
     }
@@ -93,7 +104,7 @@
     .category-bottom h3 {
         font-size: 18px;
     }
-    
+
     .category-top h6 {
         font-size: 8px;
     }
