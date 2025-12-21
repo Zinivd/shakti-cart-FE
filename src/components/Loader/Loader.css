@@ -1,0 +1,72 @@
+.loader-h6 {
+    color: var(--text-primary);
+    font-weight: var(--fw-md);
+    font-size: 12px;
+}
+
+.loader-spinner {
+    --size: 15px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.loader-spinner::after,
+.loader-spinner::before {
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    width: var(--size);
+    height: var(--size);
+    top: 50%;
+    animation: loaderUp 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+    left: 50%;
+    background: var(--main);
+}
+
+.loader-spinner::after {
+    background: var(--sub);
+    top: calc(50% - var(--size));
+    left: calc(50% - var(--size));
+    animation: loaderDown 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+@keyframes loaderDown {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateX(100%);
+    }
+
+    50% {
+        transform: translateX(100%) translateY(100%);
+    }
+
+    75% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes loaderUp {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+
+    75% {
+        transform: translateY(-100%);
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUserAddresses } from "../../../service/api";
+import Loader from "../../Loader/Loader.jsx";
 import "./Address.css";
 
 const Address = () => {
@@ -37,7 +38,7 @@ const Address = () => {
 
  
   if (loading) {
-    return <p className="text-center">Loading addresses...</p>;
+    return <Loader />;
   }
 
   if (error) {

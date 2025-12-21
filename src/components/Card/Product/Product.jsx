@@ -3,6 +3,7 @@ import { VegIcon } from "../../../../public/Assets.js";
 import ProductCard from "./ProductCard.jsx";
 import { getAllProducts } from "../../../service/api";
 import "./Product.css";
+import Loader from "../../Loader/Loader.jsx";
 
 const Product = (props) => {
   const [products, setProducts] = useState([]);
@@ -53,7 +54,7 @@ const Product = (props) => {
   };
 
   if (loading) {
-    return <p className="text-center">Loading products...</p>;
+    return <Loader />;
   }
 
   return (

@@ -1,5 +1,4 @@
-const BASE_URL = "http://api-shakti.shakticart.com"; 
-
+const BASE_URL = "http://127.0.0.1:8000"; 
 
 export const Urls = {
   // Authentication Endpoints

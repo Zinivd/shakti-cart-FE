@@ -7,6 +7,7 @@ import {
   removeFromWishlist,
 } from "../../../service/api";
 import { toast } from "react-toastify";
+import Loader from "../../Loader/Loader";
 const Wishlist = () => {
   const [wishlistData, setWishlistData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,7 +71,7 @@ const Wishlist = () => {
   if (loading) {
     return (
       <div className="wishlistCard text-center py-5">
-        <h5>Loading wishlist...</h5>
+        <Loader />
       </div>
     );
   }
