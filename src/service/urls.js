@@ -1,5 +1,5 @@
-const BASE_URL = "http://127.0.0.1:8000"; 
-// const BASE_URL = "https://api-prod.shakticart.com"; 
+// const BASE_URL = "http://127.0.0.1:8000"; 
+const BASE_URL = "https://api-prod.shakticart.com"; 
 
 
 export const Urls = {

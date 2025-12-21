@@ -52,7 +52,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/products-details/:id" element={<ProductDetails />} />
             <Route path="/terms-and-condition" element={<Terms_Condition />} />
             <Route path="/privacy-policy" element={<Privacy_Policy />} />
             <Route path="/refund-policy" element={<Refund_Policy />} />

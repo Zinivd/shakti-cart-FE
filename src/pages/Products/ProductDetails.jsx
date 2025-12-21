@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import Card_2 from "../../components/Card/Discover/Card2";
@@ -11,30 +11,31 @@ import ProductContent from "../../components/Card/PrdtDetails/ProductContent";
 import Description from "../../components/Card/PrdtDetails/Description";
 import Reviews from "../../components/Card/Reviews/Reviews";
 import Comments from "../../components/Card/Reviews/Comments";
-import { getProductById } from "../../service/api";  // Import API function
+import { getProductById } from "../../service/api";
 
 const ProductDetails = () => {
-  const { productId } = useParams(); // Get product ID from URL
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const apiCalled = useRef(false); // 🔒 restrict multiple calls
 
   useEffect(() => {
-    if (productId) {
-      fetchProductDetails();
-    }
-  }, [productId]);
-  
+    if (!id || apiCalled.current) return;
+
+    apiCalled.current = true;
+    fetchProductDetails();
+  }, [id]);
+
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
-     
-      const response = await getProductById(productId);
-       debugger
+      const response = await getProductById(id);
+
       if (response?.data?.success) {
-        setProduct(response?.data?.data);
+        setProduct(response.data.data);
       }
     } catch (error) {
-      console.error("Error fetching product:", error);
+      console.error("Product API error", error);
     } finally {
       setLoading(false);
     }
@@ -58,7 +59,6 @@ const ProductDetails = () => {
         <div className="main-header">
           <div className="body-head">
             <h6>Product not found</h6>
-            <Link to="/products">Back to Products</Link>
           </div>
         </div>
       </div>
@@ -70,100 +70,43 @@ const ProductDetails = () => {
       <div className="main-header">
         <div className="body-head">
           <h6 className="d-flex column-gap-2 flex-wrap">
-            <Link to="/">
-              Home
-              <i className="fa fa-angle-right ps-1"></i>
-            </Link>
-            <Link to="/categories">
-              All Categories
-              <i className="fa fa-angle-right ps-1"></i>
-            </Link>
-            <Link to="/products">
-              {product.category_name || "Categories"}
-              <i className="fa fa-angle-right ps-1"></i>
-            </Link>
-            <Link to={`/products/${productId}`} className="active">
-              {product.product_name || "Product"}
-            </Link>
+            <Link to="/">Home <i className="fa fa-angle-right ps-1"></i></Link>
+            <Link to="/categories">All Categories <i className="fa fa-angle-right ps-1"></i></Link>
+            <Link to="/products">{product.category_name}</Link>
+            <i className="fa fa-angle-right ps-1"></i>
+            <Link className="active">{product.product_name}</Link>
           </h6>
         </div>
 
         <div className="product-details-main">
           <div className="product-details-left">
-            <Gallery images={product.images} productName={product.product_name} />
+            <Gallery images={product.images} />
           </div>
+
           <div className="product-details-center">
-            <ProductContent />
+            <ProductContent product={product} />
           </div>
+
           <div className="product-details-right">
             <OfferProduct />
-            <ShareProduct productName={product.product_name} productId={productId} />
+            <ShareProduct productName={product.product_name} productId={id} />
           </div>
         </div>
 
         <div className="product-description my-3">
           <div className="body-head d-block mt-5">
-            <h4 className="mb-3">
-              <span>|</span> Product Description
-            </h4>
+            <h4 className="mb-3"><span>|</span> Product Description</h4>
             <h6 className="text-decoration-underline">Description</h6>
           </div>
-          <Description description={product.description} specifications={product.product_specification} />
+          <Description product={product} />
         </div>
 
-        {/* Reviews */}
-        <div className="main-header">
-          <div className="body-head d-block">
-            <h4 className="mb-3">
-              <span>|</span> Ratings
-            </h4>
-            <h6 className="text-decoration-underline">Ratings</h6>
-          </div>
-          <div className="reviews-main my-3">
-            <Reviews productId={productId} />
-          </div>
-        </div>
+        <Reviews productId={id} />
+        <Comments productId={id} />
 
-        {/* User Comments */}
-        <div className="product-description my-3">
-          <div className="body-head d-block">
-            <h4 className="mb-3">
-              <span>|</span> User Comments
-            </h4>
-            <div className="d-flex align-items-center column-gap-3">
-              <h6>Ratings</h6>
-              <h6 className="text-decoration-underline">Comments</h6>
-            </div>
-          </div>
-          <Comments productId={productId} />
-        </div>
-
-        {/* Discover */}
-        <div className="main-header">
-          <Card_2 categoryId={product.category_id} />
-        </div>
-
-        {/* Product Cards */}
-        <div className="main-header">
-          <div className="body-head mb-4">
-            <h5>
-              Similar <span>Products</span>
-            </h5>
-          </div>
-          <Product categoryId={product.category_id} currentProductId={productId} />
-          <div className="d-flex align-items-center justify-content-center my-3">
-            <Link to="/products">
-              <button className="darkbtn">
-                View All <i className="fa fa-arrow-right ps-1"></i>
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Offers */}
-        <div className="main-header">
-          <Offer />
-        </div>
+        <Card_2 categoryId={product.category_id} />
+        <Product categoryId={product.category_id} currentProductId={id} />
+        <Offer />
       </div>
     </div>
   );
