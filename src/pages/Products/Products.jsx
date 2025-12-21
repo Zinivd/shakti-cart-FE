@@ -1,25 +1,49 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import Product from "../../components/Card/Product/Product";
 import Filter from "../../components/Filter/Filter";
 import Card2 from "../../components/Card/Discover/Card2.jsx";
 import Offer from "../../components/Card/Offer/Offer.jsx";
-
 import "./Products.css";
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // 🔥 FILTER STATE
+  const [filters, setFilters] = useState(null);
+
+  // 🔥 READ CATEGORY FROM URL ON LOAD
+  useEffect(() => {
+    const catFromUrl = searchParams.get("cat");
+
+    if (catFromUrl) {
+      setFilters({
+        category_id: catFromUrl,
+        minPrice: 0,
+        maxPrice: 10000,
+      });
+    }
+  }, []);
+
+  // 🔥 APPLY FILTER + UPDATE URL
+  const handleFilterChange = (filterData) => {
+    setFilters(filterData);
+
+    if (filterData?.category_id) {
+      setSearchParams({ cat: filterData.category_id });
+    } else {
+      setSearchParams({});
+    }
+  };
+
   return (
     <div className="main">
       <div className="main-header pb-0">
         <div className="body-head">
           <h6 className="d-flex column-gap-2 flex-wrap">
-            <Link to="/">
-              Home
-              <i className="fa fa-angle-right ps-1"></i>
-            </Link>
+            <Link to="/">Home <i className="fa fa-angle-right ps-1"></i></Link>
             <Link to="/categories">
-              All Categories
-              <i className="fa fa-angle-right ps-1"></i>
+              All Categories <i className="fa fa-angle-right ps-1"></i>
             </Link>
             <Link to="/products" className="active">
               All Products
@@ -30,69 +54,52 @@ const Products = () => {
 
       <hr />
 
-      {/* Product Cards */}
+      {/* 🔥 FILTERED PRODUCTS */}
       <div className="product-main">
         <div className="product-flex">
           <div className="product-left">
-            <Filter />
+            <Filter
+              onFilterChange={handleFilterChange}
+              activeCategory={filters?.category_id}
+            />
           </div>
+
           <div className="product-right">
             <div className="body-head mt-2 mb-3">
               <h5>
-                Women's Wear <span>Collections</span>
+                All <span>Collections</span>
               </h5>
+
               <h6
                 className="filter-responsive"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#filter-offcanvas"
-                aria-controls="filter-offcanvas"
               >
                 <i className="fas fa-sliders" style={{ rotate: "90deg" }}></i>
                 Filters
               </h6>
-              <h6 className="d-flex column-gap-3 flex-wrap">
-                <span className="active">All</span>
-                <span>Trending Now</span>
-                <span>Best Sellers</span>
-                <span>Top Offers</span>
-              </h6>
             </div>
-            <Product showCartBtn={true} />
-            <Product showCartBtn={true} />
+
+            <Product showCartBtn={true} filters={filters} />
           </div>
         </div>
       </div>
 
-      {/* Discover */}
+      {/* CARD2 */}
       <div className="main-header">
         <Card2 />
       </div>
 
-      {/* Product Cards */}
+      {/* ALL PRODUCTS */}
       <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Shop All <span>Products</span>
           </h5>
-          <h6 className="d-flex column-gap-3 flex-wrap">
-            <span className="active">All</span>
-            <span>Trending Now</span>
-            <span>Best Sellers</span>
-            <span>Top Offers</span>
-          </h6>
         </div>
         <Product />
-
-        <div className="d-flex align-items-center justify-content-center my-3">
-          <Link to="/products">
-            <button className="darkbtn">
-              View All <i className="fa fa-arrow-right ps-1"></i>
-            </button>
-          </Link>
-        </div>
       </div>
 
-      {/* Offers */}
       <div className="main-header">
         <Offer />
       </div>

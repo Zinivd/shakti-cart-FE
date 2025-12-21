@@ -103,6 +103,18 @@ export async function getAllCategories() {
   }
 }
 
+// export async function getProductsByCategory(categoryId) {
+//   try {
+//     const url = `${Urls.getProductsByCategory}?category_id=${categoryId}`;
+//     const response = await Client(url, {}, "get");
+//     return response;
+//   } catch (error) {
+//     console.error("getProductsByCategory error", error);
+//     return null;
+//   }
+// }
+
+
 
 
 export async function addToWishlist(body = {}) {
@@ -183,6 +195,19 @@ export async function registerUser(body = {}) {
     return result;
   } catch (error) {
     console.error(`error in function registerUser: `, error);
+    return null;
+  }
+}
+
+
+export async function getProductById(productId) {
+  try {
+    const url = buildUrlWithParams(Urls.getProductById, {
+      product_id: productId,
+    });
+    return await Client(url, {}, "get");
+  } catch (error) {
+    console.error("getProductById error", error);
     return null;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Banner from "../../components/Banner/Banner.jsx";
 import Product from "../../components/Card/Product/Product.jsx";
@@ -6,15 +6,28 @@ import Card1 from "../../components/Card/Discover/Card1.jsx";
 import Offer from "../../components/Card/Offer/Offer.jsx";
 import Category from "../../components/Card/Category/Category.jsx";
 import Feature from "../../components/Card/Feature/Feature.jsx";
+import { getAllCategories } from "../../service/api";
 
 const Categories = () => {
-  
+  const [categories, setCategories] = useState([]);
+  const fetchedRef = useRef(false);
+
+  useEffect(() => {
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    const data = await getAllCategories();
+    setCategories(Array.isArray(data) ? data : []);
+  };
+
   return (
     <div className="main">
-      {/* Banner */}
       <Banner />
 
-      {/* Category Cards */}
+      {/* ALL CATEGORIES */}
       <div className="category-main">
         <div className="body-head d-block text-center mb-4">
           <h3>
@@ -22,43 +35,33 @@ const Categories = () => {
           </h3>
         </div>
 
-        <div className="body-head mb-4">
-          <h5>
-            Fashion <span>Categories</span>
-          </h5>
-        </div>
-        <div className="category-main mb-3">
-          <Category />
-        </div>
-
-        <div className="body-head mb-4">
-          <h5>
-            Featured <span>Collections</span>
-          </h5>
-        </div>
-        <div className="category-main">
-          <Feature />
-        </div>
+        {/* ✅ PASS ARRAY ONCE */}
+        <Category categories={categories} />
       </div>
 
-      {/* Discover */}
+      {/* FEATURED COLLECTIONS (KEEP AS YOU ASKED) */}
+      {/* <div className="body-head mb-4">
+        <h5>
+          Featured <span>Collections</span>
+        </h5>
+      </div>
+      <div className="category-main">
+        <Feature />
+      </div> */}
+
+      {/* DISCOVER */}
       <div className="main-header">
         <Card1 />
       </div>
 
-      {/* Product Cards */}
+      {/* PRODUCTS */}
       <div className="main-header">
         <div className="body-head mb-4">
           <h5>
             Shop All <span>Products</span>
           </h5>
-          <h6 className="d-flex column-gap-3 flex-wrap">
-            <span className="active">All</span>
-            <span>Trending Now</span>
-            <span>Best Sellers</span>
-            <span>Top Offers</span>
-          </h6>
         </div>
+
         <Product />
 
         <div className="d-flex align-items-center justify-content-center my-3">
@@ -70,7 +73,6 @@ const Categories = () => {
         </div>
       </div>
 
-      {/* Offers */}
       <div className="main-header">
         <Offer />
       </div>
