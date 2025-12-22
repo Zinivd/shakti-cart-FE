@@ -6,7 +6,7 @@ const Privacy_Policy = () => {
     <div className="policy-main">
       <div className="policy-div">
         <div className="policy-header">
-          <h1>PRIVACY POLICY</h1>
+          <h1>SHIPPING POLICY</h1>
           <span>Updated December 15, 2025</span>
         </div>
       </div>
@@ -15,8 +15,8 @@ const Privacy_Policy = () => {
         <div className="content-head">
           <h2>Introduction</h2>
           <p>
-            Welcome to ShaktiCart Pvt Ltd. We value your privacy and are
-            committed to protecting your personal information. This Privacy
+            Welcome to ShaktiCart Pvt Ltd. We value your shipping and are
+            committed to protecting your personal information. This Shipping
             Policy outlines our practices regarding the collection, use, and
             disclosure of information that you may provide through our website.
           </p>
@@ -27,38 +27,38 @@ const Privacy_Policy = () => {
         <div className="content-list">
           <ul>
             <li>
-              <h5>1. Information We Collect</h5>
+              <h5>1. Shipping Rates</h5>
               <p>
-                We collect personal information such as your name, email
-                address, and payment details when you place an order or sign up
-                for our newsletter.
+                Shipping rates are calculated based on the weight of your order
+                and your location.
               </p>
             </li>
             <li>
-              <h5>2. How We Use Your Information</h5>
+              <h5>2. Shipping Times</h5>
               <p>
-                We use your information to process your orders, communicate with
-                you, and improve our services.
+                Orders are typically processed, shipped and delivered within 5-7
+                business days.
               </p>
             </li>
             <li>
-              <h5>3. Cookies</h5>
+              <h5>3. International Shipping</h5>
               <p>
-                We use cookies to personalize content, analyze our traffic, and
-                improve your browsing experience.
+                We offer international shipping to select countries. Please note
+                that customs duties and taxes may apply. Orders will be
+                delivered within 5-7 business days.
               </p>
             </li>
             <li>
-              <h5>4. Data Security</h5>
+              <h5>4. Order Tracking</h5>
               <p>
-                We take precautions to protect your information both online and
-                offline.
+                Once your order has shipped, you will receive a tracking number
+                via email.
               </p>
             </li>
             <li>
-              <h5>5. Changes to This Privacy Policy</h5>
+              <h5>5. Changes to This Shipping Policy</h5>
               <p>
-                We reserve the right to update or change our Privacy Policy at
+                We reserve the right to update or change our Shipping Policy at
                 any time. We will notify you of any changes by posting the new
                 policy on our website.
               </p>
@@ -74,9 +74,8 @@ const Privacy_Policy = () => {
                 </a>
                 <br />
                 By using our Website and Services, you acknowledge that you have
-                read, understood, and agree to be bound by these policy or if
-                you have any questions or concerns about this Privacy Policy,
-                please contact us at: <br />
+                read, understood, and agree to be bound by these Shipping
+                Policy. If you have any questions, please contact us at: <br />
                 ShaktiCart Pvt Ltd (NH 47- Near Hotel) Erode, India- 000 002.
                 <a href="mailto: support@sakthicart.in" className="ps-2">
                   support@sakthicart.in

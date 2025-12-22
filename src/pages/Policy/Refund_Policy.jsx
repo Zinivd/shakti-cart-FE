@@ -24,39 +24,55 @@ const Refund_Policy = () => {
         <hr />
 
         <div className="content-list">
+          <h3 className="mb-4">Return Policies</h3>
           <ul>
             <li>
-              <h5>1. Return at the Time of Delivery</h5>
+              <h5>1. Eligibility for Returns</h5>
               <p>
-                If for any reason you are not satisfied with the product
-                delivered, you can return it immediately at the time of delivery
-                – no questions asked. Our delivery executive will take back the
-                returned product on the spot.
+                To be eligible for a return, your item must be unused and in the same condition that you received it.
+              </p>
+            </li>
+            <li>
+              <h5>2. Return Process</h5>
+              <p>To initiate a return, please contact our customer support team within 5-7 days of receiving your item.</p>
+            </li>
+            <li>
+              <h5>3. Return Shipping</h5>
+              <p>
+                You will be responsible for paying for your own shipping costs for returning your item.
+              </p>
+            </li>
+            <li>
+              <h5>4. Return Time Frame</h5>
+              <p>
+                In case of a approved return, your replacement will be delivered within 5-7 days of receiving your item.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div className="content-list">
+          <h3 className="mb-4">Refund Policies</h3>
+          <ul>
+            <li>
+              <h5>1. Eligibility for Refunds</h5>
+              <p>
+                Refunds are only available for products that are returned in their original condition within 5-7 days of purchase.
               </p>
             </li>
             <li>
               <h5>2. Refund Process</h5>
-              <p className="mb-1">Once the product is returned at delivery:</p>
-              <p className="mb-1">
-                A credit note equal to the value of the returned product will be
-                issued.
-              </p>
-              <p className="mb-1">
-                This amount will be credited to your ShaktiCart Pvt Ltd account.
-              </p>
-              <p className="mb-1">
-                You can use this credit for your future purchases with us.
+              <p>To request a refund, please contact our customer support team with your order details.</p>
+            </li>
+            <li>
+              <h5>3. Refund Timeframe</h5>
+              <p>
+                Once your return is received and inspected, we will send you an email to notify you that we have received your returned item and the approval or rejection of your refund. Once approved, refunds will take 5-7 days to be credited into the beneficiary’s bank account
               </p>
             </li>
             <li>
-              <h5>3. Please Note</h5>
-              <p className="mb-1">
-                No cancellation or refund requests will be accepted after the
-                delivery is completed.
-              </p>
-              <p className="mb-1">
-                This policy applies only at the time of delivery and is valid
-                only for customers within Erode, Tamil Nadu
+              <h5>4. Exchanges</h5>
+              <p>
+                We only replace items if they are defective or damaged. Incase of exchanges, we will initiate the process within 3-4 days and the replacement will be delivered within 5-7 days
               </p>
             </li>
           </ul>
