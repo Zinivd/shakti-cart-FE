@@ -181,7 +181,7 @@ const Footer = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item mb-2">
-                    <NavLink to="shipping" className="p-0">
+                    <NavLink to="/shipping-policy" className="p-0">
                       Shipping Policy
                     </NavLink>
                   </li>

@@ -24,6 +24,7 @@ import ProductDetails from "./pages/Products/ProductDetails.jsx";
 import Terms_Condition from "./pages/Policy/Terms_Condition.jsx";
 import Privacy_Policy from "./pages/Policy/Privacy_Policy.jsx";
 import Refund_Policy from "./pages/Policy/Refund_Policy.jsx";
+import Shipping_Policy from "./pages/Policy/Shipping_Policy.jsx";
 import AddAddress from "./components/Popup/AddAddress.jsx";
 import EditAddress from "./components/Popup/EditAddress.jsx";
 
@@ -56,6 +57,7 @@ function App() {
             <Route path="/terms-and-condition" element={<Terms_Condition />} />
             <Route path="/privacy-policy" element={<Privacy_Policy />} />
             <Route path="/refund-policy" element={<Refund_Policy />} />
+            <Route path="/shipping-policy" element={<Shipping_Policy />} />
           </Routes>
           <Footer />
         </Router>
