@@ -11,7 +11,6 @@ import Loader from "../../Loader/Loader.jsx";
 const Product = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const displayLimit = props.limit || 16;
 
   useEffect(() => {
     loadProducts();
@@ -66,8 +65,6 @@ const Product = (props) => {
     }
   };
 
-  const visibleProducts = products.slice(0, displayLimit);
-
   if (loading) {
     return <Loader />;
   }
@@ -79,24 +76,16 @@ const Product = (props) => {
           <React.Fragment key={item.id}>
             <ProductCard {...item} showCartBtn={props.showCartBtn} />
 
-            {(index + 1) % 8 === 0 && (
+            {/* {(index + 1) % 8 === 0 && (
               <div className="inter-card-wrapper">
                 {(index + 1) === 8 && <Card1 />}
                 {(index + 1) === 16 && <Card2 />}
                 {(index + 1) === 24 && <Offer />}
               </div>
-            )}
+            )} */}
           </React.Fragment>
         ))}
       </div>
-
-      {products.length > displayLimit && (
-        <div className="text-center mt-4">
-          <Link to="/products" className="btn btn-primary">
-            View All
-          </Link>
-        </div>
-      )}
     </div>
   );
 };

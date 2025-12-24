@@ -87,7 +87,7 @@ const Products = () => {
 
       {/* CARD2 */}
       <div className="main-header">
-        <Card2 />
+        {/* <Card2 /> */}
       </div>
 
       {/* ALL PRODUCTS */}
@@ -101,7 +101,7 @@ const Products = () => {
       </div>
 
       <div className="main-header">
-        <Offer />
+        {/* <Offer /> */}
       </div>
     </div>
   );

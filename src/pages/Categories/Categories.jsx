@@ -51,7 +51,7 @@ const Categories = () => {
 
       {/* DISCOVER */}
       <div className="main-header">
-        <Card1 />
+        {/* <Card1 /> */}
       </div>
 
       {/* PRODUCTS */}
@@ -74,7 +74,7 @@ const Categories = () => {
       </div>
 
       <div className="main-header">
-        <Offer />
+        {/* <Offer /> */}
       </div>
     </div>
   );

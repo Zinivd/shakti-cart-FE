@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const EllipsisCard = ({ ellipsisImg, ellipsish6 }) => {
   return (
-    <Link className="ellipsis-card splide__slide">
+    <Link className="ellipsis-card splide__slide" to="/categories">
       <div className="ellipsis-img">
         <img
           src={ellipsisImg || "/placeholder.png"} // 🔥 SAFE

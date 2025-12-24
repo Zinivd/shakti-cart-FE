@@ -7,7 +7,7 @@ const ProductCard = (props) => {
   const [isWished, setIsWished] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // ❤️ Wishlist
+  // Wishlist
   const handleWishlistClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -32,7 +32,7 @@ const ProductCard = (props) => {
     }
   };
 
-  // 🛒 Add to Cart
+  // Add to Cart
   const handleAddToCart = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -68,7 +68,6 @@ const ProductCard = (props) => {
 
   return (
     <div className="product-card mb-3">
-
       {/* Image → Product Details */}
       <Link to={`/products-details/${props.id}`}>
         <div className="product-img">
@@ -79,7 +78,7 @@ const ProductCard = (props) => {
       {/* Badge */}
       {props.badge && (
         <h6
-          className="m-0 badge"
+          className="m-0 product-badge"
           style={{ backgroundColor: getBadgeColor(props.badge) }}
         >
           {props.badge}
@@ -103,10 +102,10 @@ const ProductCard = (props) => {
 
       {/* Content */}
       <div className="product-content">
-        <div className="product-head d-flex align-items-center column-gap-2">
-          {props.icon && (
+        <div className="product-head">
+          {/* {props.icon && (
             <img src={props.icon} alt={props.productname} height="15px" />
-          )}
+          )} */}
           <h6 className="mb-2">{props.brand}</h6>
         </div>
 

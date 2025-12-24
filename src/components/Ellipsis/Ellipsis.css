@@ -24,6 +24,7 @@
     display: block;
     margin: auto;
     object-fit: contain;
+    mix-blend-mode: multiply;
 }
 
 .ellipsis-list h6 {

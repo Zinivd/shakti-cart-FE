@@ -28,9 +28,9 @@
 .category-top {
     background-color: var(--main);
     position: absolute;
-    top: 2%;
-    left: 5%;
-    padding: 5px 10px;
+    top: 3%;
+    left: 3%;
+    padding: 4px 8px;
     border-radius: 2px;
 }
 
@@ -61,6 +61,10 @@
         grid-template-columns: repeat(3, 30%);
     }
 
+    .category-card-img img {
+        height: 600px;
+    }
+
     .category-bottom h6 {
         font-size: 16px;
     }
@@ -70,13 +74,17 @@
     }
 
     .category-top h6 {
-        font-size: 12px;
+        font-size: 10px;
     }
 }
 
 @media screen and (min-width: 767px) and (max-width: 1098px) {
     .category-list {
         grid-template-columns: repeat(3, 30%);
+    }
+
+    .category-card-img img {
+        height: 400px;
     }
 
     .category-bottom h6 {
@@ -95,6 +103,10 @@
 @media screen and (max-width: 767px) {
     .category-list {
         grid-template-columns: repeat(2, 49%);
+    }
+
+    .category-card-img img {
+        height: 350px;
     }
 
     .category-bottom h6 {

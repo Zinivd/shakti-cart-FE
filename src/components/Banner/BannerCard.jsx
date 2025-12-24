@@ -9,7 +9,7 @@ const BannerCard = (props) => {
         <h5>{props.bannerh5}</h5>
         <h3>{props.bannerh3}</h3>
         <h4>{props.bannerh4}</h4>
-        <Link to="">
+        <Link to="/products">
           <button className="homebannerbtn">
             Shop Now <i className="fas fa-arrow-right ps-1"></i>
           </button>

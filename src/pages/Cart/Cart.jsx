@@ -70,9 +70,9 @@ const Cart = () => {
       </div>
 
       {/* Offer */}
-      <div className="main-header">
+      {/* <div className="main-header">
         <Offer />
-      </div>
+      </div> */}
     </div>
     
   );

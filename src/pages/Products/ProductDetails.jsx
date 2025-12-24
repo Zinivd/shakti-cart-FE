@@ -88,7 +88,7 @@ const ProductDetails = () => {
           </div>
 
           <div className="product-details-right">
-            <OfferProduct />
+            {/* <OfferProduct /> */}
             <ShareProduct productName={product.product_name} productId={id} />
           </div>
         </div>
@@ -104,9 +104,9 @@ const ProductDetails = () => {
         <Reviews productId={id} />
         <Comments productId={id} />
 
-        <Card_2 categoryId={product.category_id} />
+        {/* <Card_2 categoryId={product.category_id} /> */}
         <Product categoryId={product.category_id} currentProductId={id} />
-        <Offer />
+        {/* <Offer /> */}
       </div>
     </div>
   );

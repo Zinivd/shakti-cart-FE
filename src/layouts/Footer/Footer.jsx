@@ -102,7 +102,7 @@ const Footer = () => {
               </div>
 
               {/* Footer Links */}
-              <div className="footer-headings mb-2">
+              {/* <div className="footer-headings mb-2">
                 <h5>Need Help</h5>
                 <br />
                 <ul className="nav flex-column">
@@ -159,10 +159,10 @@ const Footer = () => {
                     </NavLink>
                   </li>
                 </ul>
-              </div>
+              </div> */}
 
               <div className="footer-headings mb-2">
-                <h5>More Info</h5>
+                <h5>Policies</h5>
                 <br />
                 <ul className="nav flex-column">
                   <li className="nav-item mb-2">

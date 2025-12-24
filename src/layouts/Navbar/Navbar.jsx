@@ -86,7 +86,7 @@ const Navbar = () => {
                   All Categories
                 </NavLink>
               </li>
-              <li className="nav-item" id="about">
+              {/* <li className="nav-item" id="about">
                 <NavLink className="nav-link" to="about">
                   About Us
                 </NavLink>
@@ -100,7 +100,7 @@ const Navbar = () => {
                 <NavLink className="nav-link" to="contact">
                   Contact Us
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
 
             {/* Search Div */}
