@@ -17,12 +17,11 @@ const Register = () => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState(""); 
+  const [apiError, setApiError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
- 
     if (name === "phone" && value.length > 10) return;
 
     setFormData({
@@ -30,7 +29,6 @@ const Register = () => {
       [name]: value,
     });
 
-    
     if (apiError) setApiError("");
   };
 
@@ -48,7 +46,6 @@ const Register = () => {
     return Object.keys(tempErrors).length === 0;
   };
 
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,7 +53,7 @@ const Register = () => {
 
     try {
       setLoading(true);
-      setApiError(""); 
+      setApiError("");
 
       const payload = {
         name: formData.name,
@@ -67,26 +64,31 @@ const Register = () => {
       };
 
       const response = await registerUser(payload);
-      debugger
+      debugger;
       console.log("Register Success:", response);
- 
-     
+
       if (response?.data?.success || response?.data?.status === "success") {
-       
         navigate("/");
       } else {
-   
-        setApiError(response?.data?.error || response?.data?.message || "Registration failed");
+        setApiError(
+          response?.data?.error ||
+            response?.data?.message ||
+            "Registration failed"
+        );
       }
     } catch (error) {
       console.error("Register Error:", error);
-      
+
       // Handle error response from API
       if (error.response && error.response.data) {
         const errorData = error.response.data;
-        setApiError(errorData.error || errorData.message || "Registration failed");
+        setApiError(
+          errorData.error || errorData.message || "Registration failed"
+        );
       } else {
-        setApiError(error.message || "Registration failed. Please try again later.");
+        setApiError(
+          error.message || "Registration failed. Please try again later."
+        );
       }
     } finally {
       setLoading(false);
@@ -96,24 +98,20 @@ const Register = () => {
   return (
     <div className="portal-main my-4">
       <div className="portal-div">
-        <div className="portal-left">
-          <img src={PortalBG} width="100%" height="700px" alt="portal-bg" />
-        </div>
-
         <div className="portal-right mt-3">
-          <div className="body-head mb-4">
+          <div className="body-head d-block mb-4">
             <div>
-              <h4 className="mb-2">
-                <span>|</span> Register
+              <h4 className="mb-2 text-center">
+                <span className="pe-2">|</span> Register{" "}
+                <span className="ps-2">|</span>
               </h4>
-              <h6 className="mb-0">Join To Us</h6>
+              <h6 className="mb-0 text-center">Join To Us</h6>
             </div>
           </div>
 
           <div className="portal-form">
             <form onSubmit={handleSubmit}>
               <div className="row">
-
                 {/* Show API Error Message */}
                 {apiError && (
                   <div className="col-sm-12 mb-3">
@@ -125,49 +123,56 @@ const Register = () => {
 
                 {/* Name */}
                 <div className="col-sm-12 mb-4">
-                  <label>Full Name *</label>
                   <input
                     type="text"
                     className="form-control"
+                    placeholder="Full Name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    autoFocus
                   />
-                  {errors.name && <small className="text-danger">{errors.name}</small>}
+                  {errors.name && (
+                    <small className="text-danger">{errors.name}</small>
+                  )}
                 </div>
 
                 {/* Phone */}
                 <div className="col-sm-12 mb-4">
-                  <label>Contact Number *</label>
                   <input
                     type="number"
                     className="form-control"
+                    placeholder="Contact Number"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                   />
-                  {errors.phone && <small className="text-danger">{errors.phone}</small>}
+                  {errors.phone && (
+                    <small className="text-danger">{errors.phone}</small>
+                  )}
                 </div>
 
                 {/* Email */}
                 <div className="col-sm-12 mb-4">
-                  <label>Email Address *</label>
                   <input
                     type="email"
                     className="form-control"
+                    placeholder="Email Address"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                   />
-                  {errors.email && <small className="text-danger">{errors.email}</small>}
+                  {errors.email && (
+                    <small className="text-danger">{errors.email}</small>
+                  )}
                 </div>
 
                 {/* Password */}
                 <div className="col-sm-12 mb-4">
-                  <label>Password *</label>
                   <input
                     type="password"
                     className="form-control"
+                    placeholder="Password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -178,18 +183,17 @@ const Register = () => {
                 </div>
 
                 {/* Submit */}
-                <div className="col-sm-12 mb-4">
+                <div className="col-sm-12 d-flex justify-content-center mb-4">
                   <button className="loginbtn" disabled={loading}>
-                    {loading ? "Creating Account..." : "Create Account"}
+                    {loading ? "Registering..." : "Register"}
                   </button>
                 </div>
 
                 <div className="col-sm-12">
-                  <h6>
+                  <h6 className="text-center">
                     ALREADY A USER? <Link to="/login">LOGIN</Link>
                   </h6>
                 </div>
-
               </div>
             </form>
           </div>

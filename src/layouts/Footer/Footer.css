@@ -50,16 +50,21 @@
     padding: 0px;
 }
 
-.footer .footerdiv {
+.footer .footer-div {
     display: grid;
     align-items: start;
     justify-content: space-between;
     margin-top: 10px;
 }
 
-.footer .footerdiv .footer-headings h5 {
+.footer .footer-div .footer-item h5 {
     color: var(--secondary);
     font-weight: var(--fw-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    gap: 50px;
 }
 
 .footer .nav-item a,
@@ -75,12 +80,12 @@
 
 @media screen and (min-width: 1098px) {
 
-    .footer .footerdiv {
+    .footer .footer-div {
         grid-template-columns: 20% 20% 20% 20% 20%;
     }
 
-    /* Company Info */
-    .footer .footerdiv .footer-headings h5 {
+    /* Footer Item */
+    .footer .footer-div .footer-item h5 {
         font-size: 14px;
         margin-top: 10px;
     }
@@ -88,6 +93,10 @@
     .footer .nav-item a,
     .footer h6 {
         font-size: 12px;
+    }
+
+    .footer .footer-div .footer-item h5 i {
+        display: none !important;
     }
 
 }
@@ -104,15 +113,15 @@
         font-size: 12px !important;
     }
 
-    .footer .footerdiv {
+    .footer .footer-div {
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
         column-gap: 45px;
     }
 
-    /* Company Info */
-    .footer .footerdiv .footer-headings h5 {
+    /* Footer Item */
+    .footer .footer-div .footer-item h5 {
         font-size: 14px;
         margin-top: 10px;
     }
@@ -130,20 +139,17 @@
         margin-top: 10px;
     }
 
-    .footer .footerdiv {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        column-gap: 45px;
-        margin-top: 10px;
+    .footer .footer-div {
+        grid-template-columns: repeat(1, 1fr);
+        row-gap: 10px;
     }
 
-    /* Company Info */
-    .footer .footerdiv .footer-headings ul {
+    /* Footer Item */
+    .footer .footer-div .footer-item .collapse-wrapper {
         margin-top: -20px !important;
     }
 
-    .footer .footerdiv .footer-headings h5 {
+    .footer .footer-div .footer-item h5 {
         font-size: 14px;
         margin-top: 10px;
     }
@@ -151,6 +157,18 @@
     .footer .nav-item a,
     .footer h6 {
         font-size: 12px;
+    }
+
+    .collapse-wrapper.hide {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+
+    .collapse-wrapper {
+        max-height: 100%;
+        transition: max-height 0.35s ease, opacity 0.25s ease;
+        opacity: 1;
     }
 
 }

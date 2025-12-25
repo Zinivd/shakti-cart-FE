@@ -23,11 +23,10 @@ const Login = () => {
     try {
       setLoading(true);
       const result = await loginUser(email, password);
-      debugger
+      debugger;
       localStorage.setItem("access-token", result?.data?.token);
       localStorage.setItem("user", JSON.stringify(result?.data?.user));
       navigate("/profile");
-
     } catch (err) {
       setError(err.message);
     } finally {
@@ -38,31 +37,26 @@ const Login = () => {
   return (
     <div className="portal-main my-4">
       <div className="portal-div">
-        <div className="portal-left">
-          <img src={PortalBG} width="100%" height="500px" alt="portal-bg" />
-        </div>
-
         <div className="portal-right mt-3">
-          <div className="body-head mb-4">
+          <div className="body-head d-block mb-4">
             <div>
-              <h4 className="mb-2">
-                <span>|</span> Welcome Back
+              <h4 className="mb-2 text-center">
+                <span className="pe-2">|</span> Welcome Back{" "}
+                <span className="ps-2">|</span>
               </h4>
-              <h6 className="mb-0">Login to continue</h6>
+              <h6 className="mb-0 text-center">Login to Continue</h6>
             </div>
           </div>
 
           <div className="portal-form">
             <form onSubmit={handleLogin}>
               <div className="row">
-
                 {/* Email */}
                 <div className="col-sm-12 mb-4">
-                  <label>Email Address <span>*</span></label>
                   <input
                     type="email"
                     className="form-control"
-                    placeholder="Enter your Email Address"
+                    placeholder="Email Address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoFocus
@@ -71,11 +65,10 @@ const Login = () => {
 
                 {/* Password */}
                 <div className="col-sm-12 mb-4">
-                  <label>Password <span>*</span></label>
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Enter your Password"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -102,27 +95,21 @@ const Login = () => {
                 )}
 
                 {/* Login Button */}
-                <div className="col-sm-12 mb-4">
-                  <button
-                    type="submit"
-                    className="loginbtn"
-                    disabled={loading}
-                  >
-                    {loading ? "Logging in..." : "Login"}
+                <div className="col-sm-12 d-flex justify-content-center mb-4">
+                  <button type="submit" className="loginbtn" disabled={loading}>
+                    {loading ? "Logging In..." : "Login"}
                   </button>
                 </div>
 
                 {/* Register */}
                 <div className="col-sm-12">
-                  <h6>
+                  <h6 className="text-center">
                     NEW USER ? <Link to="/register">REGISTER</Link>
                   </h6>
                 </div>
-
               </div>
             </form>
           </div>
-
         </div>
       </div>
     </div>

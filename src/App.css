@@ -133,12 +133,12 @@
 }
 
 .loginbtn {
-  width: 60%;
+  width: 50%;
   background-color: #222222;
   color: var(--secondary);
   font-weight: var(--fw-md);
   border: 2px solid var(--primary);
-  border-radius: 6px;
+  border-radius: 20px;
   padding: 8px;
   letter-spacing: 1px;
   transition: var(--transition);

@@ -8,7 +8,7 @@ const NavOffcanvas = () => {
     <div className="offcanvas offcanvas-start" tabIndex="-1" id="navOffcanvas">
       <div className="offcanvas-header py-2 ps-3 pe-4">
         <a href="/">
-          <img src={Logo_Main} height="50px" title="" alt="" />
+          <img src={Logo_Main} height="40px" title="" alt="" />
         </a>
         <button
           type="button"
@@ -30,7 +30,7 @@ const NavOffcanvas = () => {
                 All Categories
               </NavLink>
             </li>
-            {/* <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">
+            <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">
               <NavLink className="nav-link" to="outfit">
                 Outfit Chemistry
               </NavLink>
@@ -40,14 +40,14 @@ const NavOffcanvas = () => {
                 Studio
               </NavLink>
             </li>
-            <li className="nav-item" id="about" data-bs-dismiss="offcanvas">
-              <NavLink className="nav-link" to="about">
-                About Us
-              </NavLink>
-            </li>
             <li className="nav-item" id="blog" data-bs-dismiss="offcanvas">
               <NavLink className="nav-link" to="blog">
                 Blog
+              </NavLink>
+            </li>
+            {/* <li className="nav-item" id="about" data-bs-dismiss="offcanvas">
+              <NavLink className="nav-link" to="about">
+                About Us
               </NavLink>
             </li>
             <li className="nav-item" id="contact" data-bs-dismiss="offcanvas">
@@ -55,11 +55,6 @@ const NavOffcanvas = () => {
                 Contact Us
               </NavLink>
             </li> */}
-            <li className="nav-item" id="logout" data-bs-dismiss="offcanvas">
-              <NavLink className="nav-link" to="logout">
-                Logout
-              </NavLink>
-            </li>
             <hr className="w-50 mx-auto" />
             <li className="nav-item d-flex align-items-center justify-content-between column-gap-2 mt-5">
               <NavLink className="nav-link w-50" to="/login">

@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo_Main } from "../../../public/Assets";
 import "./Footer.css";
 
 const Footer = () => {
+  const [openMenu, setOpenMenu] = useState(null);
+  const toggleCollapse = (menuName) => {
+    setOpenMenu(openMenu === menuName ? null : menuName);
+  };
   return (
     <>
       <footer className="footer">
         <div className="container-fluid">
           <div className="footercol">
-            <div className="footerdiv">
-              <div className="footeritems mb-2">
-                <div
-                  className="d-flex justify-content-start align-items-start flex-column"
-                  id="cmpnyinfo"
-                >
+            <div className="footer-div">
+              {/* Footer Logo / SM Links */}
+              <div className="footer-item mb-2">
+                <div className="d-flex justify-content-start align-items-start flex-column">
                   <div className="col footerlogo bg-white p-2 rounded-3">
                     <img
                       src={Logo_Main}
@@ -36,7 +38,7 @@ const Footer = () => {
                         data-bs-placement="right"
                         data-bs-title="Facebook"
                       >
-                        <div className="brandicons">
+                        <div className="brand-icons">
                           <i className="fa-brands fa-facebook-f"></i>
                         </div>
                       </a>
@@ -50,7 +52,7 @@ const Footer = () => {
                         data-bs-placement="right"
                         data-bs-title="Instagram"
                       >
-                        <div className="brandicons">
+                        <div className="brand-icons">
                           <i className="fa-brands fa-instagram"></i>
                         </div>
                       </a>
@@ -64,7 +66,7 @@ const Footer = () => {
                         data-bs-placement="right"
                         data-bs-title="LinkedIn"
                       >
-                        <div className="brandicons">
+                        <div className="brand-icons">
                           <i className="fa-brands fa-linkedin-in"></i>
                         </div>
                       </a>
@@ -78,7 +80,7 @@ const Footer = () => {
                         data-bs-placement="right"
                         data-bs-title="Twitter"
                       >
-                        <div className="brandicons">
+                        <div className="brand-icons">
                           <i className="fa-brands fa-x-twitter"></i>
                         </div>
                       </a>
@@ -92,7 +94,7 @@ const Footer = () => {
                         data-bs-placement="right"
                         data-bs-title="WhatsApp"
                       >
-                        <div className="brandicons">
+                        <div className="brand-icons">
                           <i className="fa-brands fa-whatsapp"></i>
                         </div>
                       </a>
@@ -102,10 +104,21 @@ const Footer = () => {
               </div>
 
               {/* Footer Links */}
-              {/* <div className="footer-headings mb-2">
-                <h5>Need Help</h5>
+              <div className="footer-item mb-2">
+                <h5 onClick={() => toggleCollapse("help")}>
+                  Need Help
+                  <i
+                    className={`bx ${
+                      openMenu === "help" ? "bx-plus" : "bx-minus"
+                    }`}
+                  ></i>
+                </h5>
                 <br />
-                <ul className="nav flex-column">
+                <ul
+                  className={`nav flex-column collapse-wrapper ${
+                    openMenu === "help" ? "hide" : ""
+                  }`}
+                >
                   <li className="nav-item mb-2">
                     <NavLink to="contact" className="p-0">
                       Contact Us
@@ -134,10 +147,21 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="footer-headings mb-2">
-                <h5>Company</h5>
+              <div className="footer-item mb-2">
+                <h5 onClick={() => toggleCollapse("company")}>
+                  Company
+                  <i
+                    className={`bx ${
+                      openMenu === "company" ? "bx-plus" : "bx-minus"
+                    }`}
+                  ></i>
+                </h5>
                 <br />
-                <ul className="nav flex-column">
+                <ul
+                  className={`nav flex-column collapse-wrapper ${
+                    openMenu === "company" ? "hide" : ""
+                  }`}
+                >
                   <li className="nav-item mb-2">
                     <NavLink to="about" className="p-0">
                       About Us
@@ -159,12 +183,23 @@ const Footer = () => {
                     </NavLink>
                   </li>
                 </ul>
-              </div> */}
+              </div>
 
-              <div className="footer-headings mb-2">
-                <h5>Policies</h5>
+              <div className="footer-item mb-2">
+                <h5 onClick={() => toggleCollapse("policy")}>
+                  Policies
+                  <i
+                    className={`bx ${
+                      openMenu === "policy" ? "bx-plus" : "bx-minus"
+                    }`}
+                  ></i>
+                </h5>
                 <br />
-                <ul className="nav flex-column">
+                <ul
+                  className={`nav flex-column collapse-wrapper ${
+                    openMenu === "policy" ? "hide" : ""
+                  }`}
+                >
                   <li className="nav-item mb-2">
                     <NavLink to="/terms-and-condition" className="p-0">
                       Terms & Conditions
@@ -188,10 +223,21 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="footer-headings mb-2">
-                <h5>Location</h5>
+              <div className="footer-item mb-2">
+                <h5 onClick={() => toggleCollapse("location")}>
+                  Location
+                  <i
+                    className={`bx ${
+                      openMenu === "location" ? "bx-plus" : "bx-minus"
+                    }`}
+                  ></i>
+                </h5>
                 <br />
-                <ul className="nav flex-column">
+                <ul
+                  className={`nav flex-column collapse-wrapper ${
+                    openMenu === "location" ? "hide" : ""
+                  }`}
+                >
                   <li className="nav-item mb-2">
                     <a href="mailto: support@sakthicart.in" className="p-0">
                       support@sakthicart.in
@@ -199,7 +245,7 @@ const Footer = () => {
                   </li>
                   <li className="nav-item mb-2">
                     <NavLink to="location" className="p-0">
-                      (NH 47- Near  Hotel) Erode, India- 000 002.
+                      (NH 47- Near Hotel) Erode, India- 000 002.
                     </NavLink>
                   </li>
                 </ul>
@@ -209,7 +255,9 @@ const Footer = () => {
               <hr />
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <h6>Copyright &copy; 2025 Sakthi Cart Pvt Ltd. All rights reserved</h6>
+              <h6 className="text-center">
+                Copyright &copy; 2025 Sakthi Cart Pvt Ltd. All rights reserved
+              </h6>
             </div>
           </div>
         </div>

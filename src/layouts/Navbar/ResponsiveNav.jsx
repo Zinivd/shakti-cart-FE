@@ -8,25 +8,25 @@ const ResponsiveNav = () => {
       <div className="responsiveNav-container">
         <NavLink to="/" className="respnav-item">
           <button className="respnavbtn">
-            <i className="fi fi-rr-home icon"></i>
+            <i className="bx bx-home icon"></i>
             <span>Home</span>
           </button>
         </NavLink>
         <NavLink to="/categories" className="respnav-item">
           <button className="respnavbtn">
-            <i className="fi fi-rr-apps-add icon"></i>
+            <i className="bx bx-dashboard icon"></i>
             <span>Categories</span>
           </button>
         </NavLink>
-        <NavLink to="/cart" className="respnav-item">
+        {/* <NavLink to="/cart" className="respnav-item">
           <button className="respnavbtn">
             <i className="fi fi-rr-bell icon"></i>
             <span>Notification</span>
           </button>
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/profile" className="respnav-item">
           <button className="respnavbtn">
-            <i className="fi fi-rr-user icon"></i>
+            <i className="bx bx-user icon"></i>
             <span>Profile</span>
           </button>
         </NavLink>
