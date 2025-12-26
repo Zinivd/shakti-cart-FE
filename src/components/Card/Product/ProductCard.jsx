@@ -95,7 +95,7 @@ const ProductCard = (props) => {
 
       {/* Rating */}
       <h6 className="product-rating">
-        <i className="fas fa-star text-warning"></i> {props.rating}
+        <i className="bx bxs-star text-warning"></i> {props.rating}
       </h6>
 
       <hr className="mt-0" />

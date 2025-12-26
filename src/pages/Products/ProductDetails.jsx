@@ -70,8 +70,12 @@ const ProductDetails = () => {
       <div className="main-header">
         <div className="body-head">
           <h6 className="d-flex column-gap-2 flex-wrap">
-            <Link to="/">Home <i className="fa fa-angle-right ps-1"></i></Link>
-            <Link to="/categories">All Categories <i className="fa fa-angle-right ps-1"></i></Link>
+            <Link to="/">
+              Home <i className="fa fa-angle-right ps-1"></i>
+            </Link>
+            <Link to="/categories">
+              All Categories <i className="fa fa-angle-right ps-1"></i>
+            </Link>
             <Link to="/products">{product.category_name}</Link>
             <i className="fa fa-angle-right ps-1"></i>
             <Link className="active">{product.product_name}</Link>
@@ -88,25 +92,69 @@ const ProductDetails = () => {
           </div>
 
           <div className="product-details-right">
-            {/* <OfferProduct /> */}
+            <OfferProduct />
             <ShareProduct productName={product.product_name} productId={id} />
           </div>
         </div>
 
         <div className="product-description my-3">
           <div className="body-head d-block mt-5">
-            <h4 className="mb-3"><span>|</span> Product Description</h4>
+            <h4 className="mb-3">
+              <span>|</span> Product Description
+            </h4>
             <h6 className="text-decoration-underline">Description</h6>
           </div>
           <Description product={product} />
         </div>
 
-        <Reviews productId={id} />
-        <Comments productId={id} />
+        <div className="main-header">
+          <div className="body-head d-block">
+            <h4 className="mb-3">
+              <span>|</span> Ratings
+            </h4>
+            <h6 className="text-decoration-underline">Ratings</h6>
+          </div>
+          <div className="reviews-main my-3">
+            <Reviews productId={id} />
+          </div>
+        </div>
 
-        {/* <Card_2 categoryId={product.category_id} /> */}
-        <Product categoryId={product.category_id} currentProductId={id} />
-        {/* <Offer /> */}
+        <div className="product-description my-3">
+          <div className="body-head d-block">
+            <h4 className="mb-3">
+              <span>|</span> User Comments
+            </h4>
+            <div className="d-flex align-items-center column-gap-3">
+              <h6>Ratings</h6>
+              <h6 className="text-decoration-underline">Comments</h6>
+            </div>
+          </div>
+          <Comments productId={id} />
+        </div>
+
+        <div className="main-header">
+          <Card_2 categoryId={product.category_id} />
+        </div>
+
+        <div className="main-header">
+          <div className="body-head mb-4">
+            <h5>
+              Similar <span>Products</span>
+            </h5>
+          </div>
+          <Product categoryId={product.category_id} currentProductId={id} />
+          <div className="d-flex align-items-center justify-content-center my-3">
+            <Link to="/products">
+              <button className="darkbtn">
+                View All <i className="fa fa-arrow-right ps-1"></i>
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="main-header">
+          <Offer />
+        </div>
       </div>
     </div>
   );

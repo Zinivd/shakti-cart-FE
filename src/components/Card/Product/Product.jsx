@@ -76,13 +76,13 @@ const Product = (props) => {
           <React.Fragment key={item.id}>
             <ProductCard {...item} showCartBtn={props.showCartBtn} />
 
-            {/* {(index + 1) % 8 === 0 && (
+            {(index + 1) % 8 === 0 && (
               <div className="inter-card-wrapper">
                 {(index + 1) === 8 && <Card1 />}
                 {(index + 1) === 16 && <Card2 />}
                 {(index + 1) === 24 && <Offer />}
               </div>
-            )} */}
+            )}
           </React.Fragment>
         ))}
       </div>

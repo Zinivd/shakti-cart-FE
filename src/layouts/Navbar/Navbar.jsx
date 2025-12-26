@@ -75,7 +75,7 @@ const Navbar = () => {
             </div>
 
             {/* Header Content */}
-            <ul className="navbar-nav col-lg-5 align-items-lg-center justify-content-lg-evenly navbarNav">
+            <ul className="navbar-nav col-lg-3 align-items-lg-center justify-content-lg-evenly navbarNav">
               <li className="nav-item" id="home">
                 <NavLink className="nav-link" to="/">
                   Home
@@ -86,17 +86,17 @@ const Navbar = () => {
                   All Categories
                 </NavLink>
               </li>
-              {/* <li className="nav-item" id="about">
-                <NavLink className="nav-link" to="about">
-                  About Us
-                </NavLink>
-              </li>
               <li className="nav-item" id="blog">
                 <NavLink className="nav-link" to="blog">
                   Blog
                 </NavLink>
               </li>
-              <li className="nav-item" id="contact">
+              {/* <li className="nav-item" id="about">
+                <NavLink className="nav-link" to="about">
+                  About Us
+                </NavLink>
+              </li> */}
+              {/* <li className="nav-item" id="contact">
                 <NavLink className="nav-link" to="contact">
                   Contact Us
                 </NavLink>
@@ -104,7 +104,7 @@ const Navbar = () => {
             </ul>
 
             {/* Search Div */}
-            <ul className="navbar-nav col-lg-3 mb-0">
+            <ul className="navbar-nav col-lg-4 mb-0">
               <li className="search-bar">
                 <i className="bx bx-search text-center"></i>
                 <input
@@ -118,7 +118,7 @@ const Navbar = () => {
             </ul>
 
             {/* Icon Div */}
-            <ul className="navbar-nav col-lg-2 d-flex align-items-center flex-row icon-end">
+            <ul className="navbar-nav col-lg-3 d-flex align-items-center flex-row icon-end">
               <li className="nav-item" id="profile">
                 <NavLink
                   className="nav-link d-flex align-items-center justify-content-center flex-column"
