@@ -23,7 +23,7 @@ const Login = () => {
     try {
       setLoading(true);
       const result = await loginUser(email, password);
-      debugger
+      
       localStorage.setItem("access-token", result?.data?.token);
       localStorage.setItem("user", JSON.stringify(result?.data?.user));
       navigate("/profile");

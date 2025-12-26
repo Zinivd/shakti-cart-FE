@@ -3,7 +3,7 @@ import CategoryCard from "./CategoryCard.jsx";
 import "./Category.css";
 
 const Category = ({ categories }) => {
-  if (!Array.isArray(categories)) return null; // 🔥 safety
+  if (!Array.isArray(categories)) return null;
 
   return (
     <div className="category">

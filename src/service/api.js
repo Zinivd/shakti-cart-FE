@@ -29,7 +29,7 @@ export async function getProductsByCategory(categoryId) {
 // POST request
 export async function addToCart(body) {
   try {
-    
+
     const result = await Client(Urls.addToCart, body, "post");
     return result;
   } catch (error) {
@@ -71,7 +71,7 @@ export async function getUserAddresses(email) {
 
 export async function getAllProducts() {
   try {
-    const url = Urls.getAllProducts; // "/api/product/all"
+    const url = Urls.getAllProducts; 
 
     const response = await Client(url, {}, "get");
 
@@ -222,3 +222,50 @@ export async function getProductById(productId) {
     return null;
   }
 }
+
+
+export async function getUserInfo(email, token) {
+  try {
+    const url = `${Urls.userInfo}?email=${encodeURIComponent(email)}`;
+
+    const result = await Client(
+      url,
+      {},
+      "get"
+    );
+
+    return result;
+  } catch (error) {
+    console.error("error in getUserInfo:", error);
+    return null;
+  }
+}
+
+
+export const addAddress = (email, payload) => {
+
+  try {
+    const url=`${Urls.addAddress}?email=${encodeURIComponent(email)}`;
+    const result = Client(url, payload, "post");
+    return result;
+  } catch (error) {
+    console.error("error in addAddress:", error);
+    return null;
+  } 
+};  
+
+export const updateAddress = (email, payload) => {
+
+  try {     
+    const url=`${Urls.updateAddress}?email=${encodeURIComponent(email)}`;     
+    const result = Client(url, payload, "put");     
+    return result;   
+  }                                       
+    catch (error) {     
+    console.error("error in updateAddress:", error);     
+    return null;   
+  } 
+  
+}
+
+  

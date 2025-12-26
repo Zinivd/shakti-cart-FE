@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import OrderDetails from "./OrderDetails";
 
-const OrderCards = ({ orders = [] }) => {
+const OrderCards = ({ orders = [], onViewDetails }) => {
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  // 🔹 SHOW ORDER DETAILS
+  if (selectedOrder) {
+    return (
+      <OrderDetails
+        order={selectedOrder}
+        onBack={() => setSelectedOrder(null)}
+      />
+    );
+  }
+
   return (
     <div className="order-cards">
-      {orders.map((order) =>
-        order.items.map((item, index) => (
-          <div className="order-content mb-4" key={`${order.order_id}-${index}`}>
+      {orders.map((order) => {
+        const firstItem = order.items?.[0];
+
+        return (
+          <div className="order-content mb-4" key={order.order_id}>
             <div className="order-headcard">
               <div className="order-headleft">
                 <h5 className="mb-2">Order no: {order.order_id}</h5>
@@ -33,12 +49,13 @@ const OrderCards = ({ orders = [] }) => {
               </div>
             </div>
 
+            {/* 🔹 SINGLE PREVIEW PRODUCT */}
             <div className="order-bottomcard">
               <div className="order-bottomleft">
                 <div className="product-detail">
                   <img
                     src={
-                      item.product?.images?.[0] ||
+                      firstItem?.product?.images?.[0] ||
                       "https://dummyimage.com/100x100/eee/000.png&text=No+Image"
                     }
                     width="100px"
@@ -48,16 +65,10 @@ const OrderCards = ({ orders = [] }) => {
                   />
                   <div className="product-content">
                     <h5 className="mb-1">
-                      {item.product?.product_name || "Product unavailable"}
+                      {firstItem?.product?.product_name}
                     </h5>
-                    <h6 className="mb-1">
-                      Color : {item.product?.color || "-"}
-                    </h6>
-                    <h6 className="mb-1">
-                      Quantity : {item.quantity}
-                    </h6>
                     <h6 className="mb-0">
-                      Total : ₹ {item.total}
+                      {order.items.length} item(s)
                     </h6>
                   </div>
                 </div>
@@ -65,18 +76,17 @@ const OrderCards = ({ orders = [] }) => {
 
               <div className="order-bottomright ms-auto">
                 <button
-                  className="darkbtn"
-                  type="button"
-                  data-bs-toggle="tab"
-                  data-bs-target="#orderdetails"
-                >
-                  View Details
-                </button>
+  className="darkbtn"
+  type="button"
+  onClick={() => onViewDetails(order)}
+>
+  View Details
+</button>
               </div>
             </div>
           </div>
-        ))
-      )}
+        );
+      })}
     </div>
   );
 };

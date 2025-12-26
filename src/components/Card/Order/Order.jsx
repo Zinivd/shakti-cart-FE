@@ -11,6 +11,8 @@ const Order = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -18,6 +20,7 @@ const Order = () => {
   const fetchOrders = async () => {
     try {
       const res = await getOrders();
+
       if (res?.data?.success) {
         const orders = res.data.data || [];
 
@@ -38,7 +41,6 @@ const Order = () => {
         });
 
         setActiveOrders(active);
-        setCancelledledOrders?.(cancelled); // safeguard if typo exists
         setCancelledOrders(cancelled);
         setCompletedOrders(completed);
       }
@@ -52,48 +54,66 @@ const Order = () => {
   return (
     <div className="order-list">
       <OrderTabs />
-      <div className="">
-        <div className="tab-content" id="profileTabContent">
-          <div
-            className="tab-pane fade show active"
-            id="activeOrders"
-            role="tabpanel"
-          >
-            {loading ? (
-              <h6 className="text-center mt-4">Loading...</h6>
-            ) : activeOrders.length === 0 ? (
-              <h6 className="text-center mt-4">No active orders</h6>
-            ) : (
-              <OrderCards orders={activeOrders} />
-            )}
 
-            <OrderDetails />
-          </div>
+      <div className="tab-content" id="profileTabContent">
 
-          <div className="tab-pane fade" id="cancelOrders" role="tabpanel">
-            {cancelledOrders.length === 0 ? (
-              <h6 className="text-center mt-4" style={{ fontSize: "14px" }}>
-                No cancelled orders
-              </h6>
-            ) : (
-              <OrderCards orders={cancelledOrders} />
-            )}
-          </div>
-
-          <div className="tab-pane fade" id="completedOrders" role="tabpanel">
-            {completedOrders.length === 0 ? (
-              <h6 className="text-center mt-4" style={{ fontSize: "14px" }}>
-                No completed orders
-              </h6>
-            ) : (
-              <OrderCards orders={completedOrders} />
-            )}
-          </div>
-
-          {/* <div className="tab-pane fade" id="orderdetails" role="tabpanel">
-            <OrderDetails />
-          </div> */}
+        {/* ACTIVE ORDERS */}
+        <div className="tab-pane fade show active" id="activeOrders">
+          {loading ? (
+            <h6 className="text-center mt-4">Loading...</h6>
+          ) : selectedOrder ? (
+            <OrderDetails
+              order={selectedOrder}
+              onBack={() => setSelectedOrder(null)}
+            />
+          ) : activeOrders.length === 0 ? (
+            <h6 className="text-center mt-4">No active orders</h6>
+          ) : (
+            <OrderCards
+              orders={activeOrders}
+              onViewDetails={setSelectedOrder}
+            />
+          )}
         </div>
+
+        {/* CANCELLED ORDERS */}
+        <div className="tab-pane fade" id="cancelOrders">
+          {selectedOrder ? (
+            <OrderDetails
+              order={selectedOrder}
+              onBack={() => setSelectedOrder(null)}
+            />
+          ) : cancelledOrders.length === 0 ? (
+            <h6 className="text-center mt-4" style={{ fontSize: "14px" }}>
+              No cancelled orders
+            </h6>
+          ) : (
+            <OrderCards
+              orders={cancelledOrders}
+              onViewDetails={setSelectedOrder}
+            />
+          )}
+        </div>
+
+        {/* COMPLETED ORDERS */}
+        <div className="tab-pane fade" id="completedOrders">
+          {selectedOrder ? (
+            <OrderDetails
+              order={selectedOrder}
+              onBack={() => setSelectedOrder(null)}
+            />
+          ) : completedOrders.length === 0 ? (
+            <h6 className="text-center mt-4" style={{ fontSize: "14px" }}>
+              No completed orders
+            </h6>
+          ) : (
+            <OrderCards
+              orders={completedOrders}
+              onViewDetails={setSelectedOrder}
+            />
+          )}
+        </div>
+
       </div>
     </div>
   );

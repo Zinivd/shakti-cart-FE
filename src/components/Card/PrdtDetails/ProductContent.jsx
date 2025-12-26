@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getProductById, addToCart } from "../../../service/api";
+import { toast } from "react-toastify";
 
 const ProductContent = ({ product }) => {
   const [loading, setLoading] = useState(true);
@@ -24,14 +25,13 @@ const ProductContent = ({ product }) => {
   };
 
   const handleAddToCart = async () => {
-    if (!selectedSize) {
-      alert("Please select a size");
-      return;
-    }
+    
+    
+
 
     try {
       const cartData = {
-        product_id: productId,
+        product_id: product.product_id,
         quantity: quantity,
         size: selectedSize,
         color: selectedColor,
@@ -39,31 +39,41 @@ const ProductContent = ({ product }) => {
 
       const response = await addToCart(cartData);
 
-      if (response?.success) {
-        alert("Product added to cart successfully!");
-        // You can add additional logic here like updating cart count in header
+      if (response?.data?.success) {
+        toast.success("Product added to cart");
+
       } else {
-        alert("Failed to add to cart. Please try again.");
+        toast.error("Failed to add product to cart");
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
-      alert("An error occurred while adding to cart.");
+      toast.error("An error occurred while adding to cart");
     }
   };
 
   const handleBuyNow = () => {
-    // First add to cart, then redirect to checkout
     handleAddToCart().then(() => {
-      // Navigate to checkout page
-      // window.location.href = "/checkout";
-      // Or use navigate if using react-router:
-      // navigate("/checkout");
+      
+      window.location.href = "/checkout";
     });
   };
 
-  // if (loading) {
-  //   return <div className="product-details-content pt-3">Loading...</div>;
-  // }
+  // Initialize selected size if available
+  useEffect(() => {
+    if (product.size_unit?.length > 0 && !selectedSize) {
+      setSelectedSize(product.size_unit[0].size);
+    }
+    
+    if (product.colors?.length > 0 && !selectedColor) {
+      setSelectedColor(product.colors[0]);
+    }
+    
+    setLoading(false);
+  }, [product]);
+
+  if (loading) {
+    return <div className="product-details-content pt-3">Loading...</div>;
+  }
 
   return (
     <div className="product-details-content pt-3">
@@ -90,23 +100,68 @@ const ProductContent = ({ product }) => {
         )}
       </h4>
       <hr />
+      
       {/* Sizes */}
       <div className="sizes-main">
-        <h6 className="mb-3">Sizes Availablbe</h6>
+        <h6 className="mb-3">Sizes Available</h6>
         <div className="sizes-div">
           {product.size_unit?.map((s, i) => (
             <li className="sizes-li" key={i}>
-              <button key={i} className="sizebtn mx-auto">
+              <button 
+                key={i} 
+                className={`sizebtn mx-auto ${selectedSize === s.size ? 'active' : ''}`}
+                onClick={() => handleSizeSelect(s.size)}
+              >
                 {s.size}
               </button>
             </li>
           ))}
         </div>
+        
+        {/* Display selected size */}
+        {selectedSize && (
+          <div className="mt-2">
+            <small className="text-muted">Selected Size: <strong>{selectedSize}</strong></small>
+          </div>
+        )}
       </div>
+      
+      {/* Colors - Add this section if you have colors */}
+      {product.colors && product.colors.length > 0 && (
+        <div className="colors-main mt-3">
+          <h6 className="mb-3">Colors Available</h6>
+          <div className="colors-div d-flex gap-2">
+            {product.colors.map((color, i) => (
+              <button
+                key={i}
+                className={`color-btn ${selectedColor === color ? 'active' : ''}`}
+                onClick={() => handleColorSelect(color)}
+                style={{
+                  backgroundColor: color.toLowerCase(),
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: '50%',
+                  border: selectedColor === color ? '2px solid #000' : '1px solid #ddd'
+                }}
+                title={color}
+              />
+            ))}
+          </div>
+          
+          {/* Display selected color */}
+          {selectedColor && (
+            <div className="mt-2">
+              <small className="text-muted">Selected Color: <strong>{selectedColor}</strong></small>
+            </div>
+          )}
+        </div>
+      )}
+      
       {/* Quantity */}
-      <div className="qty-main">
+      <div className="qty-main mt-4">
+        <h6 className="mb-2">Quantity</h6>
         <span className="qtydiv" style={{ width: "175px" }}>
-          <button className="qtybtn minus" onClick={() => decQty()}>
+          <button className="qtybtn minus" onClick={decQty}>
             -
           </button>
           <input
@@ -121,16 +176,21 @@ const ProductContent = ({ product }) => {
               }
             }}
           />
-          <button className="qtybtn plus" onClick={() => incQty()}>
+          <button className="qtybtn plus" onClick={incQty}>
             +
           </button>
         </span>
       </div>
       <hr />
+      
       {/* Add to Cart */}
       <div className="d-flex align-items-center column-gap-2 mt-4">
-        <button className="addcartbtn w-50 py-2">Add to Cart</button>
-        <button className="buybtn w-50 py-2">Buy Now</button>
+        <button className="addcartbtn w-50 py-2" onClick={handleAddToCart}>
+          Add to Cart
+        </button>
+        <button className="buybtn w-50 py-2" onClick={handleBuyNow}>
+          Buy Now
+        </button>
       </div>
     </div>
   );

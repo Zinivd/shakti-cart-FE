@@ -67,7 +67,7 @@ const Register = () => {
       };
 
       const response = await registerUser(payload);
-      debugger
+      
       console.log("Register Success:", response);
  
      
