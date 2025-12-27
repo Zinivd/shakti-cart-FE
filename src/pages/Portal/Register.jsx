@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PortalBG } from "../../../public/Assets";
-import { registerUser } from "../../service/api";
+import { registerUser,loginUser } from "../../service/api";
 import "./Portal.css";
 
 const Register = () => {
@@ -68,6 +68,15 @@ const Register = () => {
       console.log("Register Success:", response);
 
       if (response?.data?.success || response?.data?.status === "success") {
+      const result = await loginUser(formData.email, formData.password);
+
+      // 3️⃣ STORE TOKEN (SAME AS LOGIN PAGE)
+      localStorage.setItem("access-token", result?.data?.token);
+      localStorage.setItem(
+        "user",
+        JSON.stringify(result?.data?.user)
+      );
+      localStorage.setItem("isAuthenticated", "true");
         navigate("/");
       } else {
         setApiError(

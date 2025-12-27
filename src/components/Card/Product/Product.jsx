@@ -22,18 +22,14 @@ const Product = (props) => {
 
       let apiProducts = [];
 
-      // 🔥 SAFETY GUARD
-      if (props.filters && props.filters.category_id) {
-        const response = await getProductsByCategory(
-          props.filters.category_id
-        );
+      if (props.filters?.category_id) {
+        const response = await getProductsByCategory(props.filters.category_id);
         apiProducts = response?.data?.data || [];
       } else {
         const response = await getAllProducts();
         apiProducts = response?.data?.data || [];
       }
 
-      // 🔥 PRICE FILTER (SAFE DEFAULTS)
       const min = props.filters?.minPrice ?? 0;
       const max = props.filters?.maxPrice ?? 10000;
 
@@ -59,35 +55,51 @@ const Product = (props) => {
       setProducts(mappedProducts);
     } catch (error) {
       console.error("Product load error:", error);
-      setProducts([]); // 🔥 prevent crash
+      setProducts([]);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
+
+  // 🔥 CHUNK PRODUCTS INTO GROUPS OF 8
+  const chunkArray = (arr, size) => {
+    const chunks = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+  };
+
+  const productChunks = chunkArray(products, 8);
 
   return (
-    <div className="product">
-      <div className="product-list">
-        {products.map((item, index) => (
-          <React.Fragment key={item.id}>
-            <ProductCard {...item} showCartBtn={props.showCartBtn} />
 
-            {(index + 1) % 8 === 0 && (
-              <div className="inter-card-wrapper">
-                {(index + 1) === 8 && <Card1 />}
-                {(index + 1) === 16 && <Card2 />}
-                {(index + 1) === 24 && <Offer />}
-              </div>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-    </div>
+  <div className="product">
+    {productChunks.map((chunk, chunkIndex) => (
+      <React.Fragment key={chunkIndex}>
+        {/* PRODUCT GRID */}
+        <div className="product-list">
+          {chunk.map((item) => (
+            <ProductCard
+              key={item.id}
+              {...item}
+              showCartBtn={props.showCartBtn}
+            />
+          ))}
+        </div>
+
+        {/* FULL WIDTH ADS - SAFE CONDITIONS */}
+        {chunkIndex === 0 && products.length >= 8 && <Card1 />}
+        {chunkIndex === 1 && products.length >= 16 && <Card2 />}
+        {chunkIndex === 2 && products.length >= 24 && <Offer />}
+      </React.Fragment>
+    ))}
+  </div>
+
   );
 };
+
 
 export default Product;

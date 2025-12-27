@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getProductById, addToCart } from "../../../service/api";
 import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 const ProductContent = ({ product }) => {
   const [loading, setLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-
+  const navigate = useNavigate();
   const incQty = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -25,31 +25,40 @@ const ProductContent = ({ product }) => {
   };
 
   const handleAddToCart = async () => {
-    
-    
 
+  /* =========================
+     1️⃣ CHECK AUTH STATUS
+  ========================== */
+  const isAuthenticated =
+    localStorage.getItem("isAuthenticated") === "true";
 
-    try {
-      const cartData = {
-        product_id: product.product_id,
-        quantity: quantity,
-        size: selectedSize,
-        color: selectedColor,
-      };
+  if (!isAuthenticated) {
+    toast.error("Please login to add products to cart");
+    navigate("/login");   
+    return;               
+  }
 
-      const response = await addToCart(cartData);
+  try {
+    const cartData = {
+      product_id: product.product_id,
+      quantity: quantity,
+      size: selectedSize,
+      color: selectedColor,
+    };
 
-      if (response?.data?.success) {
-        toast.success("Product added to cart");
+    const response = await addToCart(cartData);
 
-      } else {
-        toast.error("Failed to add product to cart");
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      toast.error("An error occurred while adding to cart");
+    if (response?.data?.success) {
+      toast.success("Product added to cart");
+    } else {
+      toast.error("Failed to add product to cart");
     }
-  };
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    toast.error("An error occurred while adding to cart");
+  }
+};
+
 
   const handleBuyNow = () => {
     handleAddToCart().then(() => {

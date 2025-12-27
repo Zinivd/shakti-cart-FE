@@ -65,7 +65,7 @@ const Home = () => {
       </div>
 
       <div className="main-header">
-        {/* <Offer /> */}
+        <Offer />
       </div>
     </div>
   );

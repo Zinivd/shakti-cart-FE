@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router-dom";
 import { Logo_Main } from "../../../public/Assets";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import "./Navbar.css";
-
 const Navbar = () => {
   // Toggler Icon Animation
   const [isExpanded, setIsExpanded] = useState(false);
@@ -12,6 +11,21 @@ const Navbar = () => {
       setIsExpanded((prev) => !prev);
     }, 300);
   };
+   
+
+useEffect(() => {
+  const hash = window.location.hash;
+
+  if (hash) {
+    const tabButton = document.querySelector(
+      `[data-bs-target="${hash}"]`
+    );
+
+    if (tabButton) {
+      tabButton.click(); // Activate Bootstrap tab
+    }
+  }
+}, []);
 
   // Scroll effect
   // const [isScrolled, setIsScrolled] = useState(false);
@@ -129,13 +143,13 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li className="nav-item" id="/">
-                <NavLink
-                  className="nav-link d-flex align-items-center justify-content-center flex-column"
-                  to="/"
-                >
-                  <i className="bx bx-heart mb-1"></i>
-                  Wishlist
-                </NavLink>
+             <NavLink
+  className="nav-link d-flex align-items-center justify-content-center flex-column"
+  to="/profile#wishlist"
+>
+  <i className="bx bx-heart mb-1"></i>
+  Wishlist
+</NavLink>
               </li>
               <li className="nav-item" id="cart">
                 <NavLink

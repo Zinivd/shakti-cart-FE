@@ -268,4 +268,16 @@ export const updateAddress = (email, payload) => {
   
 }
 
-  
+export async function removeAddress(body, email) {
+  try {
+    const result = await Client(
+      `${Urls.deleteAddress}?email=${email}`,
+      body,
+      "delete"
+    );
+    return result;
+  } catch (error) {
+    console.error("error in removeAddress:", error);
+    return null;
+  }
+}

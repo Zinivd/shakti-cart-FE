@@ -4,7 +4,7 @@ import "./Card1.css";
 
 const Card_1 = () => {
   return (
-    <div className="card1">
+    <div className="card1 mb-2">
       <div className="card1-left">
         <h4 className="mb-2 text-uppercase">Pre Order</h4>
         <h6 className="mb-2 text-uppercase">Be the First to Own</h6>

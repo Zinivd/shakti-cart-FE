@@ -26,6 +26,7 @@ const Login = () => {
       
       localStorage.setItem("access-token", result?.data?.token);
       localStorage.setItem("user", JSON.stringify(result?.data?.user));
+      localStorage.setItem("isAuthenticated", "true");
       navigate("/profile");
     } catch (err) {
       setError(err.message);
