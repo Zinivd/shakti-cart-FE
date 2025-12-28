@@ -17,29 +17,30 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const apiCalled = useRef(false); // 🔒 restrict multiple calls
+  // const apiCalled = useRef(false); 
 
-  useEffect(() => {
-    if (!id || apiCalled.current) return;
+useEffect(() => {
+  if (!id) return;
 
-    apiCalled.current = true;
-    fetchProductDetails();
-  }, [id]);
-
+  fetchProductDetails();
+}, [id]);
   const fetchProductDetails = async () => {
-    try {
-      setLoading(true);
-      const response = await getProductById(id);
+  try {
+    setLoading(true);
+    setProduct(null);
 
-      if (response?.data?.success) {
-        setProduct(response.data.data);
-      }
-    } catch (error) {
-      console.error("Product API error", error);
-    } finally {
-      setLoading(false);
+    const response = await getProductById(id);
+
+    if (response?.data?.success) {
+      setProduct(response.data.data);
     }
-  };
+  } catch (error) {
+    console.error("Product API error", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   if (loading) {
     return (
@@ -142,14 +143,18 @@ const ProductDetails = () => {
               Similar <span>Products</span>
             </h5>
           </div>
-          <Product categoryId={product.category_id} currentProductId={id} />
-          <div className="d-flex align-items-center justify-content-center my-3">
+          <Product
+  categoryId={product.category_id}
+  currentProductId={id}
+  hideAds={true}
+/>
+          {/* <div className="d-flex align-items-center justify-content-center my-3">
             <Link to="/products">
               <button className="darkbtn">
                 View All <i className="fa fa-arrow-right ps-1"></i>
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <div className="main-header">

@@ -1,13 +1,66 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import Shipping from "../../components/Cart/Shipping";
 import "./Checkout.css";
 import Summary from "../../components/Cart/Summary";
+import { getCartProducts, placeOrder } from "../../service/api";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const [pin, setPin] = useState("");
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
+  const [saveAddress, setSaveAddress] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [placingOrder, setPlacingOrder] = useState(false);
+  useEffect(() => {
+  loadCart();
+}, []);
+const handlePlaceOrder = async () => {
+  if (!selectedAddress) {
+    toast.error("Please select address");
+    return;
+  }
+
+  try {
+    setPlacingOrder(true);
+
+    const payload = {
+      payment_mode: "UPI",
+      address: selectedAddress,
+      items: cartItems.map((item) => ({
+        product_id: item.product_id,
+        quantity: item.quantity,
+      })),
+    };
+
+    const res = await placeOrder(payload);
+
+    if (res?.data?.success) {
+      toast.success("Order placed successfully");
+      navigate("/order-success");
+    } else {
+      toast.error("Order failed");
+    }
+  } catch (err) {
+    toast.error("Something went wrong");
+  } finally {
+    setPlacingOrder(false);
+  }
+};
+
+const loadCart = async () => {
+  try {
+    const res = await getCartProducts();
+    if (res?.data?.success) {
+      setCartItems(res.data.data || []);
+    }
+  } catch (err) {
+    console.error("Cart load failed", err);
+  }
+};
+
   // Pincode Validation
   const pincodeValidate = (e) => {
     const value = e.target.value;
@@ -148,7 +201,12 @@ const Checkout = () => {
                 </Link>
               </div>
               <div className="d-flex align-items-center column-gap-2">
-                <input type="checkbox" name="saveaddress" id="saveaddress1" />
+                <input
+  type="checkbox"
+  checked={saveAddress}
+  onChange={(e) => setSaveAddress(e.target.checked)}
+/>
+
                 <label htmlhtmlFor="saveaddress1" className="mb-0">
                   Save my information for a faster checkout
                 </label>
@@ -158,11 +216,20 @@ const Checkout = () => {
           <Shipping />
         </div>
         <div className="checkout-right">
-          <Summary />
+          <Summary cartItems={cartItems} />
+
         </div>
+
+        <button
+  className="darkbtn"
+  onClick={handlePlaceOrder}
+  disabled={placingOrder}
+>
+  {placingOrder ? "Placing Order..." : "Place Order"}
+</button>
       </div>
     </div>
-  );
+  );  
 };
 
 export default Checkout;

@@ -7,14 +7,21 @@ import Offer from "../Offer/Offer.jsx";
 import { getAllProducts, getProductsByCategory } from "../../../service/api";
 import "./Product.css";
 import Loader from "../../Loader/Loader.jsx";
-
 const Product = (props) => {
+  const {
+    filters,
+    showCartBtn,
+    categoryId,
+    currentProductId,
+    hideAds = false,
+  } = props;
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadProducts();
-  }, [props.filters]);
+  }, [filters, categoryId]);
 
   const loadProducts = async () => {
     try {
@@ -22,16 +29,29 @@ const Product = (props) => {
 
       let apiProducts = [];
 
-      if (props.filters?.category_id) {
-        const response = await getProductsByCategory(props.filters.category_id);
+      // 🔥 FLOW 1 & 2 HANDLING
+      if (categoryId) {
+        // Similar products flow
+        const response = await getProductsByCategory(categoryId);
+        apiProducts = response?.data?.data || [];
+      } else if (filters?.category_id) {
+        const response = await getProductsByCategory(filters.category_id);
         apiProducts = response?.data?.data || [];
       } else {
         const response = await getAllProducts();
         apiProducts = response?.data?.data || [];
       }
 
-      const min = props.filters?.minPrice ?? 0;
-      const max = props.filters?.maxPrice ?? 10000;
+      // ❌ REMOVE CURRENT PRODUCT (SIMILAR FLOW)
+      if (currentProductId) {
+        apiProducts = apiProducts.filter(
+          (p) => p.product_id !== currentProductId
+        );
+      }
+
+      // 💰 PRICE FILTER
+      const min = filters?.minPrice ?? 0;
+      const max = filters?.maxPrice ?? 10000;
 
       const filteredProducts = apiProducts.filter((p) => {
         const price = Number(p.selling_price);
@@ -74,32 +94,42 @@ const Product = (props) => {
 
   const productChunks = chunkArray(products, 8);
 
+if (!loading && hideAds && products.length === 0) {
   return (
+    <div className="text-center my-4">
+      <h6>No similar products found</h6>
+    </div>
+  );
+}
 
-  <div className="product">
-    {productChunks.map((chunk, chunkIndex) => (
-      <React.Fragment key={chunkIndex}>
-        {/* PRODUCT GRID */}
-        <div className="product-list">
-          {chunk.map((item) => (
-            <ProductCard
-              key={item.id}
-              {...item}
-              showCartBtn={props.showCartBtn}
-            />
-          ))}
-        </div>
 
-        {/* FULL WIDTH ADS - SAFE CONDITIONS */}
-        {chunkIndex === 0 && products.length >= 8 && <Card1 />}
-        {chunkIndex === 1 && products.length >= 16 && <Card2 />}
-        {chunkIndex === 2 && products.length >= 24 && <Offer />}
-      </React.Fragment>
-    ))}
-  </div>
+  return (
+    <div className="product">
+      {productChunks.map((chunk, chunkIndex) => (
+        <React.Fragment key={chunkIndex}>
+          {/* PRODUCT GRID */}
+          <div className="product-list">
+            {chunk.map((item) => (
+              <ProductCard
+                key={item.id}
+                {...item}
+                showCartBtn={showCartBtn}
+              />
+            ))}
+          </div>
 
+          {/* 🚫 ADS DISABLED FOR SIMILAR PRODUCTS */}
+          {!hideAds && (
+            <>
+              {chunkIndex === 0 && products.length >= 8 && <Card1 />}
+              {chunkIndex === 1 && products.length >= 16 && <Card2 />}
+              {chunkIndex === 2 && products.length >= 24 && <Offer />}
+            </>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
   );
 };
-
 
 export default Product;

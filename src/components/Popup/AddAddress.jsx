@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { addAddress, updateAddress } from "../../service/api";
 
 const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
-  debugger
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",

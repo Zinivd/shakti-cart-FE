@@ -7,7 +7,7 @@ const Shipping = () => {
   return (
     <div className="shipping mt-4 mb-3">
       {/* Shipping Address */}
-      <div className="body-head d-block">
+      {/* <div className="body-head d-block">
         <h5 className="mb-2">Shipping Address</h5>
         <h6 className="mb-0">
           Select the address that matches your card or payment method.
@@ -25,7 +25,7 @@ const Shipping = () => {
             <label htmlhtmlFor="address2">Use a different shipping address</label>
           </li>
         </ul>
-      </div>
+      </div> */}
 
       {/* Shipping Method */}
       <div className="body-head d-block">
@@ -52,7 +52,7 @@ const Shipping = () => {
       </div>
 
       {/* Payment Method */}
-      <div className="body-head d-block">
+      {/* <div className="body-head d-block">
         <h5 className="mb-2">Payment Method</h5>
         <h6 className="mb-0">All transactions are secure and encrypted.</h6>
       </div>
@@ -121,7 +121,7 @@ const Shipping = () => {
             <label htmlhtmlFor="payment3">Paypal</label>
           </li>
         </ul>
-      </div>
+      </div> */}
       <Link to="">
         <button className="darkbtn">Pay Now</button>
       </Link>

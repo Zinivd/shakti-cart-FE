@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { addToWishlist, addToCart } from "../../../service/api";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 const ProductCard = (props) => {
   const [isWished, setIsWished] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const location = useLocation();
+  const isProductDetailsPage = location.pathname.startsWith("/products-details");
+  const isSameProduct =
+  isProductDetailsPage && location.pathname.endsWith(`/${props.id}`);
+
+ 
   // Wishlist
   const handleWishlistClick = async (e) => {
     e.preventDefault();
@@ -69,11 +76,18 @@ const ProductCard = (props) => {
   return (
     <div className="product-card mb-3">
       {/* Image → Product Details */}
-      <Link to={`/products-details/${props.id}`}>
-        <div className="product-img">
-          <img src={props.productImg} alt={props.productname} />
-        </div>
-      </Link>
+      {isSameProduct ? (
+  <div className="product-img">
+    <img src={props.productImg} alt={props.productname} />
+  </div>
+) : (
+  <Link to={`/products-details/${props.id}`}>
+    <div className="product-img">
+      <img src={props.productImg} alt={props.productname} />
+    </div>
+  </Link>
+)}
+
 
       {/* Badge */}
       {props.badge && (

@@ -281,3 +281,14 @@ export async function removeAddress(body, email) {
     return null;
   }
 }
+
+
+export async function placeOrder(body = {}) {
+  try {
+    const result = await Client(Urls.placeOrder, body, "post");
+    return result;
+  } catch (error) {
+    console.error(`error in function placeOrder: `, error);
+    return null;
+  }
+}
