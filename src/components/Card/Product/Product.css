@@ -252,16 +252,16 @@
 
     .product-head h6,
     .product-head h5 {
-        font-size: 10px !important;
+        font-size: 12px !important;
     }
 
     .product-details h5,
     .product-details h6 {
-        font-size: 12px !important;
+        font-size: 14px !important;
     }
 
     .product-details h6 span {
-        font-size: 8px !important;
+        font-size: 10px !important;
     }
     
     .product-card .product-rating {

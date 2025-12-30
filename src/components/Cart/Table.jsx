@@ -2,17 +2,13 @@ import React from "react";
 import { removeCartProduct } from "../../service/api";
 import "./CartTable.css";
 
-const SAMPLE_IMAGE =
-  "https://via.placeholder.com/80x80.png?text=Product";
+const SAMPLE_IMAGE = "https://via.placeholder.com/80x80.png?text=Product";
 
 const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
-
   const incQty = (index) => {
     setCartProducts((prev) =>
       prev.map((item, i) =>
-        i === index
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+        i === index ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
@@ -39,74 +35,162 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
   };
 
   return (
-    <div className="table-wrapper">
-      <table className="table">
-        <thead>
-          <tr>
-            <th>PRODUCT DETAILS</th>
-            <th>PRICE</th>
-            <th>QUANTITY</th>
-            <th>SHIPPING</th>
-            <th>SUBTOTAL</th>
-            <th>TOTAL</th>
-            <th>ACTION</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {cartProducts.length === 0 ? (
+    <>
+      <div className="table-wrapper desktop-only">
+        <table className="table">
+          <thead>
             <tr>
-              <td colSpan="7" className="text-center">Cart is empty</td>
+              <th>PRODUCT DETAILS</th>
+              <th>PRICE</th>
+              <th>QUANTITY</th>
+              <th>SHIPPING</th>
+              <th>TOTAL</th>
+              <th>ACTION</th>
             </tr>
-          ) : (
-            cartProducts.map((item, index) => {
-              const price = Number(item.product?.selling_price || 0);
-              const qty = Number(item.quantity || 1);
-              const subtotal = price * qty;
+          </thead>
 
-              return (
-                <tr key={item.product_id}>
-                  <td>
-                  <div className="d-flex column-gap-2 align-items-center">
-                      <img
-                        src={item.product?.images?.[0] || SAMPLE_IMAGE}
-                        width="80"
-                        height="80"
-                        alt=""
-                      />
-                      <div>
-                        <h6>{item.product?.product_name}</h6>
-                        <p>Color: {item.product?.color}</p>
+          <tbody>
+            {cartProducts.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  Your Cart is Empty
+                </td>
+              </tr>
+            ) : (
+              cartProducts.map((item, index) => {
+                const price = Number(item.product?.selling_price || 0);
+                const qty = Number(item.quantity || 1);
+                const subtotal = price * qty;
+                return (
+                  <tr key={item.product_id}>
+                    <td>
+                      <div className="d-flex column-gap-3 align-items-center">
+                        <img
+                          src={item.product?.images?.[0] || SAMPLE_IMAGE}
+                          width="125px"
+                          height="125px"
+                          className="object-fit-cover rounded-2"
+                          alt=""
+                        />
+                        <div>
+                          <h6 className="text-uppercase mb-2">
+                            {item.product?.brand}
+                          </h6>
+                          <h5 className="mb-2">{item.product?.product_name}</h5>
+                          <h6 className="text-dark text-uppercase mb-2">
+                            Size: {item.product?.size}
+                          </h6>
+                          <h6 className="text-dark text-uppercase mb-0">
+                            {item.product?.color}
+                          </h6>
+                        </div>
                       </div>
+                    </td>
+                    <td>
+                      <h5>₹ {price}</h5>
+                      <h6 className="text-decoration-line-through">
+                        ₹ {item.product.actual_price}
+                      </h6>
+                    </td>
+                    <td>
+                      <div className="qtydiv" style={{ width: "125px" }}>
+                        <button
+                          className="qtybtn"
+                          onClick={() => decQty(index)}
+                        >
+                          -
+                        </button>
+                        <span className="mx-2 text-center">{qty}</span>
+                        <button
+                          className="qtybtn"
+                          onClick={() => incQty(index)}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+
+                    <td>Free</td>
+                    <td>
+                      <h5>₹ {subtotal}</h5>
+                    </td>
+
+                    <td>
+                      <i
+                        className="fas fa-trash-can"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveCart(item.product_id)}
+                      ></i>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mobile-only cart-cards">
+        {cartProducts.length === 0 ? (
+          <p className="text-center">Your Cart is Empty</p>
+        ) : (
+          cartProducts.map((item, index) => {
+            const price = Number(item.product?.selling_price || 0);
+            const qty = Number(item.quantity || 1);
+            const subtotal = price * qty;
+            return (
+              <div className="cart-card" key={item.product_id}>
+                <div className="cart-card-left">
+                  <img
+                    src={item.product?.images?.[0] || SAMPLE_IMAGE}
+                    height="165px"
+                    width="100%"
+                    className="object-fit-cover"
+                    alt=""
+                  />
+                </div>
+                <div className="cart-card-right">
+                  <div className="cart-cart-head">
+                    <h6 className="mb-2">{item.product?.brand}</h6>
+                    <h5 className="mb-0">{item.product?.product_name}</h5>
+                    <div className="d-flex align-items-center justify-content-start gap-3 my-2">
+                      <h5 className="mb-0">
+                        ₹{price} <span>₹{item.product.actual_price}</span>
+                      </h5>
+                      <h6 className="cart-offer mb-0">
+                        ₹{item.product.discount}% OFF
+                      </h6>
                     </div>
-                  </td>
+                  </div>
+                  <div className="cart-card-middle my-2">
+                    <div className="d-flex align-items-center justify-content-start gap-3">
+                      <h5 className="mb-0">Size : {item.product?.size}</h5>|
+                      <h5 className="mb-0">{item.product?.color}</h5>
+                    </div>
+                  </div>
 
-                  <td>₹ {price}</td>
-
-                  <td>
-                    <button onClick={() => decQty(index)}>-</button>
-                    <span className="mx-2">{qty}</span>
-                    <button onClick={() => incQty(index)}>+</button>
-                  </td>
-
-                  <td>Free</td>
-                  <td>₹ {subtotal}</td>
-                  <td>₹ {subtotal}</td>
-
-                  <td>
+                  <div className="qty-row">
+                    <div className="qtydiv" style={{ width: "140px" }}>
+                      <button className="qtybtn" onClick={() => decQty(index)}>
+                        -
+                      </button>
+                      <span className="text-center">{qty}</span>
+                      <button className="qtybtn" onClick={() => incQty(index)}>
+                        +
+                      </button>
+                    </div>
                     <i
-                      className="fas fa-trash-can"
-                      style={{ cursor: "pointer" }}
+                      className="fas fa-trash-can fs-5"
                       onClick={() => handleRemoveCart(item.product_id)}
-                    ></i>
-                  </td>
-                </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
-    </div>
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </>
   );
 };
 

@@ -33,7 +33,7 @@ const NavOffcanvas = () => {
               All Categories
             </NavLink>
           </li>
-            {/* <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">
+            <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">
               <NavLink className="nav-link" to="outfit">
                 Outfit Chemistry
               </NavLink>
@@ -47,7 +47,7 @@ const NavOffcanvas = () => {
               <NavLink className="nav-link" to="blog">
                 Blog
               </NavLink>
-            </li> */}
+            </li>
             {/* <li className="nav-item" id="about" data-bs-dismiss="offcanvas">
               <NavLink className="nav-link" to="about">
                 About Us
@@ -59,11 +59,10 @@ const NavOffcanvas = () => {
               </NavLink>
             </li> */}
           
-          <hr className="w-50 mx-auto mt-5" />
+          <hr className="w-50 mx-auto my-5" />
 
           {/* AUTHENTICATION BASED UI */}
           {isAuthenticated === "true" ? (
-            /* 🔴 LOGOUT BUTTON */
             <li
               className="nav-item mt-4"
               data-bs-dismiss="offcanvas"
@@ -75,7 +74,7 @@ const NavOffcanvas = () => {
                   window.location.href = "/";
                 }}
               >
-                Logout
+                Sign Out
               </button>
             </li>
           ) : (

@@ -94,14 +94,13 @@ const Product = (props) => {
 
   const productChunks = chunkArray(products, 8);
 
-if (!loading && hideAds && products.length === 0) {
-  return (
-    <div className="text-center my-4">
-      <h6>No similar products found</h6>
-    </div>
-  );
-}
-
+  if (!loading && hideAds && products.length === 0) {
+    return (
+      <div className="text-center my-4">
+        <h6>No similar products found</h6>
+      </div>
+    );
+  }
 
   return (
     <div className="product">
@@ -110,11 +109,7 @@ if (!loading && hideAds && products.length === 0) {
           {/* PRODUCT GRID */}
           <div className="product-list">
             {chunk.map((item) => (
-              <ProductCard
-                key={item.id}
-                {...item}
-                showCartBtn={showCartBtn}
-              />
+              <ProductCard key={item.id} {...item} showCartBtn={showCartBtn} />
             ))}
           </div>
 

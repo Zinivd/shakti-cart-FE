@@ -58,7 +58,7 @@ useEffect(() => {
                 >
                   <i className="bx bx-menu"></i>
                 </button>
-                <a href="">
+                <a href="/">
                   <img src={Logo_Main} height="50px" title="" alt="" />
                 </a>
               </div>

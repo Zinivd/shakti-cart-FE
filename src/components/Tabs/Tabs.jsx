@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from "react";
-import { Avatar } from "../../../public/Assets";
+import React, { useState, useEffect } from "react";
+import { Avatar, Logout } from "../../../public/Assets";
 import "./Tabs.css";
 import { logoutUser } from "../../service/api";
 import { useNavigate } from "react-router-dom";
@@ -13,19 +13,19 @@ const Tabs = () => {
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-useEffect(() => {
-  const hash = window.location.hash;
-  if (!hash) return;
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
 
-  const tabButton = document.querySelector(
-    `button[data-bs-target="${hash}"]`
-  );
+    const tabButton = document.querySelector(
+      `button[data-bs-target="${hash}"]`
+    );
 
-  if (tabButton) {
-    const tab = new Tab(tabButton);
-    tab.show();
-  }
-}, []);
+    if (tabButton) {
+      const tab = new Tab(tabButton);
+      tab.show();
+    }
+  }, []);
 
   const handleConfirmLogout = async () => {
     try {
@@ -127,37 +127,26 @@ useEffect(() => {
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-
-              <div className="modal-header">
-                <h5 className="modal-title">Confirm Sign Out</h5>
+              <div className="modal-body d-flex align-items-center justify-content-center flex-column gap-3">
+                <img src={Logout} height="100px" alt="" />
+                <label>Are you sure you want to sign out?</label>
+              </div>
+              <div className="modal-footer d-flex align-items-center justify-content-center gap-2">
                 <button
                   type="button"
-                  className="btn-close"
-                  onClick={handleCancelLogout}
-                ></button>
-              </div>
-
-              <div className="modal-body">
-                <p>Are you sure you want to sign out?</p>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
+                  className="darkbtn w-25 px-0"
                   onClick={handleCancelLogout}
                 >
-                  No
+                  Cancel
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className="formbtn w-25 px-0"
                   onClick={handleConfirmLogout}
                 >
-                  Yes
+                  Sign Out
                 </button>
               </div>
-
             </div>
           </div>
         </div>

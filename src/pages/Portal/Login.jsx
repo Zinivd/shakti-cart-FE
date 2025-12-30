@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PortalBG } from "../../../public/Assets";
 import { loginUser } from "../../service/api";
 import "./Portal.css";
 

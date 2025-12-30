@@ -9,11 +9,11 @@ const ProductCard = (props) => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const isProductDetailsPage = location.pathname.startsWith("/products-details");
+  const isProductDetailsPage =
+    location.pathname.startsWith("/products-details");
   const isSameProduct =
-  isProductDetailsPage && location.pathname.endsWith(`/${props.id}`);
+    isProductDetailsPage && location.pathname.endsWith(`/${props.id}`);
 
- 
   // Wishlist
   const handleWishlistClick = async (e) => {
     e.preventDefault();
@@ -74,20 +74,19 @@ const ProductCard = (props) => {
   };
 
   return (
-    <div className="product-card mb-3">
+    <div className="product-card my-3">
       {/* Image → Product Details */}
       {isSameProduct ? (
-  <div className="product-img">
-    <img src={props.productImg} alt={props.productname} />
-  </div>
-) : (
-  <Link to={`/products-details/${props.id}`}>
-    <div className="product-img">
-      <img src={props.productImg} alt={props.productname} />
-    </div>
-  </Link>
-)}
-
+        <div className="product-img">
+          <img src={props.productImg} alt={props.productname} />
+        </div>
+      ) : (
+        <Link to={`/products-details/${props.id}`}>
+          <div className="product-img">
+            <img src={props.productImg} alt={props.productname} />
+          </div>
+        </Link>
+      )}
 
       {/* Badge */}
       {props.badge && (

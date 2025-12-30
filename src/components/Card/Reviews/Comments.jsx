@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { TShirt1, TShirt2, TShirt3 } from "../../../../public/Assets";
 import "./Reviews.css";
 
 const Comments = () => {
@@ -41,11 +40,11 @@ const Comments = () => {
             </button>
           )}
 
-          <div className="comments-img my-3">
+          {/* <div className="comments-img my-3">
             <img src={TShirt1} alt="" />
             <img src={TShirt2} alt="" />
             <img src={TShirt3} alt="" />
-          </div>
+          </div> */}
 
           <div className="star-div d-flex align-items-center column-gap-3 mb-3">
             <div className="stars d-flex align-items-center column-gap-1">

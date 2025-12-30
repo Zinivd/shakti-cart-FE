@@ -121,10 +121,15 @@ useEffect(() => {
         </div>
 
         <div className="product-description my-3">
-          <div className="body-head d-block">
-            <h4 className="mb-3">
+          <div className="body-head">
+            <h4 className="mb-0">
               <span>|</span> User Comments
             </h4>
+            <a href="">
+              <button className="cartbtn">Add Review</button>
+            </a>
+          </div>
+          <div className="body-head mt-3">
             <div className="d-flex align-items-center column-gap-3">
               <h6>Ratings</h6>
               <h6 className="text-decoration-underline">Comments</h6>
