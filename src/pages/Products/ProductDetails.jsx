@@ -125,7 +125,7 @@ useEffect(() => {
             <h4 className="mb-0">
               <span>|</span> User Comments
             </h4>
-            <a href="">
+            <a data-bs-toggle="modal" data-bs-target="#addReview">
               <button className="cartbtn">Add Review</button>
             </a>
           </div>

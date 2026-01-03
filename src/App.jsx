@@ -27,6 +27,7 @@ import Refund_Policy from "./pages/Policy/Refund_Policy.jsx";
 import Shipping_Policy from "./pages/Policy/Shipping_Policy.jsx";
 import AddAddress from "./components/Popup/AddAddress.jsx";
 import EditAddress from "./components/Popup/EditAddress.jsx";
+import AddReview from "./components/Popup/AddReview.jsx";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <NavOffcanvas />
           <AddAddress />
           <EditAddress />
+          <AddReview />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />
