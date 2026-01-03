@@ -35,7 +35,8 @@ const Cart = () => {
 
   const shipping = cartProducts.length > 0 ? SHIPPING_CHARGE : 0;
   const grandTotal = subTotal + shipping;
-
+  const isAuthenticated=localStorage.getItem("isAuthenticated");
+  
   return (
     <div className="main">
       <div className="main-header pb-0">
@@ -49,10 +50,12 @@ const Cart = () => {
               Cart
             </Link>
           </h6>
+         {!isAuthenticated && (
           <h6 className="mb-1 text-start">
             Please fill in the fields below and click place order to complete your purchase! <br />
             Already registered? <Link to="/login" className="text-primary">Login</Link>
           </h6>
+        )}
         </div>
       </div>
 
@@ -68,7 +71,7 @@ const Cart = () => {
       </div>
 
       {/* Cart Total */}
-      <div className="cart-total mt-3">
+      {isAuthenticated && (<div className="cart-total mt-3">
         <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
             <div className="body-head d-block">
               <h5 className="mb-2 text-dark text-start">Discount Codes</h5>
@@ -102,8 +105,8 @@ const Cart = () => {
         </Link>
             </div>
       </div>
-      </div>
-
+      </div>)}
+      
       {/* Offer */}
       {/* <div className="main-header">
         <Offer />

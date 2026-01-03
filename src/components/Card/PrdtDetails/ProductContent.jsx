@@ -63,7 +63,7 @@ const ProductContent = ({ product }) => {
   const handleBuyNow = () => {
     handleAddToCart().then(() => {
       
-      window.location.href = "/checkout";
+      window.location.href = "/cart";
     });
   };
 
