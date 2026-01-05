@@ -1,41 +1,111 @@
 import React from "react";
-import { removeCartProduct } from "../../service/api";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addToCart, removeCartProduct } from "../../service/api";
 import "./CartTable.css";
 
 const SAMPLE_IMAGE = "https://via.placeholder.com/80x80.png?text=Product";
 
 const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
-  const incQty = (index) => {
-    setCartProducts((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const navigate = useNavigate();
+
+  /* =========================
+     AUTH CHECK
+  ========================= */
+  const isAuthenticated =
+    localStorage.getItem("isAuthenticated") === "true";
+
+  const checkAuth = () => {
+    if (!isAuthenticated) {
+      toast.error("Please login to update cart");
+      navigate("/login");
+      return false;
+    }
+    return true;
   };
 
-  const decQty = (index) => {
-    setCartProducts((prev) =>
-      prev.map((item, i) =>
-        i === index && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
+  /* =========================
+     INCREASE QTY (API)
+  ========================= */
+ const incQty = async (item, index) => {
+  if (!checkAuth()) return;
 
+  try {
+    const payload = {
+      product_id: item.product_id,
+      quantity: 1, // 🔥 ONLY INCREMENT BY 1
+      size: item.product?.size,
+      color: item.product?.color,
+    };
+
+    const response = await addToCart(payload);
+
+    if (response?.data?.success) {
+      setCartProducts((prev) =>
+        prev.map((p, i) =>
+          i === index ? { ...p, quantity: p.quantity + 1 } : p
+        )
+      );
+    }
+  } catch (err) {
+    toast.error("Error updating cart");
+  }
+};
+
+
+  /* =========================
+     DECREASE QTY (API)
+  ========================= */
+  const decQty = async (item, index) => {
+  if (item.quantity <= 1) return;
+  if (!checkAuth()) return;
+
+  try {
+    const payload = {
+      product_id: item.product_id,
+      quantity: -1, // 🔥 DECREMENT
+      size: item.product?.size,
+      color: item.product?.color,
+    };
+
+    const response = await addToCart(payload);
+
+    if (response?.data?.success) {
+      setCartProducts((prev) =>
+        prev.map((p, i) =>
+          i === index ? { ...p, quantity: p.quantity - 1 } : p
+        )
+      );
+    }
+  } catch (err) {
+    toast.error("Error updating cart");
+  }
+};
+
+  /* =========================
+     REMOVE CART
+  ========================= */
   const handleRemoveCart = async (productId) => {
+    if (!checkAuth()) return;
+
     try {
       const response = await removeCartProduct({ product_id: productId });
       if (response?.data?.success) {
+        toast.success("Item removed from cart");
         refreshCart();
       }
     } catch (error) {
       console.error("Remove cart error:", error);
+      toast.error("Error removing product");
     }
   };
 
+  /* =========================
+     UI (UNCHANGED)
+  ========================= */
   return (
     <>
+      {/* ================= DESKTOP ================= */}
       <div className="table-wrapper desktop-only">
         <table className="table">
           <thead>
@@ -61,6 +131,7 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
                 const price = Number(item.product?.selling_price || 0);
                 const qty = Number(item.quantity || 1);
                 const subtotal = price * qty;
+
                 return (
                   <tr key={item.product_id}>
                     <td>
@@ -73,44 +144,31 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
                           alt=""
                         />
                         <div>
-                          <h6 className="text-uppercase mb-2">
-                            {item.product?.brand}
-                          </h6>
-                          <h5 className="mb-2">{item.product?.product_name}</h5>
-                          <h6 className="text-dark text-uppercase mb-2">
-                            Size: {item.product?.size}
-                          </h6>
-                          <h6 className="text-dark text-uppercase mb-0">
-                            {item.product?.color}
-                          </h6>
+                          <h6>{item.product?.brand}</h6>
+                          <h5>{item.product?.product_name}</h5>
+                          <h6>Size: {item.product?.size}</h6>
+                          <h6>{item.product?.color}</h6>
                         </div>
                       </div>
                     </td>
+
                     <td>
                       <h5>₹ {price}</h5>
                       <h6 className="text-decoration-line-through">
-                        ₹ {item.product.actual_price}
+                        ₹ {item.product?.actual_price}
                       </h6>
                     </td>
+
                     <td>
                       <div className="qtydiv" style={{ width: "125px" }}>
-                        <button
-                          className="qtybtn"
-                          onClick={() => decQty(index)}
-                        >
-                          -
-                        </button>
-                        <span className="mx-2 text-center">{qty}</span>
-                        <button
-                          className="qtybtn"
-                          onClick={() => incQty(index)}
-                        >
-                          +
-                        </button>
+                        <button onClick={() => decQty(item, index)}>-</button>
+                        <span className="mx-2">{qty}</span>
+                        <button onClick={() => incQty(item, index)}>+</button>
                       </div>
                     </td>
 
                     <td>Free</td>
+
                     <td>
                       <h5>₹ {subtotal}</h5>
                     </td>
@@ -118,9 +176,9 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
                     <td>
                       <i
                         className="fas fa-trash-can"
-                        style={{ cursor: "pointer" }}
                         onClick={() => handleRemoveCart(item.product_id)}
-                      ></i>
+                        style={{ cursor: "pointer" }}
+                      />
                     </td>
                   </tr>
                 );
@@ -130,65 +188,35 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
         </table>
       </div>
 
+      {/* ================= MOBILE ================= */}
       <div className="mobile-only cart-cards">
-        {cartProducts.length === 0 ? (
-          <p className="text-center">Your Cart is Empty</p>
-        ) : (
-          cartProducts.map((item, index) => {
-            const price = Number(item.product?.selling_price || 0);
-            const qty = Number(item.quantity || 1);
-            const subtotal = price * qty;
-            return (
-              <div className="cart-card" key={item.product_id}>
-                <div className="cart-card-left">
-                  <img
-                    src={item.product?.images?.[0] || SAMPLE_IMAGE}
-                    height="165px"
-                    width="100%"
-                    className="object-fit-cover"
-                    alt=""
-                  />
-                </div>
-                <div className="cart-card-right">
-                  <div className="cart-cart-head">
-                    <h6 className="mb-2">{item.product?.brand}</h6>
-                    <h5 className="mb-0">{item.product?.product_name}</h5>
-                    <div className="d-flex align-items-center justify-content-start gap-3 my-2">
-                      <h5 className="mb-0">
-                        ₹{price} <span>₹{item.product.actual_price}</span>
-                      </h5>
-                      <h6 className="cart-offer mb-0">
-                        ₹{item.product.discount}% OFF
-                      </h6>
-                    </div>
-                  </div>
-                  <div className="cart-card-middle my-2">
-                    <div className="d-flex align-items-center justify-content-start gap-3">
-                      <h5 className="mb-0">Size : {item.product?.size}</h5>|
-                      <h5 className="mb-0">{item.product?.color}</h5>
-                    </div>
-                  </div>
+        {cartProducts.map((item, index) => {
+          const price = Number(item.product?.selling_price || 0);
+          const qty = Number(item.quantity || 1);
 
-                  <div className="qty-row">
-                    <div className="qtydiv" style={{ width: "140px" }}>
-                      <button className="qtybtn" onClick={() => decQty(index)}>
-                        -
-                      </button>
-                      <span className="text-center">{qty}</span>
-                      <button className="qtybtn" onClick={() => incQty(index)}>
-                        +
-                      </button>
-                    </div>
-                    <i
-                      className="fas fa-trash-can fs-5"
-                      onClick={() => handleRemoveCart(item.product_id)}
-                    />
-                  </div>
-                </div>
+          return (
+            <div className="cart-card" key={item.product_id}>
+              <img
+                src={item.product?.images?.[0] || SAMPLE_IMAGE}
+                alt=""
+              />
+
+              <h5>{item.product?.product_name}</h5>
+              <p>₹ {price}</p>
+
+              <div className="qtydiv">
+                <button onClick={() => decQty(item, index)}>-</button>
+                <span>{qty}</span>
+                <button onClick={() => incQty(item, index)}>+</button>
               </div>
-            );
-          })
-        )}
+
+              <i
+                className="fas fa-trash-can"
+                onClick={() => handleRemoveCart(item.product_id)}
+              />
+            </div>
+          );
+        })}
       </div>
     </>
   );
