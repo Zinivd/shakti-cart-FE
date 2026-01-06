@@ -41,7 +41,9 @@ const Products = () => {
       <div className="main-header pb-0">
         <div className="body-head">
           <h6 className="d-flex column-gap-2 flex-wrap">
-            <Link to="/">Home <i className="fa fa-angle-right ps-1"></i></Link>
+            <Link to="/">
+              Home <i className="fa fa-angle-right ps-1"></i>
+            </Link>
             <Link to="/categories">
               All Categories <i className="fa fa-angle-right ps-1"></i>
             </Link>
@@ -86,9 +88,7 @@ const Products = () => {
       </div>
 
       {/* CARD2 */}
-      <div className="main-header">
-        {/* <Card2 /> */}
-      </div>
+      <div className="main-header">{/* <Card2 /> */}</div>
 
       {/* ALL PRODUCTS */}
       <div className="main-header">
@@ -100,9 +100,7 @@ const Products = () => {
         <Product />
       </div>
 
-      <div className="main-header">
-        {/* <Offer /> */}
-      </div>
+      <div className="main-header">{/* <Offer /> */}</div>
     </div>
   );
 };

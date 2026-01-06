@@ -81,7 +81,7 @@ const FilterSidebar = ({ onFilterChange, activeCategory }) => {
       </div>
 
       {/* 🔥 CATEGORY LIST (UI SAME) */}
-      {categories.map((cat) => (
+      {/* {categories.map((cat) => (
         <li className="mb-2" key={cat.category_id}>
           <button
             className={`filterbtn mx-auto ${selectedCategory === cat.category_id ? "active" : ""
@@ -97,7 +97,7 @@ const FilterSidebar = ({ onFilterChange, activeCategory }) => {
           </button>
         </li>
       ))}
-      <hr />
+      <hr /> */}
 
       {/* Prices (UI SAME) */}
       <div className="filter-header mb-2">

@@ -17,30 +17,29 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const apiCalled = useRef(false); 
+  // const apiCalled = useRef(false);
 
-useEffect(() => {
-  if (!id) return;
+  useEffect(() => {
+    if (!id) return;
 
-  fetchProductDetails();
-}, [id]);
+    fetchProductDetails();
+  }, [id]);
   const fetchProductDetails = async () => {
-  try {
-    setLoading(true);
-    setProduct(null);
+    try {
+      setLoading(true);
+      setProduct(null);
 
-    const response = await getProductById(id);
+      const response = await getProductById(id);
 
-    if (response?.data?.success) {
-      setProduct(response.data.data);
+      if (response?.data?.success) {
+        setProduct(response.data.data);
+      }
+    } catch (error) {
+      console.error("Product API error", error);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Product API error", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   if (loading) {
     return (
@@ -93,7 +92,7 @@ useEffect(() => {
           </div>
 
           <div className="product-details-right">
-            <OfferProduct />
+            {/* <OfferProduct /> */}
             <ShareProduct productName={product.product_name} productId={id} />
           </div>
         </div>
@@ -139,7 +138,7 @@ useEffect(() => {
         </div>
 
         <div className="main-header">
-          <Card_2 categoryId={product.category_id} />
+          {/* <Card_2 categoryId={product.category_id} /> */}
         </div>
 
         <div className="main-header">
@@ -149,10 +148,10 @@ useEffect(() => {
             </h5>
           </div>
           <Product
-  categoryId={product.category_id}
-  currentProductId={id}
-  hideAds={true}
-/>
+            categoryId={product.category_id}
+            currentProductId={id}
+            hideAds={true}
+          />
           {/* <div className="d-flex align-items-center justify-content-center my-3">
             <Link to="/products">
               <button className="darkbtn">
@@ -163,7 +162,7 @@ useEffect(() => {
         </div>
 
         <div className="main-header">
-          <Offer />
+          {/* <Offer /> */}
         </div>
       </div>
     </div>
