@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import EllipsisCard from "./EllipsisCard.jsx";
 import "./Ellipsis.css";
 import { getAllProducts } from "../../service/api";
+import Loader from "../Loader/Loader.jsx";
 
 const Ellipsis = ({ onLoaded }) => {
   const [categories, setCategories] = useState([]);
@@ -21,7 +22,9 @@ const Ellipsis = ({ onLoaded }) => {
       const products = response?.data?.data || [];
 
       setCategories(products);
-      onLoaded?.(products.length);
+      setTimeout(() => {
+        onLoaded?.(products.length);
+      }, 0);
     } catch (error) {
       console.error("API ERROR:", error);
       setCategories([]);
@@ -31,12 +34,10 @@ const Ellipsis = ({ onLoaded }) => {
     }
   };
 
-  // ✅ MUST COME FIRST
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return <Loader />;
   }
 
-  // ✅ ONLY after loading finished
   if (!categories.length) {
     return <p className="text-center">No categories found</p>;
   }

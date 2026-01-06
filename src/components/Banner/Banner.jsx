@@ -30,7 +30,7 @@ const Banner = () => {
       bannerClass: "splide_1",
       bannerImg: HomeCL,
       bannerh6: "Let's Celebrate! | Over 6000 Chic Styles Now At 70% Off.",
-      bannerh5: "Best Deal online on Clothing's",
+      bannerh5: "Best Deal Online on Clothing's",
       bannerh3: "SMART WEARABLE.",
       bannerh4: "Up to 80% Off",
     },

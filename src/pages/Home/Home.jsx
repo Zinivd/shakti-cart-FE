@@ -10,22 +10,29 @@ const Home = () => {
   const splideRef = useRef(null);
 
   const initSplide = (count) => {
-    if (splideRef.current) return;
+    if (splideRef.current) {
+      splideRef.current.destroy(true);
+      splideRef.current = null;
+    }
 
     splideRef.current = new Splide(".home_ellipsis", {
-      type: count > 7 ? "loop" : "slide",
-      perPage: Math.min(7, count),
+      type: count > 6 ? "loop" : "slide",
+      perPage: Math.min(6, count),
       perMove: 1,
       pagination: false,
-      arrows: count > 7,
+      autoplay: true,
+      arrows: true,
+      interval: 1500,
       breakpoints: {
-        1098: { perPage: Math.min(6, count) },
-        768: { perPage: Math.min(5, count) },
-        580: { perPage: Math.min(4, count) },
+        1098: { perPage: Math.min(5, count) },
+        768: { perPage: Math.min(3, count) },
+        580: { perPage: Math.min(2, count) },
         480: { perPage: Math.min(2, count) },
-        300: { perPage: Math.min(3, count) },
+        300: { perPage: Math.min(1, count) },
       },
-    }).mount();
+    });
+
+    splideRef.current.mount();
   };
 
   useEffect(() => {
@@ -39,13 +46,13 @@ const Home = () => {
       <div className="main-header">
         <div className="body-head mb-4">
           <h5>
-            Popular <span>Categories</span>
+            Quick <span>Hits</span>
           </h5>
         </div>
 
         <div className="home_ellipsis splide">
           <div className="ellipsis splide__track">
-            <div className="ellipsis-list splide__list">
+            <div className="ellipsis-list splide__list gap-1 gap-lg-3">
               <Ellipsis onLoaded={initSplide} />
             </div>
           </div>
