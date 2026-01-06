@@ -1,8 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getProductReviews } from "../../../service/api";
 import "./Reviews.css";
 
-const Comments = () => {
+const Comments = ({ productId }) => {
+  const [comments, setComments] = useState([]);
   const [expandedIndexes, setExpandedIndexes] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!productId) return;
+    fetchComments();
+  }, [productId]);
+
+  const fetchComments = async () => {
+    setLoading(true);
+    try {
+      const response = await getProductReviews(productId);
+
+      if (response?.data?.success && response.data.data) {
+        setComments([response.data.data]); // API returns single object
+      } else {
+        setComments([]);
+      }
+    } catch (error) {
+      console.error("Review fetch error", error);
+      setComments([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleExpand = (index) => {
     setExpandedIndexes((prev) => ({
@@ -11,56 +37,44 @@ const Comments = () => {
     }));
   };
 
-  const comment = [
-    {
-      id: 1,
-      name: "John Doe",
-      date: "02-Sept-2025",
-      rating: "4.5",
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea ducimus commodi molestias numquam ex exercitationem? Dolor alias, necessitatibus vel nihil assumenda eaque eius! Fugit rem voluptas mollitia explicabo maxime exercitationem omnis quasi rerum eos, voluptates aspernatur, perferendis at assumenda dolor aliquid repudiandae iusto vitae tempora? Doloremque fugit nobis fuga cumque recusandae, voluptas ad delectus aspernatur dolores, reiciendis?",
-    },
-  ];
+  if (loading) {
+    return <p>Loading reviews...</p>;
+  }
+
+  if (comments.length === 0) {
+    return <p className="text-muted">No reviews found for this product.</p>;
+  }
+
   return (
     <div className="comments">
-      {comment.map((item, index) => (
+      {comments.map((item, index) => (
         <div className="comments-div mb-3" key={index}>
-          <h6
-            className={`comments-descp ${expandedIndexes[index] ? "expanded" : ""}`}
-            key={index}
-          >
-            {item.comment}
+          <h6 className={`comments-descp ${expandedIndexes[index] ? "expanded" : ""}`}>
+            {item.description}
           </h6>
-          {item.comment.length > 50 && (
-            <button
-              className="toggle-btn"
-              onClick={() => toggleExpand(index)}
-            >
+
+          {item.description?.length > 80 && (
+            <button className="toggle-btn" onClick={() => toggleExpand(index)}>
               {expandedIndexes[index] ? "Show less" : "Read more"}
             </button>
           )}
 
-          {/* <div className="comments-img my-3">
-            <img src={TShirt1} alt="" />
-            <img src={TShirt2} alt="" />
-            <img src={TShirt3} alt="" />
-          </div> */}
-
           <div className="star-div d-flex align-items-center column-gap-3 mb-3">
-            <div className="stars d-flex align-items-center column-gap-1">
-              <i className="bx bxs-star text-warning"></i>
-              <i className="bx bxs-star text-warning"></i>
-              <i className="bx bxs-star text-warning"></i>
-              <i className="bx bx-star"></i>
-              <i className="bx bx-star"></i>
+            <div className="stars">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <i
+                  key={i}
+                  className={`bx ${i < item.rating ? "bxs-star text-warning" : "bx-star"}`}
+                ></i>
+              ))}
             </div>
             <span>{item.rating}</span>
           </div>
 
           <div className="comments-user">
-            <h6>{item.name}</h6>
+            <h6>{item.user_id || "Anonymous"}</h6>
             <h5>|</h5>
-            <h6>{item.date}</h6>
+            <h6>{new Date(item.created_at).toDateString()}</h6>
           </div>
         </div>
       ))}

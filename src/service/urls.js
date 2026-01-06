@@ -61,6 +61,9 @@ export const Urls = {
   getOrdersByUserId: `${BASE_URL}/api/orders`,
   getOrderByOrderId: `${BASE_URL}/api/orders_byorderId`,
   updateOrderStatus: `${BASE_URL}/api/order/update-status`,
+
+  getProductReviews: `${BASE_URL}/api/product/review`,
+  addProductReview: `${BASE_URL}/api/product/review`,
 };
 
 // Helper function to build URL with query parameters

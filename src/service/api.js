@@ -292,3 +292,24 @@ export async function placeOrder(body = {}) {
     return null;
   }
 }
+
+export async function addProductReview(payload) {
+  try {
+    const url = `${Urls.addProductReview}`;
+    const result = await Client(url, payload, "post");
+    return result;
+  } catch (error) {
+    console.error("addProductReview error", error);
+    return null;
+  }
+}
+export async function getProductReviews(productId) {
+  try {
+    const url = `${Urls.getProductReviews}/${productId}`;
+    const result = await Client(url, {}, "get");
+    return result;
+  } catch (error) {
+    console.error("getProductReviews error", error);
+    return null;
+  }
+}

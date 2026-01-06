@@ -12,34 +12,34 @@ import Description from "../../components/Card/PrdtDetails/Description";
 import Reviews from "../../components/Card/Reviews/Reviews";
 import Comments from "../../components/Card/Reviews/Comments";
 import { getProductById } from "../../service/api";
-
+import AddReview from "../../components/Popup/AddReview";
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const apiCalled = useRef(false);
+  // const apiCalled = useRef(false); 
 
-  useEffect(() => {
-    if (!id) return;
+useEffect(() => {
+  if (!id) return;
 
-    fetchProductDetails();
-  }, [id]);
+  fetchProductDetails();
+}, [id]);
   const fetchProductDetails = async () => {
-    try {
-      setLoading(true);
-      setProduct(null);
+  try {
+    setLoading(true);
+    setProduct(null);
 
-      const response = await getProductById(id);
+    const response = await getProductById(id);
 
-      if (response?.data?.success) {
-        setProduct(response.data.data);
-      }
-    } catch (error) {
-      console.error("Product API error", error);
-    } finally {
-      setLoading(false);
+    if (response?.data?.success) {
+      setProduct(response.data.data);
     }
-  };
+  } catch (error) {
+    console.error("Product API error", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return (
@@ -134,7 +134,9 @@ const ProductDetails = () => {
               <h6 className="text-decoration-underline">Comments</h6>
             </div>
           </div>
-          <Comments productId={id} />
+         <Comments productId={id} />
+<AddReview productId={id} onSuccess={() => window.location.reload()} />
+
         </div>
 
         <div className="main-header">
@@ -148,10 +150,10 @@ const ProductDetails = () => {
             </h5>
           </div>
           <Product
-            categoryId={product.category_id}
-            currentProductId={id}
-            hideAds={true}
-          />
+  categoryId={product.category_id}
+  currentProductId={id}
+  hideAds={true}
+/>
           {/* <div className="d-flex align-items-center justify-content-center my-3">
             <Link to="/products">
               <button className="darkbtn">
