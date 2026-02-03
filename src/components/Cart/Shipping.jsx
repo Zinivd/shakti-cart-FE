@@ -12,7 +12,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
   const [showConfirmOrder, setShowConfirmOrder] = useState(false);
   const [showPayNow, setShowPayNow] = useState(false);
   const [razorpay_order_id, setRazorpayOrderId] = useState("");
-  const SHIPPING = 0;
+  const SHIPPING = 40;
   const SAVINGS = 0;
   const subTotal = cartItems.reduce((sum, item) => {
     return (
@@ -23,12 +23,13 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
 
   const total = subTotal - SAVINGS + SHIPPING;
 
-  const get_rzap_pay_order_id = async () => {
+  const get_rzap_pay_order_id = async (order_id) => {
     try {
-      const res = await check_out({ order_id: orderId });
+      const res = await check_out({ order_id: order_id });
       setRazorpayOrderId(res?.data?.checkout?.order_id);
       setShowConfirmOrder(false);
       setShowPayNow(true);
+      // razorpay_order_id()
       toast.success("Order Confirmed Successfully");
     } catch (err) {
       console.error("Something went wrong");
@@ -43,7 +44,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
     try {
       const payload = {
         user_id: cartItems[0]?.user_id,
-        payment_mode: "Razorpay Payment",
+        payment_mode: "razorpay",
         address: {
           building: selectedAddress.building_name || "",
           address_line1: selectedAddress.address_1 || "",
@@ -68,6 +69,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
         setOrderId(response.data.order_id);
         setShowPlaceOrder(false);
         setShowConfirmOrder(true);
+        get_rzap_pay_order_id(response.data.order_id);
         toast.success("Order Placed Successfully");
       }
     } catch (error) {
@@ -116,7 +118,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
               Delivery Charges <br />
               <span className=" text-muted">Additional fess may apply</span>
             </label>
-            <label> FREE</label>
+            <label> ₹ {SHIPPING}</label>
           </li>
         </ul>
       </div>
@@ -198,13 +200,8 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
           Place Order
         </button>
       )}
-      {showConfirmOrder && (
-        <button className="darkbtn" onClick={get_rzap_pay_order_id}>
-          Confirm Order
-        </button>
-      )}
       {showPayNow && (
-        <RazorpayButton total={total} razorpay_order_id={razorpay_order_id} />
+        <RazorpayButton total={total} razorpay_order_id={razorpay_order_id} cartItems={cartItems} />
       )}
     </div>
   );

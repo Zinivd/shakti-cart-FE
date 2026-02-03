@@ -1,7 +1,7 @@
 import React from "react";
 
 const Summary = ({ cartItems = [] }) => {
-  const SHIPPING = 0;
+  const SHIPPING = 40;
   const SAVINGS = 0;
 
   const subTotal = cartItems.reduce((sum, item) => {
@@ -71,7 +71,7 @@ const Summary = ({ cartItems = [] }) => {
         <hr />
         <div className="shipping">
           <h5 className="mb-0">Shipping</h5>
-          <h6 className="mb-0">FREE</h6>
+          <h6 className="mb-0">₹ {SHIPPING}.00</h6>
         </div>
         <hr />
         <div className="total">

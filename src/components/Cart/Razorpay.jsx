@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { loadRazorpay, verify_checkout } from "../../service/api";
+import { loadRazorpay, removeCartProduct, verify_checkout } from "../../service/api";
 
-const RazorpayButton = ({ total, razorpay_order_id }) => {
+const RazorpayButton = ({ total, razorpay_order_id, cartItems = [] }) => {
   const navigate = useNavigate();
   const startPayment = async () => {
     const res = await loadRazorpay();
@@ -16,7 +16,7 @@ const RazorpayButton = ({ total, razorpay_order_id }) => {
 
     const options = {
       key: "rzp_test_S8AjOLZATEpF0Y", // 🔴 Public Key only
-      amount: total * 100, // in paise
+      amount: total * 100 + 4000, // in paise
       currency: "INR",
       name: "Shakti Cart",
       description: "Order Payment",
@@ -38,6 +38,7 @@ const RazorpayButton = ({ total, razorpay_order_id }) => {
           razorpay_signature:response.razorpay_signature,
         };
         verify_checkout(payload);
+        removeCartProduct({ product_id: cartItems[0]?.product_id });
       },
 
       prefill: {

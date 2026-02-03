@@ -4,7 +4,7 @@ import CartTable from "../../components/Cart/Table.jsx";
 import { createOrder, getCartProducts, placeOrder } from "../../service/api";
 import "./Cart.css";
 
-const SHIPPING_CHARGE = 0;
+const SHIPPING_CHARGE = 40;
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -117,7 +117,7 @@ const Cart = () => {
                         Additional fess may apply
                       </span>
                     </label>
-                    <label className="fw-bold"> FREE</label>
+                    <label className="fw-bold"> ₹ {SHIPPING_CHARGE}.00</label>
                   </li>
                 </ul>
               </div>
@@ -132,7 +132,7 @@ const Cart = () => {
                   </tr>
                   <tr>
                     <th>Shipping</th>
-                    <th>FREE</th>
+                    <th>₹ {SHIPPING_CHARGE}.00</th>
                   </tr>
                   <tr>
                     <th>Grand Total</th>
