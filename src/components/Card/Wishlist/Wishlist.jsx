@@ -8,6 +8,8 @@ import {
 } from "../../../service/api";
 import { toast } from "react-toastify";
 import Loader from "../../Loader/Loader";
+import { NoWishlist } from "../../../../public/Assets.js";
+
 const Wishlist = () => {
   const [wishlistData, setWishlistData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,8 +78,9 @@ const Wishlist = () => {
 
   if (!loading && wishlistData.length === 0) {
     return (
-      <div className="wishlistCard text-center py-5">
-        <h4>No items found in wishlist</h4>
+      <div className="empty-state wishlistCard">
+        <img src={NoWishlist} alt="" />
+        <h6 className="mb-0">No Items Found in Wishlist</h6>
         <Link to="/">
           <button className="darkbtn mt-3">Continue Shopping</button>
         </Link>

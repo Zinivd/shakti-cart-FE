@@ -177,7 +177,7 @@ const Checkout = () => {
         landmark: selectedAddressData.landmark || "",
         address_type: selectedAddressData.address_type || "home",
       };
-
+      
       const payload = {
         payment_mode: "UPI",
         address: transformedAddress,
@@ -221,6 +221,10 @@ const Checkout = () => {
       setFormData((prev) => ({ ...prev, phone: value }));
     }
   };
+
+  const selectedAddressData = selectedAddress
+  ? addresses.find((addr) => addr.id === selectedAddress)
+  : null;
 
   return (
     <div className="main">
@@ -435,10 +439,10 @@ const Checkout = () => {
             </div>
           )}
 
-          <Shipping cartItems={cartItems} />
+          <Shipping cartItems={cartItems} selectedAddress={selectedAddressData} />
 
           {/* Place Order Button - Only show if address is selected */}
-          {addresses.length > 0 && (
+          {/* {addresses.length > 0 && (
             <button
               className="darkbtn mt-3 w-100"
               onClick={handlePlaceOrder}
@@ -446,7 +450,7 @@ const Checkout = () => {
             >
               {placingOrder ? "Placing Order..." : "Place Order"}
             </button>
-          )}
+          )} */}
         </div>
 
         <div className="checkout-right">

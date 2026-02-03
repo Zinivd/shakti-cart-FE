@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProductReviews } from "../../../service/api";
 import "./Reviews.css";
+import { NoReviews } from "../../../../public/Assets";
 
 const Comments = ({ productId }) => {
   const [comments, setComments] = useState([]);
@@ -42,7 +43,12 @@ const Comments = ({ productId }) => {
   }
 
   if (comments.length === 0) {
-    return <h6 className=" mt-3 text-center text-muted">No reviews found for this product.</h6>;
+    return (
+      <div className="empty-state">
+        <img src={NoReviews} alt="" />
+        <h6>No Reviews Found</h6>
+      </div>
+    )
   }
 
   return (

@@ -114,3 +114,24 @@ input[type="number"] {
 input[type="number"]::-ms-clear {
     display: none;
 }
+
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+}
+
+.empty-state img {
+    height: 150px;
+    display: flex;
+    margin: auto;
+}
+
+.empty-state h6{
+    font-weight: var(--fw-md);
+    color: var(--text-primary);
+    font-size: 14px;
+}

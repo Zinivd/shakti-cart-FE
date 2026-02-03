@@ -39,7 +39,7 @@ const Ellipsis = ({ onLoaded }) => {
   }
 
   if (!categories.length) {
-    return <p className="text-center">No categories found</p>;
+    return <p className="text-center">No Categories Found</p>;
   }
 
   return (

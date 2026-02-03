@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import AddressCard from "../../components/Card/Address/Address";
 import AddAddress from "../../components/Popup/AddAddress";
+import { NoAddress } from "../../../public/Assets";
 const Address = () => {
   const [address, setAddress] = useState(null);
   const [editMode, setEditMode] = useState("add");
@@ -36,12 +37,9 @@ const Address = () => {
       {address ? (
         <AddressCard address={address} onEdit={handleEdit} />
       ) : (
-        <div className="address-main">
-          <div className="address-card">
-            <label className="w-100">
-              <h5 className="mb-2">No Address Found.</h5>
-            </label>
-          </div>
+        <div className="empty-state">
+          <img src={NoAddress} alt="" />
+          <h6 className="mb-2">No Address Found</h6>
         </div>
       )}
 

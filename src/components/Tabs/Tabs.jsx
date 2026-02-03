@@ -4,6 +4,7 @@ import "./Tabs.css";
 import { logoutUser } from "../../service/api";
 import { useNavigate } from "react-router-dom";
 import { Tab } from "bootstrap";
+import { toast } from "react-toastify";
 const Tabs = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Tabs = () => {
     } finally {
       localStorage.clear();
       navigate("/");
+      toast.success("Logged Out successfully");
     }
   };
 

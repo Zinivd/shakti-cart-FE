@@ -34,6 +34,13 @@ import Bags from "./assets/images/Feature-Bags.png";
 import Skin from "./assets/images/Feature-Skin.png";
 import Electronics from "./assets/images/Feature-Electronics.png";
 import Logout from "./assets/images/Logout.png";
+import NoAddress from "./assets/images/Empty/NoAddress.png";
+import NoCart from "./assets/images/Empty/NoCart.png";
+import NoProducts from "./assets/images/Empty/NoProducts.png";
+import NoReviews from "./assets/images/Empty/NoReviews.png";
+import NoSimilar from "./assets/images/Empty/NoSimilar.png";
+import NoWishlist from "./assets/images/Empty/NoWishlist.png";
+import NoNotify from "./assets/images/Empty/NoNotify.png";
 
 export {
   Logo_Main,
@@ -71,4 +78,11 @@ export {
   Skin,
   Electronics,
   Logout,
+  NoWishlist,
+  NoAddress,
+  NoReviews,
+  NoSimilar,
+  NoCart,
+  NoProducts,
+  NoNotify,
 };

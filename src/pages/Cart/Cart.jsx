@@ -36,36 +36,9 @@ const Cart = () => {
   const shipping = cartProducts.length > 0 ? SHIPPING_CHARGE : 0;
   const grandTotal = subTotal + shipping;
   const isAuthenticated = localStorage.getItem("isAuthenticated");
+  
   const handleCheckout = async () => {
-    try {
-      const payload = {
-        user_id: cartProducts[0]?.user_id,
-        payment_mode: "razorpay",
-        address: {
-          building: "Flat 12B",
-          address_line1: "MG Road",
-          address_line2: "Near Metro Station",
-          city: "Bengaluru",
-          district: "Bengaluru Urban",
-          state: "Karnataka",
-          pincode: "560001",
-          address_type: "home",
-        },
-        items: [
-          {
-            product_id: cartProducts[0]?.product_id,
-            size: cartProducts[0]?.size,
-            quantity: cartProducts[0]?.quantity,
-          },
-        ],
-      };
-      const response = await createOrder(payload);
-      if (response?.data?.success) {
-        navigate(`/checkout/${response.data.order_id}`);
-      }
-    } catch (error) {
-      console.error("Cart fetch error:", error);
-    }
+    navigate('/checkout');
   };
 
   return (
@@ -171,11 +144,6 @@ const Cart = () => {
               <button className="darkbtn" onClick={handleCheckout}>
                 Proceed to Checkout
               </button>
-              {/* <Link
-                to="/checkout"
-                className="d-flex align-items-center justify-content-center mt-3"
-              >
-              </Link> */}
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { VegIcon } from "../../../../public/Assets.js";
+import { NoSimilar, VegIcon } from "../../../../public/Assets.js";
 import ProductCard from "./ProductCard.jsx";
 import Card1 from "../Discover/Card1.jsx";
 import Card2 from "../Discover/Card2.jsx";
@@ -96,8 +96,9 @@ const Product = (props) => {
 
   if (!loading && hideAds && products.length === 0) {
     return (
-      <div className="text-center my-4">
-        <h6>No similar products found</h6>
+      <div className="empty-state">
+        <img src={NoSimilar} alt="" />
+        <h6>No Similar Products Found</h6>
       </div>
     );
   }

@@ -12,6 +12,7 @@
     background-color: var(--ter-light);
     padding: 15px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .order-headcard {
@@ -28,20 +29,37 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+    animation: fadeSlide 0.3s ease-in-out;
 }
 
 .order-headcard h5 {
     color: var(--text-primary);
     font-weight: var(--fw-md);
+    text-transform: capitalize !important;
 }
 
 .order-headcard h6 {
     color: var(--text-secondary);
     font-weight: var(--fw-sm);
+    text-transform: capitalize !important;
 }
 
-.order-content img {
-    mix-blend-mode: multiply;
+.order-bottomleft .product-detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media screen and (min-width: 1098px) {

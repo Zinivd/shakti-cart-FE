@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Gpay, PayPal, Visa, PayPass } from "../../../public/Assets.js";
 import "./Shipping.css";
+import { toast } from "react-toastify";
 import { Link, useParams } from "react-router-dom";
 import { check_out, createOrder, verify_checkout } from "../../service/api.js";
 import RazorpayButton from "./Razorpay.jsx";
 
-const Shipping = ({ cartItems = [] }) => {
-  const { orderId } = useParams();
+const Shipping = ({ cartItems = [], selectedAddress }) => {
+  const [orderId, setOrderId] = useState("");
+  const [showPlaceOrder, setShowPlaceOrder] = useState(true);
+  const [showConfirmOrder, setShowConfirmOrder] = useState(false);
+  const [showPayNow, setShowPayNow] = useState(false);
   const [razorpay_order_id, setRazorpayOrderId] = useState("");
   const SHIPPING = 0;
   const SAVINGS = 0;
@@ -17,21 +21,57 @@ const Shipping = ({ cartItems = [] }) => {
     );
   }, 0);
 
-  useEffect(() => {
-  if (razorpay_order_id) {
-    openRazorpay(); // 🔥 auto trigger
-  }
-}, [razorpay_order_id]);
-
   const total = subTotal - SAVINGS + SHIPPING;
 
   const get_rzap_pay_order_id = async () => {
     try {
-      // check_out({ order_id: orderId })
       const res = await check_out({ order_id: orderId });
       setRazorpayOrderId(res?.data?.checkout?.order_id);
+      setShowConfirmOrder(false);
+      setShowPayNow(true);
+      toast.success("Order Confirmed Successfully");
     } catch (err) {
       console.error("Something went wrong");
+    }
+  };
+
+  const handleAddress = async () => {
+    if (!selectedAddress) {
+      alert("Please select an address");
+      return;
+    }
+    try {
+      const payload = {
+        user_id: cartItems[0]?.user_id,
+        payment_mode: "Razorpay Payment",
+        address: {
+          building: selectedAddress.building_name || "",
+          address_line1: selectedAddress.address_1 || "",
+          address_line2: selectedAddress.address_2 || "",
+          city: selectedAddress.city || "",
+          district: selectedAddress.district || "",
+          state: selectedAddress.state || "",
+          pincode: selectedAddress.pincode || "",
+          landmark: selectedAddress.landmark || "",
+          address_type: selectedAddress.address_type || "home",
+        },
+        items: [
+          {
+            product_id: cartItems[0]?.product_id,
+            size: cartItems[0]?.size,
+            quantity: cartItems[0]?.quantity,
+          },
+        ],
+      };
+      const response = await createOrder(payload);
+      if (response?.data?.success) {
+        setOrderId(response.data.order_id);
+        setShowPlaceOrder(false);
+        setShowConfirmOrder(true);
+        toast.success("Order Placed Successfully");
+      }
+    } catch (error) {
+      console.error("Cart fetch error:", error);
     }
   };
 
@@ -65,7 +105,6 @@ const Shipping = ({ cartItems = [] }) => {
       <div className="shipping-card my-3">
         <ul className="list-unstyled mb-0">
           <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-            {/* <label>Arrives by Monday, June 7</label> */}
             <label>
               <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
               <span className="text-dark fw-bold">Professional Courier</span>
@@ -153,10 +192,20 @@ const Shipping = ({ cartItems = [] }) => {
           </li>
         </ul>
       </div> */}
-      <button className="darkbtn" onClick={get_rzap_pay_order_id}>
-        Check Out
-      </button>
-      {/* <RazorpayButton total={total} razorpay_order_id={razorpay_order_id} /> */}
+
+      {showPlaceOrder && (
+        <button className="darkbtn" onClick={handleAddress}>
+          Place Order
+        </button>
+      )}
+      {showConfirmOrder && (
+        <button className="darkbtn" onClick={get_rzap_pay_order_id}>
+          Confirm Order
+        </button>
+      )}
+      {showPayNow && (
+        <RazorpayButton total={total} razorpay_order_id={razorpay_order_id} />
+      )}
     </div>
   );
 };

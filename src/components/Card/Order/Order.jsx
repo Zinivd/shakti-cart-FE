@@ -4,6 +4,7 @@ import OrderCards from "./OrderCards";
 import OrderDetails from "./OrderDetails";
 import { getOrders } from "../../../service/api";
 import "./Order.css";
+import { NoCart, NoProducts, NoNotify } from "../../../../public/Assets";
 
 const Order = () => {
   const [activeOrders, setActiveOrders] = useState([]);
@@ -56,7 +57,6 @@ const Order = () => {
       <OrderTabs />
 
       <div className="tab-content" id="profileTabContent">
-
         {/* ACTIVE ORDERS */}
         <div className="tab-pane fade show active" id="activeOrders">
           {loading ? (
@@ -67,7 +67,10 @@ const Order = () => {
               onBack={() => setSelectedOrder(null)}
             />
           ) : activeOrders.length === 0 ? (
-            <h6 className="text-center mt-4">No active orders</h6>
+            <div className="empty-state mt-5">
+              <img src={NoNotify} alt="" />
+              <h6>No Active Orders</h6>
+            </div>
           ) : (
             <OrderCards
               orders={activeOrders}
@@ -84,9 +87,10 @@ const Order = () => {
               onBack={() => setSelectedOrder(null)}
             />
           ) : cancelledOrders.length === 0 ? (
-            <h6 className="text-center mt-4" style={{ fontSize: "14px" }}>
-              No cancelled orders
-            </h6>
+            <div className="empty-state mt-5">
+              <img src={NoProducts} alt="" />
+              <h6>No Cancelled Orders</h6>
+            </div>
           ) : (
             <OrderCards
               orders={cancelledOrders}
@@ -103,9 +107,10 @@ const Order = () => {
               onBack={() => setSelectedOrder(null)}
             />
           ) : completedOrders.length === 0 ? (
-            <h6 className="text-center mt-4" style={{ fontSize: "14px" }}>
-              No completed orders
-            </h6>
+            <div className="empty-state mt-5">
+              <img src={NoCart} alt="" />
+              <h6>No Completed Orders</h6>
+            </div>
           ) : (
             <OrderCards
               orders={completedOrders}
@@ -113,7 +118,6 @@ const Order = () => {
             />
           )}
         </div>
-
       </div>
     </div>
   );
