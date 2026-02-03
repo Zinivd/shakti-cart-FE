@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Gpay, PayPal, Visa, PayPass } from "../../../public/Assets.js";
 import "./Shipping.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { check_out, createOrder, verify_checkout } from "../../service/api.js";
+import RazorpayButton from "./Razorpay.jsx";
 
-const Shipping = () => {
+const Shipping = ({ cartItems = [] }) => {
+  const { orderId } = useParams();
+  const [razorpay_order_id, setRazorpayOrderId] = useState("");
+  const SHIPPING = 0;
+  const SAVINGS = 0;
+  const subTotal = cartItems.reduce((sum, item) => {
+    return (
+      sum +
+      Number(item.product?.selling_price || 0) * Number(item.quantity || 1)
+    );
+  }, 0);
+
+  useEffect(() => {
+  if (razorpay_order_id) {
+    openRazorpay(); // 🔥 auto trigger
+  }
+}, [razorpay_order_id]);
+
+  const total = subTotal - SAVINGS + SHIPPING;
+
+  const get_rzap_pay_order_id = async () => {
+    try {
+      // check_out({ order_id: orderId })
+      const res = await check_out({ order_id: orderId });
+      setRazorpayOrderId(res?.data?.checkout?.order_id);
+    } catch (err) {
+      console.error("Something went wrong");
+    }
+  };
+
   return (
     <div className="shipping mt-4 mb-3">
       {/* Shipping Address */}
@@ -34,7 +65,7 @@ const Shipping = () => {
       <div className="shipping-card my-3">
         <ul className="list-unstyled mb-0">
           <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-            <label>Arrives by Monday, June 7</label>
+            {/* <label>Arrives by Monday, June 7</label> */}
             <label>
               <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
               <span className="text-dark fw-bold">Professional Courier</span>
@@ -46,7 +77,7 @@ const Shipping = () => {
               Delivery Charges <br />
               <span className=" text-muted">Additional fess may apply</span>
             </label>
-            <label>₹ 55.00</label>
+            <label> FREE</label>
           </li>
         </ul>
       </div>
@@ -122,9 +153,10 @@ const Shipping = () => {
           </li>
         </ul>
       </div> */}
-      <Link to="">
-        <button className="darkbtn">Pay Now</button>
-      </Link>
+      <button className="darkbtn" onClick={get_rzap_pay_order_id}>
+        Check Out
+      </button>
+      {/* <RazorpayButton total={total} razorpay_order_id={razorpay_order_id} /> */}
     </div>
   );
 };

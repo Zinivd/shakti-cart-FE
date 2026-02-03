@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser,loginUser } from "../../service/api";
+import { registerUser, loginUser } from "../../service/api";
 import "./Portal.css";
 
 const Register = () => {
@@ -21,12 +21,19 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "phone" && value.length > 10) return;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "phone") {
+      const numericValue = value.replace(/\D/g, "");
+      if (numericValue.length > 10) return;
+      setFormData({
+        ...formData,
+        phone: numericValue,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
 
     if (apiError) setApiError("");
   };
@@ -63,25 +70,22 @@ const Register = () => {
       };
 
       const response = await registerUser(payload);
-      
+
       console.log("Register Success:", response);
 
       if (response?.data?.success || response?.data?.status === "success") {
-      const result = await loginUser(formData.email, formData.password);
+        const result = await loginUser(formData.email, formData.password);
 
-      // 3️⃣ STORE TOKEN (SAME AS LOGIN PAGE)
-      localStorage.setItem("access-token", result?.data?.token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify(result?.data?.user)
-      );
-      localStorage.setItem("isAuthenticated", "true");
+        // 3️⃣ STORE TOKEN (SAME AS LOGIN PAGE)
+        localStorage.setItem("access-token", result?.data?.token);
+        localStorage.setItem("user", JSON.stringify(result?.data?.user));
+        localStorage.setItem("isAuthenticated", "true");
         navigate("/");
       } else {
         setApiError(
           response?.data?.error ||
             response?.data?.message ||
-            "Registration failed"
+            "Registration failed",
         );
       }
     } catch (error) {
@@ -91,11 +95,11 @@ const Register = () => {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
         setApiError(
-          errorData.error || errorData.message || "Registration failed"
+          errorData.error || errorData.message || "Registration failed",
         );
       } else {
         setApiError(
-          error.message || "Registration failed. Please try again later."
+          error.message || "Registration failed. Please try again later.",
         );
       }
     } finally {
@@ -134,7 +138,7 @@ const Register = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Full Name"
+                    placeholder="Full Name *"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -148,9 +152,9 @@ const Register = () => {
                 {/* Phone */}
                 <div className="col-sm-12 mb-4">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
-                    placeholder="Contact Number"
+                    placeholder="Contact Number *"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -165,7 +169,7 @@ const Register = () => {
                   <input
                     type="email"
                     className="form-control"
-                    placeholder="Email Address"
+                    placeholder="Email Address *"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -180,7 +184,7 @@ const Register = () => {
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Password"
+                    placeholder="Password *"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}

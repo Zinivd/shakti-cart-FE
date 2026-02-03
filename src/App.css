@@ -226,6 +226,7 @@
 }
 
 .sizebtn:hover,
+.sizebtn.active,
 .addressbtn:hover,
 .iconbtn:hover {
   background-color: var(--main);

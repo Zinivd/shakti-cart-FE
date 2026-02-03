@@ -1,6 +1,6 @@
 // AddressCard.jsx (Updated)
 import React, { useEffect, useState } from "react";
-import { getUserAddresses ,removeAddress} from "../../../service/api";
+import { getUserAddresses, removeAddress } from "../../../service/api";
 import Loader from "../../Loader/Loader.jsx";
 import "./Address.css";
 import { toast } from "react-toastify";
@@ -41,18 +41,15 @@ const Address = ({ onEdit }) => {
     }
   };
   const handleRemove = async (id) => {
- 
+    const result = await removeAddress({ id }, userEmail);
 
-  const result = await removeAddress({ id }, userEmail);
-
-  if (result?.success || result?.data?.success) {
-    toast.success("Address removed successfully");
-    loadAddresses(); // refresh list
-  } else {
-    toast.error("Failed to remove address");
-  }
-};
-
+    if (result?.success || result?.data?.success) {
+      toast.success("Address removed successfully");
+      loadAddresses(); // refresh list
+    } else {
+      toast.error("Failed to remove address");
+    }
+  };
 
   if (loading) {
     return <Loader />;
@@ -68,7 +65,7 @@ const Address = ({ onEdit }) => {
         <div className="address-main">
           {addresses.map((item) => (
             <div className="address-card mb-3" key={item.id}>
-              <label>
+              <label className="w-100">
                 <div className="d-flex align-items-center justify-content-between">
                   <h5 className="mb-2">{item.name}</h5>
                   <input
@@ -100,18 +97,17 @@ const Address = ({ onEdit }) => {
                     <h6>Edit</h6>
                   </button>
                   <h5>|</h5>
-                 <button
-  type="button"
-  onClick={() => handleRemove(item.id)}
-  style={{
-    background: "none",
-    border: "none",
-    padding: 0,
-    cursor: "pointer",
-  }}
->
-  <h6>Remove</h6>
-
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(item.id)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <h6>Remove</h6>
                   </button>
                 </div>
               </label>

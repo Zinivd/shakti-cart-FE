@@ -58,15 +58,13 @@ const Wishlist = () => {
       const res = await removeFromWishlist(payload);
       if (res?.data?.success) {
         setWishlistData((prev) =>
-          prev.filter((item) => item.product_id !== productId)
+          prev.filter((item) => item.product_id !== productId),
         );
       }
     } catch (err) {
       console.error("Remove wishlist error", err);
     }
   };
-
-
 
   if (loading) {
     return (
@@ -120,9 +118,7 @@ const Wishlist = () => {
             </div>
 
             <div className="product-content">
-              <h5 className="mb-0">
-                ₹ {item.product.selling_price}.00
-              </h5>
+              <h5 className="mb-0">₹ {item.product.selling_price}.00</h5>
             </div>
 
             <button

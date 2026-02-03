@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getCartProducts, placeOrder, getUserAddresses, addAddress } from "../../service/api";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import {
+  getCartProducts,
+  placeOrder,
+  getUserAddresses,
+  addAddress,
+} from "../../service/api";
 import { toast } from "react-toastify";
 import Shipping from "../../components/Cart/Shipping";
 import Summary from "../../components/Cart/Summary";
 import "./Checkout.css";
+import Loader from "../../components/Loader/Loader";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  
+
   // Form states
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,7 +33,7 @@ const Checkout = () => {
     pincode: "",
     phone: "",
   });
-  
+
   // Other states
   const [saveAddress, setSaveAddress] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -57,8 +68,6 @@ const Checkout = () => {
       const data = await getUserAddresses(userEmail);
       const addressList = data?.data?.data || [];
       setAddresses(addressList);
-      
-      // Auto-select first address if available
       if (addressList.length > 0) {
         setSelectedAddress(addressList[0].id);
       }
@@ -81,8 +90,13 @@ const Checkout = () => {
     e.preventDefault();
 
     // Validate required fields
-    if (!formData.firstName || !formData.phone || !formData.city || 
-        !formData.state || !formData.pincode) {
+    if (
+      !formData.firstName ||
+      !formData.phone ||
+      !formData.city ||
+      !formData.state ||
+      !formData.pincode
+    ) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -108,7 +122,7 @@ const Checkout = () => {
 
       if (result?.data?.success || result?.success) {
         toast.success("Address added successfully");
-        
+
         // Clear form
         setFormData({
           firstName: "",
@@ -126,7 +140,9 @@ const Checkout = () => {
         // Reload addresses
         await loadAddresses();
       } else {
-        toast.error(result?.data?.message || result?.message || "Failed to save address");
+        toast.error(
+          result?.data?.message || result?.message || "Failed to save address",
+        );
       }
     } catch (err) {
       console.error("Submit error:", err);
@@ -145,7 +161,9 @@ const Checkout = () => {
     try {
       setPlacingOrder(true);
 
-      const selectedAddressData = addresses.find(addr => addr.id === selectedAddress);
+      const selectedAddressData = addresses.find(
+        (addr) => addr.id === selectedAddress,
+      );
 
       // Transform address data to match API expectations
       const transformedAddress = {
@@ -157,7 +175,7 @@ const Checkout = () => {
         state: selectedAddressData.state || "",
         pincode: selectedAddressData.pincode || "",
         landmark: selectedAddressData.landmark || "",
-        address_type: selectedAddressData.address_type || "home"
+        address_type: selectedAddressData.address_type || "home",
       };
 
       const payload = {
@@ -185,14 +203,14 @@ const Checkout = () => {
   };
 
   const formatAddress = (item) => {
-    return `${item.building_name}, ${item.address_1}, ${item.address_2 || ''}, ${item.city}, ${item.state} - ${item.pincode}`;
+    return `${item.building_name}, ${item.address_1}, ${item.address_2 || ""}, ${item.city}, ${item.state} - ${item.pincode}`;
   };
 
   // Pincode Validation
   const pincodeValidate = (e) => {
     const value = e.target.value;
     if (value.length <= 6) {
-      setFormData(prev => ({ ...prev, pincode: value }));
+      setFormData((prev) => ({ ...prev, pincode: value }));
     }
   };
 
@@ -200,7 +218,7 @@ const Checkout = () => {
   const phoneValidate = (e) => {
     const value = e.target.value;
     if (value.length <= 10) {
-      setFormData(prev => ({ ...prev, phone: value }));
+      setFormData((prev) => ({ ...prev, phone: value }));
     }
   };
 
@@ -233,23 +251,21 @@ const Checkout = () => {
               <span>|</span> Check Out
             </h4>
             <h5 className="mb-3">
-              {addresses.length > 0 ? "Select Delivery Address" : "Billing Details"}
+              {addresses.length > 0
+                ? "Select Delivery Address"
+                : "Billing Details"}
             </h5>
           </div>
 
           {loadingAddresses ? (
-            <div className="text-center py-4">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
+            <Loader />
           ) : addresses.length > 0 ? (
             // Show existing addresses
             <div className="address-form mb-4">
               <div className="address-main">
                 {addresses.map((item) => (
                   <div className="address-card mb-3" key={item.id}>
-                    <label>
+                    <label className="w-100">
                       <div className="d-flex align-items-center justify-content-between">
                         <h5 className="mb-2">{item.name}</h5>
                         <input
@@ -260,7 +276,9 @@ const Checkout = () => {
                         />
                       </div>
                       <h6 className="mb-2">+91 {item.phone}</h6>
-                      <h6 className="mb-2 addressType">{formatAddress(item)}</h6>
+                      <h6 className="mb-2 addressType">
+                        {formatAddress(item)}
+                      </h6>
                       <button type="button" className="addressbtn mb-2">
                         {item.address_type.toUpperCase()}
                       </button>
@@ -268,11 +286,8 @@ const Checkout = () => {
                   </div>
                 ))}
               </div>
-              
-              <button 
-                className="formbtn mt-3"
-                onClick={() => setAddresses([])}
-              >
+
+              <button className="formbtn mt-2" onClick={() => setAddresses([])}>
                 + Add New Address
               </button>
             </div>
@@ -348,7 +363,7 @@ const Checkout = () => {
                       onChange={handleFormChange}
                     />
                   </div>
-                  <div className="col-sm-12 col-md-4 mb-3">
+                  <div className="col-sm-12 col-md-6 mb-3">
                     <label htmlFor="city">City *</label>
                     <input
                       type="text"
@@ -360,7 +375,7 @@ const Checkout = () => {
                       required
                     />
                   </div>
-                  <div className="col-sm-12 col-md-4 mb-3">
+                  <div className="col-sm-12 col-md-6 mb-3">
                     <label htmlFor="state">State *</label>
                     <input
                       type="text"
@@ -372,7 +387,7 @@ const Checkout = () => {
                       required
                     />
                   </div>
-                  <div className="col-sm-12 col-md-4 mb-3">
+                  <div className="col-sm-12 col-md-6 mb-3">
                     <label htmlFor="pincode">Pin Code *</label>
                     <input
                       type="number"
@@ -384,7 +399,7 @@ const Checkout = () => {
                       required
                     />
                   </div>
-                  <div className="col-sm-12 col-md-4 mb-3">
+                  <div className="col-sm-12 col-md-6 mb-3">
                     <label htmlFor="phone">Phone *</label>
                     <input
                       type="number"
@@ -398,8 +413,8 @@ const Checkout = () => {
                   </div>
                 </div>
                 <div className="mb-3">
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="formbtn"
                     disabled={savingAddress}
                   >
@@ -420,7 +435,7 @@ const Checkout = () => {
             </div>
           )}
 
-          <Shipping />
+          <Shipping cartItems={cartItems} />
 
           {/* Place Order Button - Only show if address is selected */}
           {addresses.length > 0 && (

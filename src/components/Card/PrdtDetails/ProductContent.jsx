@@ -1,87 +1,145 @@
-import React, { useState, useEffect } from "react";
-import { getProductById, addToCart } from "../../../service/api";
+import React, { useState, useEffect, useMemo } from "react";
+import { addToCart, getProductQuantities } from "../../../service/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../Loader/Loader";
+
 const ProductContent = ({ product }) => {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate();
+  const [sizeQuantities, setSizeQuantities] = useState([]);
+
+  const selectedSizeStock = useMemo(() => {
+    if (!selectedSize) return 0;
+    return sizeQuantities.find((s) => s.size === selectedSize)?.qty || 0;
+  }, [sizeQuantities, selectedSize]);
+
+  useEffect(() => {
+    const fetchQuantities = async () => {
+      if (!product?.product_id) return;
+
+      setLoading(true);
+
+      try {
+        const res = await getProductQuantities(product.product_id);
+
+        if (res?.data?.success) {
+          const quantities = res.data.data?.quantities || [];
+
+          // normalize for UI
+          const normalized = quantities.map((item) => ({
+            size: item.size, // "S", "M", "L"
+            qty: item.quantity, // number
+            unit: item.unit, // optional
+          }));
+
+          setSizeQuantities(normalized);
+        } else {
+          setSizeQuantities([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch product quantities", err);
+        setSizeQuantities([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuantities();
+  }, [product]);
+
+  useEffect(() => {
+    if (!sizeQuantities.length || selectedSize) return;
+
+    const firstAvailable = sizeQuantities.find((s) => s.qty > 0)?.size || "";
+
+    setSelectedSize(firstAvailable);
+    setQuantity(1);
+  }, [sizeQuantities]);
+
+  useEffect(() => {
+    if (!selectedColor && product?.colors?.length) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (quantity > selectedSizeStock) {
+      setQuantity(selectedSizeStock || 1);
+    }
+  }, [selectedSizeStock]);
+
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+  };
+
   const incQty = () => {
-    setQuantity((prev) => prev + 1);
+    setQuantity((prev) => (prev < selectedSizeStock ? prev + 1 : prev));
   };
 
   const decQty = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
-  const handleColorSelect = (colorName) => {
-    setSelectedColor(colorName);
-  };
-
-  const handleSizeSelect = (size) => {
-    setSelectedSize(size);
-  };
-
   const handleAddToCart = async () => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
-  /* =========================
-     1️⃣ CHECK AUTH STATUS
-  ========================== */
-  const isAuthenticated =
-    localStorage.getItem("isAuthenticated") === "true";
-
-  if (!isAuthenticated) {
-    toast.error("Please login to add products to cart");
-    navigate("/login");   
-    return;               
-  }
-
-  try {
-    const cartData = {
-      product_id: product.product_id,
-      quantity: quantity,
-      size: selectedSize,
-      color: selectedColor,
-    };
-
-    const response = await addToCart(cartData);
-
-    if (response?.data?.success) {
-      toast.success("Product added to cart");
-    } else {
-      toast.error("Failed to add product to cart");
+    if (!isAuthenticated) {
+      toast.error("Please login to add products to cart");
+      navigate("/login");
+      return false;
     }
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    toast.error("An error occurred while adding to cart");
-  }
-};
 
+    if (!selectedSize) {
+      toast.error("Please select a size");
+      return false;
+    }
 
-  const handleBuyNow = () => {
-    handleAddToCart().then(() => {
-      
-      window.location.href = "/cart";
-    });
+    if (selectedSizeStock === 0) {
+      toast.error("Selected size is out of stock");
+      return false;
+    }
+
+    if (quantity > selectedSizeStock) {
+      toast.error("Quantity exceeds available stock");
+      return false;
+    }
+
+    try {
+      const cartData = {
+        product_id: product.product_id,
+        size: selectedSize,
+        quantity,
+        color: selectedColor || null,
+      };
+
+      const response = await addToCart(cartData);
+
+      if (response?.data?.success) {
+        toast.success("Product added to cart");
+        return true;
+      } else {
+        toast.error(response?.data?.message || "Failed to add product");
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+      return false;
+    }
   };
 
-  // Initialize selected size if available
-  useEffect(() => {
-    if (product.size_unit?.length > 0 && !selectedSize) {
-      setSelectedSize(product.size_unit[0].size);
-    }
-    
-    if (product.colors?.length > 0 && !selectedColor) {
-      setSelectedColor(product.colors[0]);
-    }
-    
-    setLoading(false);
-  }, [product]);
+  const handleBuyNow = async () => {
+    const success = await handleAddToCart();
+    if (success) navigate("/cart");
+  };
 
   if (loading) {
-    return <div className="product-details-content pt-3">Loading...</div>;
+    return <Loader />;
   }
 
   return (
@@ -109,32 +167,37 @@ const ProductContent = ({ product }) => {
         )}
       </h4>
       <hr />
-      
+
       {/* Sizes */}
       <div className="sizes-main">
         <h6 className="mb-3">Sizes Available</h6>
         <div className="sizes-div">
-          {product.size_unit?.map((s, i) => (
-            <li className="sizes-li" key={i}>
-              <button 
-                key={i} 
-                className={`sizebtn mx-auto ${selectedSize === s.size ? 'active' : ''}`}
-                onClick={() => handleSizeSelect(s.size)}
-              >
-                {s.size}
-              </button>
-            </li>
+          {sizeQuantities.map((s, i) => (
+            <button
+              key={i}
+              className={`sizebtn ${selectedSize === s.size ? "active" : ""}`}
+              disabled={s.qty === 0}
+              onClick={() => {
+                setSelectedSize(s.size);
+                setQuantity(1);
+              }}
+              style={{
+                opacity: s.qty === 0 ? 0.4 : 1,
+                cursor: s.qty === 0 ? "not-allowed" : "pointer",
+              }}
+            >
+              {s.size}
+            </button>
           ))}
         </div>
-        
-        {/* Display selected size */}
-        {selectedSize && (
-          <div className="mt-2">
-            <small className="text-muted">Selected Size: <strong>{selectedSize}</strong></small>
-          </div>
-        )}
+
+        {/* {selectedSize && (
+          <small className="text-muted">
+            Available: <strong>{selectedSizeStock}</strong>
+          </small>
+        )} */}
       </div>
-      
+
       {/* Colors - Add this section if you have colors */}
       {product.colors && product.colors.length > 0 && (
         <div className="colors-main mt-3">
@@ -143,55 +206,60 @@ const ProductContent = ({ product }) => {
             {product.colors.map((color, i) => (
               <button
                 key={i}
-                className={`color-btn ${selectedColor === color ? 'active' : ''}`}
+                className={`color-btn ${selectedColor === color ? "active" : ""}`}
                 onClick={() => handleColorSelect(color)}
                 style={{
                   backgroundColor: color.toLowerCase(),
-                  width: '30px',
-                  height: '30px',
-                  borderRadius: '50%',
-                  border: selectedColor === color ? '2px solid #000' : '1px solid #ddd'
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  border:
+                    selectedColor === color
+                      ? "2px solid #000"
+                      : "1px solid #ddd",
                 }}
                 title={color}
               />
             ))}
           </div>
-          
+
           {/* Display selected color */}
           {selectedColor && (
             <div className="mt-2">
-              <small className="text-muted">Selected Color: <strong>{selectedColor}</strong></small>
+              <small className="text-muted">
+                Selected Color: <strong>{selectedColor}</strong>
+              </small>
             </div>
           )}
         </div>
       )}
-      
+
       {/* Quantity */}
       <div className="qty-main mt-4">
         <h6 className="mb-2">Quantity</h6>
-        <span className="qtydiv" style={{ width: "175px" }}>
-          <button className="qtybtn minus" onClick={decQty}>
+        <span className="qtydiv">
+          <button className="qtybtn" onClick={decQty}>
             -
           </button>
           <input
             type="number"
-            className="text-center w-100 count"
+            min={1}
+            max={selectedSizeStock}
             value={quantity}
-            min="1"
             onChange={(e) => {
-              const value = parseInt(e.target.value);
-              if (!isNaN(value) && value >= 1) {
-                setQuantity(value);
+              const val = Number(e.target.value);
+              if (val >= 1 && val <= selectedSizeStock) {
+                setQuantity(val);
               }
             }}
           />
-          <button className="qtybtn plus" onClick={incQty}>
+          <button className="qtybtn" onClick={incQty}>
             +
           </button>
         </span>
       </div>
       <hr />
-      
+
       {/* Add to Cart */}
       <div className="d-flex align-items-center column-gap-2 mt-4">
         <button className="addcartbtn w-50 py-2" onClick={handleAddToCart}>

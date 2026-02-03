@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartTable from "../../components/Cart/Table.jsx";
-import { getCartProducts } from "../../service/api";
+import { createOrder, getCartProducts, placeOrder } from "../../service/api";
 import "./Cart.css";
 
-const SHIPPING_CHARGE = 50;
+const SHIPPING_CHARGE = 0;
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCartProducts();
@@ -17,26 +18,56 @@ const Cart = () => {
     try {
       const response = await getCartProducts();
       if (response?.data?.success) {
-        setCartProducts(response.data.data || []);
+        setCartProducts(response.data.data || []);        
       }
     } catch (error) {
       console.error("Cart fetch error:", error);
     }
   };
 
-  // 🔹 CALCULATIONS
+  // CALCULATIONS
   const subTotal = cartProducts.reduce(
     (sum, item) =>
       sum +
-      Number(item.product?.selling_price || 0) *
-        Number(item.quantity || 1),
-    0
+      Number(item.product?.selling_price || 0) * Number(item.quantity || 1),
+    0,
   );
 
   const shipping = cartProducts.length > 0 ? SHIPPING_CHARGE : 0;
   const grandTotal = subTotal + shipping;
-  const isAuthenticated=localStorage.getItem("isAuthenticated");
-  
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const handleCheckout = async () => {
+    try {
+      const payload = {
+        user_id: cartProducts[0]?.user_id,
+        payment_mode: "razorpay",
+        address: {
+          building: "Flat 12B",
+          address_line1: "MG Road",
+          address_line2: "Near Metro Station",
+          city: "Bengaluru",
+          district: "Bengaluru Urban",
+          state: "Karnataka",
+          pincode: "560001",
+          address_type: "home",
+        },
+        items: [
+          {
+            product_id: cartProducts[0]?.product_id,
+            size: cartProducts[0]?.size,
+            quantity: cartProducts[0]?.quantity,
+          },
+        ],
+      };
+      const response = await createOrder(payload);
+      if (response?.data?.success) {
+        navigate(`/checkout/${response.data.order_id}`);
+      }
+    } catch (error) {
+      console.error("Cart fetch error:", error);
+    }
+  };
+
   return (
     <div className="main">
       <div className="main-header pb-0">
@@ -50,12 +81,16 @@ const Cart = () => {
               Cart
             </Link>
           </h6>
-         {!isAuthenticated && (
-          <h6 className="mb-1 text-start">
-            Please fill in the fields below and click place order to complete your purchase! <br />
-            Already registered? <Link to="/login" className="text-primary">Login</Link>
-          </h6>
-        )}
+          {!isAuthenticated && (
+            <h6 className="mb-1 text-start">
+              Please fill in the fields below and click place order to complete
+              your purchase! <br />
+              Already registered?{" "}
+              <Link to="/login" className="text-primary">
+                Login
+              </Link>
+            </h6>
+          )}
         </div>
       </div>
 
@@ -67,46 +102,85 @@ const Cart = () => {
           cartProducts={cartProducts}
           setCartProducts={setCartProducts}
           refreshCart={fetchCartProducts}
+          // setCartTableData = {setCartTableData}
         />
       </div>
 
       {/* Cart Total */}
-      {isAuthenticated && (<div className="cart-total mt-3">
-        <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
-            <div className="body-head d-block">
+      {isAuthenticated && (
+        <div className="cart-total mt-3">
+          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            {/* <div className="body-head d-block">
               <h5 className="mb-2 text-dark text-start">Discount Codes</h5>
-              <h6 className="mb-3 text-start">Enter your coupon code if you have one</h6>
+              <h6 className="mb-3 text-start">
+                Enter your coupon code if you have one
+              </h6>
               <div className="input-group">
-                <input type="text" className="form-control" placeholder="Enter your coupon code" />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter your coupon code"
+                />
                 <button className="couponbtn">Apply Coupon</button>
+              </div>
+            </div> */}
+            <div className="w-50">
+              <div className="shipping-card my-3">
+                <ul className="list-unstyled mb-0">
+                  <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    {/* <label>Arrives by Monday, June 7</label> */}
+                    <label>
+                      <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
+                      <span className="text-dark fw-bold">
+                        Professional Courier
+                      </span>
+                    </label>
+                  </li>
+                  <hr />
+                  <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <label>
+                      Delivery Charges <br />
+                      <span className=" text-muted">
+                        Additional fess may apply
+                      </span>
+                    </label>
+                    <label className="fw-bold"> FREE</label>
+                  </li>
+                </ul>
               </div>
             </div>
 
-        <div className="cart-summary-table">
-          <table className="table table-borderless">
-            <tbody>
-              <tr>
-                <th>Sub Total</th>
-                <th>₹ {subTotal.toFixed(2)}</th>
-              </tr>
-              <tr>
-                <th>Shipping</th>
-                <th>₹ {shipping.toFixed(2)}</th>
-              </tr>
-              <tr>
-                <th>Grand Total</th>
-                <th>₹ {grandTotal.toFixed(2)}</th>
-              </tr>
-            </tbody>
-          </table>
+            <div className="cart-summary-table">
+              <table className="table table-borderless">
+                <tbody>
+                  <tr>
+                    <th>Sub Total</th>
+                    <th>₹ {subTotal.toFixed(2)}</th>
+                  </tr>
+                  <tr>
+                    <th>Shipping</th>
+                    <th>FREE</th>
+                  </tr>
+                  <tr>
+                    <th>Grand Total</th>
+                    <th>₹ {grandTotal.toFixed(2)}</th>
+                  </tr>
+                </tbody>
+              </table>
               <hr />
-              <Link to="/checkout" className="d-flex align-items-center justify-content-center mt-3">
-          <button className="darkbtn">Proceed to Checkout</button>
-        </Link>
+              <button className="darkbtn" onClick={handleCheckout}>
+                Proceed to Checkout
+              </button>
+              {/* <Link
+                to="/checkout"
+                className="d-flex align-items-center justify-content-center mt-3"
+              >
+              </Link> */}
             </div>
-      </div>
-      </div>)}
-      
+          </div>
+        </div>
+      )}
+
       {/* Offer */}
       {/* <div className="main-header">
         <Offer />

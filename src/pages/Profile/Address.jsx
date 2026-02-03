@@ -1,45 +1,53 @@
 // Address.jsx (Page component) - UPDATED
 import React, { useState } from "react";
 import AddressCard from "../../components/Card/Address/Address";
-import AddAddress from "../../components/Popup/AddAddress"
+import AddAddress from "../../components/Popup/AddAddress";
 const Address = () => {
-  const [modalMode, setModalMode] = useState("add");
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [address, setAddress] = useState(null);
+  const [editMode, setEditMode] = useState("add");
+  const [editAddress, setEditAddress] = useState(null);
 
-  // This function only sets the data
-  const handleEdit = (addressData) => {
-    setModalMode("edit");
-    setSelectedAddress(addressData);
-  };
-
-  const handleAddNew = () => {
-    setModalMode("add");
-    setSelectedAddress(null);
+  const handleEdit = (address) => {
+    setEditMode("edit");
+    setEditAddress(address);
   };
 
   const handleSuccess = () => {
-    setRefreshKey((prev) => prev + 1);
+    setEditMode("add");
+    setEditAddress(null);
+    loadAddresses(); // 🔥 refresh list
   };
 
   return (
     <div className="mt-2">
       <div className="body-head mb-4 d-flex justify-content-between">
-        <h4><span>|</span> Address</h4>
+        <h4>
+          <span>|</span> Address
+        </h4>
         <button
           className="formbtn"
           data-bs-toggle="modal"
           data-bs-target="#addAddress" // Opens the modal
-          onClick={handleAddNew}
         >
           Add Address
         </button>
       </div>
 
-      <AddressCard key={refreshKey} onEdit={handleEdit} />
+      {address ? (
+        <AddressCard address={address} onEdit={handleEdit} />
+      ) : (
+        <div className="address-main">
+          <div className="address-card">
+            <label className="w-100">
+              <h5 className="mb-2">No Address Found.</h5>
+            </label>
+          </div>
+        </div>
+      )}
+
       <AddAddress
-        mode={modalMode}
-        addressData={selectedAddress}
+        mode={editMode}
+        addressData={editAddress}
         onSuccess={handleSuccess}
       />
     </div>

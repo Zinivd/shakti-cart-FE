@@ -1,3 +1,5 @@
+import { placeOrder } from "./api";
+
 // const BASE_URL = "http://127.0.0.1:8000"; 
 const BASE_URL = "https://api-prod.shakticart.com"; 
 
@@ -44,6 +46,7 @@ export const Urls = {
   getProductsByCategory: `${BASE_URL}/api/products/by-category`,
   getProductsBySubcategory: `${BASE_URL}/api/products/by-subcategory`,
   getProductsByFilter: `${BASE_URL}/api/products/filter`,
+  getQuantityByProductId: `${BASE_URL}/api/product/`,
 
   // Cart Endpoints
   addToCart: `${BASE_URL}/api/cart/add`,
@@ -64,6 +67,10 @@ export const Urls = {
 
   getProductReviews: `${BASE_URL}/api/product/review`,
   addProductReview: `${BASE_URL}/api/product/review`,
+
+  placeOrder: `${BASE_URL}/api/order/place`,
+  checkout: `${BASE_URL}/api/checkout`,
+  verify_checkout: `${BASE_URL}/api/razorpay/verify-payment`,
 };
 
 // Helper function to build URL with query parameters

@@ -12,10 +12,10 @@ const ResponsiveNav = () => {
             <span>Home</span>
           </button>
         </NavLink>
-        <NavLink to="/categories" className="respnav-item">
+        <NavLink to="/products" className="respnav-item">
           <button className="respnavbtn">
             <i className="bx bx-dashboard icon"></i>
-            <span>Categories</span>
+            <span>Products</span>
           </button>
         </NavLink>
         {/* <NavLink to="/cart" className="respnav-item">

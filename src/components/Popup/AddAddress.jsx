@@ -1,4 +1,3 @@
-// AddAddress.jsx - UPDATED useEffect
 import React, { useState, useEffect, useRef } from "react";
 import { addAddress, updateAddress } from "../../service/api";
 
@@ -15,7 +14,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
     pincode: "",
     phone: "",
   });
-   // This useEffect detects when the "selectedAddress" changes in the parent
+
   useEffect(() => {
     if (mode === "edit" && addressData) {
       const nameParts = addressData.name ? addressData.name.split(" ") : ["", ""];
@@ -45,7 +44,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
   const [error, setError] = useState("");
   const modalRef = useRef(null);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") || "null");
   const userEmail = user?.email || "guest@email.com";
 
   const handleChange = (e) => {
@@ -132,8 +131,6 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
       } else {
         result = await addAddress(userEmail, payload);
       }
-
-      console.log("API Result:", result);
 
       if (result?.data?.success || result?.success) {
         setFormData({
@@ -278,7 +275,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
               <label htmlFor="add_city">
                 City <span>*</span>
               </label>
@@ -291,7 +288,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
               <label htmlFor="add_state">
                 State <span>*</span>
               </label>
@@ -304,7 +301,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
               <label htmlFor="add_pincode">
                 Pincode <span>*</span>
               </label>
@@ -317,7 +314,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-4 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
               <label htmlFor="add_phone">
                 Phone <span>*</span>
               </label>

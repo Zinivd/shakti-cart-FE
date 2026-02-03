@@ -6,14 +6,15 @@ import "./CartTable.css";
 
 const SAMPLE_IMAGE = "https://via.placeholder.com/80x80.png?text=Product";
 
-const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
+const CartTable = ({
+  cartProducts,
+  setCartProducts,
+  refreshCart,
+  setCartTableData,
+}) => {
   const navigate = useNavigate();
 
-  /* =========================
-     AUTH CHECK
-  ========================= */
-  const isAuthenticated =
-    localStorage.getItem("isAuthenticated") === "true";
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
   const checkAuth = () => {
     if (!isAuthenticated) {
@@ -24,85 +25,60 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
     return true;
   };
 
-  /* =========================
-     INCREASE QTY (API)
-  ========================= */
- const incQty = async (item, index) => {
-  if (!checkAuth()) return;
+  /* UPDATE QTY */
+  const updateQty = async (item, newQty, index) => {
+    if (!checkAuth()) return;
+    if (newQty < 1) return;
 
-  try {
-    const payload = {
-      product_id: item.product_id,
-      quantity: 1, // 🔥 ONLY INCREMENT BY 1
-      size: item.product?.size,
-      color: item.product?.color,
-    };
+    try {
+      const payload = {
+        product_id: item.product_id,
+        size: item.product?.size,
+        color: item.product?.color,
+        quantity: newQty,
+      };
 
-    const response = await addToCart(payload);
+      const response = await addToCart(payload);
 
-    if (response?.data?.success) {
-      setCartProducts((prev) =>
-        prev.map((p, i) =>
-          i === index ? { ...p, quantity: p.quantity + 1 } : p
-        )
-      );
+      if (response?.data?.success) {
+        setCartProducts((prev) =>
+          prev.map((p, i) => (i === index ? { ...p, quantity: newQty } : p)),
+        );
+      } else {
+        toast.error(response?.data?.message || "Quantity update failed");
+      }
+    } catch (error) {
+      console.error("Update qty error:", error);
+      toast.error("Error updating quantity");
     }
-  } catch (err) {
-    toast.error("Error updating cart");
-  }
-};
+  };
 
+  const incQty = (item, index) => {
+    updateQty(item, item.quantity + 1, index);
+  };
 
-  /* =========================
-     DECREASE QTY (API)
-  ========================= */
-  const decQty = async (item, index) => {
-  if (item.quantity <= 1) return;
-  if (!checkAuth()) return;
+  const decQty = (item, index) => {
+    if (item.quantity <= 1) return;
+    updateQty(item, item.quantity - 1, index);
+  };
 
-  try {
-    const payload = {
-      product_id: item.product_id,
-      quantity: -1, // 🔥 DECREMENT
-      size: item.product?.size,
-      color: item.product?.color,
-    };
-
-    const response = await addToCart(payload);
-
-    if (response?.data?.success) {
-      setCartProducts((prev) =>
-        prev.map((p, i) =>
-          i === index ? { ...p, quantity: p.quantity - 1 } : p
-        )
-      );
-    }
-  } catch (err) {
-    toast.error("Error updating cart");
-  }
-};
-
-  /* =========================
-     REMOVE CART
-  ========================= */
   const handleRemoveCart = async (productId) => {
     if (!checkAuth()) return;
 
     try {
       const response = await removeCartProduct({ product_id: productId });
+
       if (response?.data?.success) {
         toast.success("Item removed from cart");
         refreshCart();
+      } else {
+        toast.error("Failed to remove product");
       }
     } catch (error) {
       console.error("Remove cart error:", error);
       toast.error("Error removing product");
     }
   };
-
-  /* =========================
-     UI (UNCHANGED)
-  ========================= */
   return (
     <>
       {/* ================= DESKTOP ================= */}
@@ -131,9 +107,8 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
                 const price = Number(item.product?.selling_price || 0);
                 const qty = Number(item.quantity || 1);
                 const subtotal = price * qty;
-
                 return (
-                  <tr key={item.product_id}>
+                  <tr key={`${item.product_id}-${item.product?.size}`}>
                     <td>
                       <div className="d-flex column-gap-3 align-items-center">
                         <img
@@ -146,7 +121,7 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
                         <div>
                           <h6>{item.product?.brand}</h6>
                           <h5>{item.product?.product_name}</h5>
-                          <h6>Size: {item.product?.size}</h6>
+                          <h6>Size: {item.size}</h6>
                           <h6>{item.product?.color}</h6>
                         </div>
                       </div>
@@ -161,9 +136,19 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
 
                     <td>
                       <div className="qtydiv" style={{ width: "125px" }}>
-                        <button onClick={() => decQty(item, index)}>-</button>
-                        <span className="mx-2">{qty}</span>
-                        <button onClick={() => incQty(item, index)}>+</button>
+                        <button
+                          className="qtybtn"
+                          onClick={() => decQty(item, index)}
+                        >
+                          -
+                        </button>
+                        <span className="text-center">{qty}</span>
+                        <button
+                          className="qtybtn"
+                          onClick={() => incQty(item, index)}
+                        >
+                          +
+                        </button>
                       </div>
                     </td>
 
@@ -195,25 +180,58 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
           const qty = Number(item.quantity || 1);
 
           return (
-            <div className="cart-card" key={item.product_id}>
-              <img
-                src={item.product?.images?.[0] || SAMPLE_IMAGE}
-                alt=""
-              />
-
-              <h5>{item.product?.product_name}</h5>
-              <p>₹ {price}</p>
-
-              <div className="qtydiv">
-                <button onClick={() => decQty(item, index)}>-</button>
-                <span>{qty}</span>
-                <button onClick={() => incQty(item, index)}>+</button>
+            <div className="cart-card" key={`${item.product_id}-${index}`}>
+              <div className="cart-card-left">
+                <img
+                  src={item.product?.images?.[0] || SAMPLE_IMAGE}
+                  alt=""
+                  height="165px"
+                  width="100%"
+                  className="object-fit-cover"
+                />
               </div>
+              <div className="cart-card-right">
+                <div className="cart-cart-head">
+                  <h6 className="mb-2">{item.product?.brand}</h6>
+                  <h5 className="mb-0">{item.product?.product_name}</h5>
+                  <div className="d-flex align-items-center justify-content-start gap-3 my-2">
+                    <h5 className="mb-0">
+                      ₹{price} <span>₹{item.product.actual_price}</span>
+                    </h5>
+                    <h6 className="cart-offer mb-0">
+                      ₹{item.product.discount}% OFF
+                    </h6>
+                  </div>
+                </div>
+                <div className="cart-card-middle my-2">
+                  <div className="d-flex align-items-center justify-content-start gap-3">
+                    <h5 className="mb-0">Size : {item.size}</h5>|
+                    <h5 className="mb-0">{item.product?.color}</h5>
+                  </div>
+                </div>
 
-              <i
-                className="fas fa-trash-can"
-                onClick={() => handleRemoveCart(item.product_id)}
-              />
+                <div className="qty-row">
+                  <div className="qtydiv">
+                    <button
+                      className="qtybtn"
+                      onClick={() => decQty(item, index)}
+                    >
+                      -
+                    </button>
+                    <span className="text-center">{qty}</span>
+                    <button
+                      className="qtybtn"
+                      onClick={() => incQty(item, index)}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <i
+                    className="fas fa-trash-can fs-5"
+                    onClick={() => handleRemoveCart(item.product_id)}
+                  />
+                </div>
+              </div>
             </div>
           );
         })}

@@ -64,7 +64,7 @@ const Login = () => {
                 </div>
 
                 {/* Password */}
-                <div className="col-sm-12 mb-4">
+                <div className="col-sm-12 mb-3">
                   <input
                     type="password"
                     className="form-control"
@@ -74,6 +74,13 @@ const Login = () => {
                   />
                 </div>
 
+                {/* Error */}
+                {error && (
+                  <div className="col-sm-12 mb-0">
+                    <p className="text-danger">{error}</p>
+                  </div>
+                )}
+
                 {/* Remember + Forgot */}
                 <div className="col-sm-12 mb-3">
                   <div className="d-flex justify-content-between align-items-center">
@@ -81,18 +88,11 @@ const Login = () => {
                       <input type="checkbox" />
                       <h6 className="mb-0">Remember Me</h6>
                     </div>
-                    <Link to="/forgot">
+                    {/* <Link to="/forgot">
                       <h6 className="mb-0">Forgot Password?</h6>
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
-
-                {/* Error */}
-                {error && (
-                  <div className="col-sm-12 mb-3">
-                    <p className="text-danger">{error}</p>
-                  </div>
-                )}
 
                 {/* Login Button */}
                 <div className="col-sm-12 d-flex justify-content-center mb-4">

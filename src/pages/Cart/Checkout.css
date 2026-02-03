@@ -33,10 +33,9 @@
     box-shadow: none;
 }
 
-.form .form-control::placeholder,
-.form .form-select::placeholder {
+.form .form-control::placeholder {
     color: var(--text-tertiary);
-    font-size: 10px;
+    font-size: 12px;
 }
 
 @media screen and (min-width: 1098px) {

@@ -72,7 +72,7 @@ useEffect(() => {
               </div>
             </div>
             <div className="my-0">
-              <SearchBar />
+              {/* <SearchBar /> */}
             </div>
           </div>
 
@@ -90,7 +90,7 @@ useEffect(() => {
 
             {/* Header Content */}
             <ul className="navbar-nav col-lg-3 align-items-lg-center justify-content-lg-evenly navbarNav">
-              <li className="nav-item" id="home">
+              {/* <li className="nav-item" id="home">
                 <NavLink className="nav-link" to="/">
                   Home
                 </NavLink>
@@ -105,7 +105,7 @@ useEffect(() => {
                   Blog
                 </NavLink>
               </li>
-              {/* <li className="nav-item" id="about">
+              <li className="nav-item" id="about">
                 <NavLink className="nav-link" to="about">
                   About Us
                 </NavLink>
@@ -119,7 +119,7 @@ useEffect(() => {
 
             {/* Search Div */}
             <ul className="navbar-nav col-lg-4 mb-0">
-              <li className="search-bar">
+              {/* <li className="search-bar">
                 <i className="bx bx-search text-center"></i>
                 <input
                   type="text"
@@ -128,7 +128,7 @@ useEffect(() => {
                   id="search"
                   placeholder="Search for products..."
                 />
-              </li>
+              </li> */}
             </ul>
 
             {/* Icon Div */}

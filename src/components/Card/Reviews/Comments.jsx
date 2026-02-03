@@ -42,7 +42,7 @@ const Comments = ({ productId }) => {
   }
 
   if (comments.length === 0) {
-    return <p className="text-muted">No reviews found for this product.</p>;
+    return <h6 className=" mt-3 text-center text-muted">No reviews found for this product.</h6>;
   }
 
   return (
@@ -54,12 +54,12 @@ const Comments = ({ productId }) => {
           </h6>
 
           {item.description?.length > 80 && (
-            <button className="toggle-btn" onClick={() => toggleExpand(index)}>
+            <button className="toggle-btn mb-2" onClick={() => toggleExpand(index)}>
               {expandedIndexes[index] ? "Show less" : "Read more"}
             </button>
           )}
 
-          <div className="star-div d-flex align-items-center column-gap-3 mb-3">
+          <div className="star-div d-flex align-items-center column-gap-3 mb-2">
             <div className="stars">
               {Array.from({ length: 5 }).map((_, i) => (
                 <i
@@ -68,12 +68,12 @@ const Comments = ({ productId }) => {
                 ></i>
               ))}
             </div>
-            <span>{item.rating}</span>
+            {/* <span>{item.rating}</span> */}
           </div>
 
           <div className="comments-user">
-            <h6>{item.user_id || "Anonymous"}</h6>
-            <h5>|</h5>
+            {/* <h6>{item.user_id || "Anonymous"}</h6> */}
+            {/* <h5>|</h5> */}
             <h6>{new Date(item.created_at).toDateString()}</h6>
           </div>
         </div>

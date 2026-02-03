@@ -47,6 +47,7 @@ const Ellipsis = ({ onLoaded }) => {
       {categories.map((item) => (
         <EllipsisCard
           key={item.product_id}
+          id={item.product_id}
           ellipsisImg={item.images?.[0]}
           ellipsish6={item.product_name}
           categoryId={item.product_id}

@@ -45,8 +45,7 @@
     box-shadow: none;
 }
 
-.portal-form .form-control::placeholder,
-.portal-form .form-select::placeholder {
+.portal-form .form-control::placeholder {
     color: var(--text-tertiary);
     font-size: 12px;
 }

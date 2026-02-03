@@ -14,6 +14,11 @@ const Description = ({ product }) => {
             <h6 className="mb-2">Brand</h6>
             <h5 className="mb-0">{product.brand}</h5>
           </div>
+          
+          <div className="description-div h-100 border-bottom border-start">
+            <h6 className="mb-2">Product Name</h6>
+            <h5 className="mb-0">{product.product_name}</h5>
+          </div>
 
           <div className="description-div h-100 border-bottom border-end border-start">
             <h6 className="mb-2">Color</h6>
@@ -21,8 +26,18 @@ const Description = ({ product }) => {
           </div>
 
           <div className="description-div h-100 border-bottom border-start">
-            <h6 className="mb-2">Size</h6>
-            <h5 className="mb-0">{product.size_unit?.[0]?.size}</h5>
+            <h6 className="mb-2">Actual Price</h6>
+            <h5 className="mb-0">₹ {product.actual_price}</h5>
+          </div>
+          
+          <div className="description-div h-100 border-bottom border-start">
+            <h6 className="mb-2">Selling Price</h6>
+            <h5 className="mb-0">₹ {product.selling_price}</h5>
+          </div>
+          
+          <div className="description-div h-100 border-bottom border-start">
+            <h6 className="mb-2">Discount</h6>
+            <h5 className="mb-0">{product.discount}%</h5>
           </div>
         </div>
       </div>

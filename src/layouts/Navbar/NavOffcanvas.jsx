@@ -22,18 +22,19 @@ const NavOffcanvas = () => {
 
       <div className="offcanvas-body py-2 px-4">
         <ul className="list-unstyled mt-2">
-
           {/* COMMON LINKS */}
           <li className="nav-item" data-bs-dismiss="offcanvas">
-            <NavLink className="nav-link" to="/">Home</NavLink>
+            <NavLink className="nav-link" to="/">
+              Home
+            </NavLink>
           </li>
 
           <li className="nav-item" data-bs-dismiss="offcanvas">
-            <NavLink className="nav-link" to="/categories">
-              All Categories
+            <NavLink className="nav-link" to="/products">
+              All Products
             </NavLink>
           </li>
-            <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">
+          {/* <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">
               <NavLink className="nav-link" to="outfit">
                 Outfit Chemistry
               </NavLink>
@@ -47,8 +48,8 @@ const NavOffcanvas = () => {
               <NavLink className="nav-link" to="blog">
                 Blog
               </NavLink>
-            </li>
-            {/* <li className="nav-item" id="about" data-bs-dismiss="offcanvas">
+            </li> */}
+          {/* <li className="nav-item" id="about" data-bs-dismiss="offcanvas">
               <NavLink className="nav-link" to="about">
                 About Us
               </NavLink>
@@ -58,15 +59,12 @@ const NavOffcanvas = () => {
                 Contact Us
               </NavLink>
             </li> */}
-          
+
           <hr className="w-50 mx-auto my-5" />
 
           {/* AUTHENTICATION BASED UI */}
           {isAuthenticated === "true" ? (
-            <li
-              className="nav-item mt-4"
-              data-bs-dismiss="offcanvas"
-            >
+            <li className="nav-item mt-4" data-bs-dismiss="offcanvas">
               <button
                 className="darkbtn w-100 rounded-1 text-uppercase"
                 onClick={() => {
@@ -99,7 +97,6 @@ const NavOffcanvas = () => {
               </NavLink>
             </li>
           )}
-
         </ul>
       </div>
     </div>
