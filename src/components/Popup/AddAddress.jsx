@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { addAddress, updateAddress } from "../../service/api";
+import { toast } from "react-toastify";
 
 const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -17,8 +18,8 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
 
   useEffect(() => {
     if (mode === "edit" && addressData) {
-      const nameParts = addressData.name ? addressData.name.split(" ") : ["", ""];
-      
+      const nameParts = addressData.name?.split(" ") || [];
+
       setFormData({
         firstName: nameParts[0] || "",
         lastName: nameParts.slice(1).join(" ") || "",
@@ -32,14 +33,21 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
         phone: addressData.phone || "",
       });
     } else {
-      // Clear form for "add" mode
       setFormData({
-        firstName: "", lastName: "", country: "", company: "",
-        streetAddress: "", landmark: "", city: "", state: "",
-        pincode: "", phone: "",
+        firstName: "",
+        lastName: "",
+        country: "",
+        company: "",
+        streetAddress: "",
+        landmark: "",
+        city: "",
+        state: "",
+        pincode: "",
+        phone: "",
       });
     }
-  }, [addressData, mode]);
+  }, [mode, addressData]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const modalRef = useRef(null);
@@ -71,23 +79,23 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
   const closeModal = () => {
     try {
       const modalElement = document.getElementById("addAddress");
-      
+
       if (window.bootstrap && window.bootstrap.Modal) {
         const modalInstance = window.bootstrap.Modal.getInstance(modalElement);
         if (modalInstance) {
           modalInstance.hide();
         }
       }
-      
+
       setTimeout(() => {
         modalElement.classList.remove("show");
         modalElement.style.display = "none";
         modalElement.setAttribute("aria-hidden", "true");
         modalElement.removeAttribute("aria-modal");
-        
+
         const backdrops = document.querySelectorAll(".modal-backdrop");
         backdrops.forEach((backdrop) => backdrop.remove());
-        
+
         document.body.classList.remove("modal-open");
         document.body.style.overflow = "";
         document.body.style.paddingRight = "";
@@ -102,7 +110,13 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
       setLoading(true);
       setError("");
 
-      if (!formData.firstName || !formData.phone || !formData.city || !formData.state || !formData.pincode) {
+      if (
+        !formData.firstName ||
+        !formData.phone ||
+        !formData.city ||
+        !formData.state ||
+        !formData.pincode
+      ) {
         setError("Please fill in all required fields");
         setLoading(false);
         return;
@@ -145,16 +159,18 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
           pincode: "",
           phone: "",
         });
-
         closeModal();
-
+        toast.success("Address Added Successfully!");
+        window.location.reload();
         setTimeout(() => {
           if (onSuccess) {
-            onSuccess();
+            onSuccess(mode === "edit" ? addressData?.id : null);
           }
         }, 300);
       } else {
-        setError(result?.data?.message || result?.message || "Failed to save address");
+        setError(
+          result?.data?.message || result?.message || "Failed to save address",
+        );
       }
     } catch (err) {
       console.error("Submit error:", err);
@@ -175,7 +191,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
       aria-labelledby="addAddress"
       aria-hidden="true"
     >
-      <div className="modal-dialog modal-dialog-centered modal-lg">
+      <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div className="modal-content">
           <div className="modal-header">
             <h4 className="modal-title" id="addAddress">
@@ -197,7 +213,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 <div className="alert alert-danger">{error}</div>
               </div>
             )}
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_f_name">
                 First Name <span>*</span>
               </label>
@@ -210,7 +226,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_l_name">
                 Last Name <span>*</span>
               </label>
@@ -223,33 +239,20 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label htmlFor="add_country">
-                Country / Region <span>*</span>
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
+              <label htmlFor="add_building">
+                Building Name <span>*</span>
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="add_country"
-                placeholder="Country / Region"
-                value={formData.country}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
-              <label htmlFor="add_company">
-                Company Name <span>*</span>
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="add_company"
-                placeholder="Company Name"
+                id="add_building"
+                placeholder="Building Name"
                 value={formData.company}
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_street_address">
                 Street Address <span>*</span>
               </label>
@@ -262,7 +265,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_landmark">
                 Landmark <span>*</span>
               </label>
@@ -275,7 +278,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_city">
                 City <span>*</span>
               </label>
@@ -288,7 +291,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_state">
                 State <span>*</span>
               </label>
@@ -301,7 +304,7 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_pincode">
                 Pincode <span>*</span>
               </label>
@@ -314,7 +317,20 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-sm-12 col-md-6 col-xl-6 mb-2">
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
+              <label htmlFor="add_country">
+                Country / Region <span>*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="add_country"
+                placeholder="Country / Region"
+                value={formData.country}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-sm-12 col-md-6 col-xl-6 mb-3">
               <label htmlFor="add_phone">
                 Phone <span>*</span>
               </label>
@@ -328,14 +344,18 @@ const AddAddress = ({ mode = "add", addressData = null, onSuccess }) => {
               />
             </div>
           </div>
-          <div className="modal-footer d-flex justify-content-center align-items-center my-2">
+          <div className="modal-footer d-flex justify-content-center align-items-center">
             <button
               type="button"
               className="formbtn"
               onClick={handleSubmit}
               disabled={loading}
             >
-              {loading ? "Saving..." : mode === "edit" ? "Update Address" : "Add Address"}
+              {loading
+                ? "Saving..."
+                : mode === "edit"
+                  ? "Update Address"
+                  : "Add Address"}
             </button>
           </div>
         </div>

@@ -40,7 +40,7 @@ const Categories = () => {
       </div>
 
       {/* FEATURED COLLECTIONS (KEEP AS YOU ASKED) */}
-      {/* <div className="body-head mb-4">
+      {/* <div className="body-head mb-3">
         <h5>
           Featured <span>Collections</span>
         </h5>
@@ -56,7 +56,7 @@ const Categories = () => {
 
       {/* PRODUCTS */}
       <div className="main-header">
-        <div className="body-head mb-4">
+        <div className="body-head mb-3">
           <h5>
             Shop All <span>Products</span>
           </h5>

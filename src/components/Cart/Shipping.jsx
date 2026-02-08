@@ -109,14 +109,14 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
           <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <label>
               <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
-              <span className="text-dark fw-bold">Professional Courier</span>
+              <span className="text-dark fw-bold">Courier</span>
             </label>
           </li>
           <hr />
           <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <label>
               Delivery Charges <br />
-              <span className=" text-muted">Additional fess may apply</span>
+              <span className=" text-muted">Additional fees may apply</span>
             </label>
             <label> ₹ {SHIPPING}</label>
           </li>

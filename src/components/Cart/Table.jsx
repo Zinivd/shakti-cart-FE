@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addToCart, removeCartProduct } from "../../service/api";
+import { NoCart } from "../../../public/Assets";
 import "./CartTable.css";
 
 const SAMPLE_IMAGE = "https://via.placeholder.com/80x80.png?text=Product";
@@ -27,13 +28,14 @@ const CartTable = ({
 
   /* UPDATE QTY */
   const updateQty = async (item, newQty, index) => {
+    if (newQty === item.quantity) return;
     if (!checkAuth()) return;
     if (newQty < 1) return;
 
     try {
       const payload = {
         product_id: item.product_id,
-        size: item.product?.size,
+        size: item.size,
         color: item.product?.color,
         quantity: newQty,
       };
@@ -175,66 +177,73 @@ const CartTable = ({
 
       {/* ================= MOBILE ================= */}
       <div className="mobile-only cart-cards">
-        {cartProducts.map((item, index) => {
-          const price = Number(item.product?.selling_price || 0);
-          const qty = Number(item.quantity || 1);
+        {cartProducts.length === 0 ? (
+          <div className="empty-state">
+            <img src={NoCart} alt="" />
+            <h6>Your Cart is Empty</h6>
+          </div>
+        ) : (
+          cartProducts.map((item, index) => {
+            const price = Number(item.product?.selling_price || 0);
+            const qty = Number(item.quantity || 1);
 
-          return (
-            <div className="cart-card" key={`${item.product_id}-${index}`}>
-              <div className="cart-card-left">
-                <img
-                  src={item.product?.images?.[0] || SAMPLE_IMAGE}
-                  alt=""
-                  height="165px"
-                  width="100%"
-                  className="object-fit-cover"
-                />
-              </div>
-              <div className="cart-card-right">
-                <div className="cart-cart-head">
-                  <h6 className="mb-2">{item.product?.brand}</h6>
-                  <h5 className="mb-0">{item.product?.product_name}</h5>
-                  <div className="d-flex align-items-center justify-content-start gap-3 my-2">
-                    <h5 className="mb-0">
-                      ₹{price} <span>₹{item.product.actual_price}</span>
-                    </h5>
-                    <h6 className="cart-offer mb-0">
-                      ₹{item.product.discount}% OFF
-                    </h6>
-                  </div>
-                </div>
-                <div className="cart-card-middle my-2">
-                  <div className="d-flex align-items-center justify-content-start gap-3">
-                    <h5 className="mb-0">Size : {item.size}</h5>|
-                    <h5 className="mb-0">{item.product?.color}</h5>
-                  </div>
-                </div>
-
-                <div className="qty-row">
-                  <div className="qtydiv">
-                    <button
-                      className="qtybtn"
-                      onClick={() => decQty(item, index)}
-                    >
-                      -
-                    </button>
-                    <span className="text-center">{qty}</span>
-                    <button
-                      className="qtybtn"
-                      onClick={() => incQty(item, index)}
-                    >
-                      +
-                    </button>
-                  </div>
-                  <i
-                    className="fas fa-trash-can fs-5"
-                    onClick={() => handleRemoveCart(item.product_id)}
+            return (
+              <div className="cart-card" key={`${item.product_id}-${index}`}>
+                <div className="cart-card-left">
+                  <img
+                    src={item.product?.images?.[0] || SAMPLE_IMAGE}
+                    alt=""
+                    height="165px"
+                    width="100%"
+                    className="object-fit-cover"
                   />
                 </div>
+                <div className="cart-card-right">
+                  <div className="cart-cart-head">
+                    <h6 className="mb-2">{item.product?.brand}</h6>
+                    <h5 className="mb-0">{item.product?.product_name}</h5>
+                    <div className="d-flex align-items-center justify-content-start gap-3 my-2">
+                      <h5 className="mb-0">
+                        ₹{price} <span>₹{item.product.actual_price}</span>
+                      </h5>
+                      <h6 className="cart-offer mb-0">
+                        ₹{item.product.discount}% OFF
+                      </h6>
+                    </div>
+                  </div>
+                  <div className="cart-card-middle my-2">
+                    <div className="d-flex align-items-center justify-content-start gap-3">
+                      <h5 className="mb-0">Size : {item.size}</h5>|
+                      <h5 className="mb-0">{item.product?.color}</h5>
+                    </div>
+                  </div>
+
+                  <div className="qty-row">
+                    <div className="qtydiv">
+                      <button
+                        className="qtybtn"
+                        onClick={() => decQty(item, index)}
+                      >
+                        -
+                      </button>
+                      <span className="text-center">{qty}</span>
+                      <button
+                        className="qtybtn"
+                        onClick={() => incQty(item, index)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <i
+                      className="fas fa-trash-can fs-5"
+                      onClick={() => handleRemoveCart(item.product_id)}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </>
   );

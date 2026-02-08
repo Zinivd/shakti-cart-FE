@@ -21,7 +21,7 @@
     background-color: var(--input-bg);
     color: var(--text-primary);
     border: 1px solid var(--border);
-    border-radius: 5px;
+    border-radius: 20px;
     padding: 8px 12px;
 }
 
@@ -35,7 +35,7 @@
 
 .form .form-control::placeholder {
     color: var(--text-tertiary);
-    font-size: 12px;
+    font-size: 14px;
 }
 
 @media screen and (min-width: 1098px) {
@@ -44,12 +44,12 @@
     }
 
     .form label {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .form .form-control,
     .form .form-select {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
@@ -59,12 +59,12 @@
     }
 
     .form label {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .form .form-control,
     .form .form-select {
-        font-size: 10px;
+        font-size: 14px;
     }
 }
 
@@ -74,11 +74,11 @@
     }
 
     .form label {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .form .form-control,
     .form .form-select {
-        font-size: 10px;
+        font-size: 14px;
     }
 }

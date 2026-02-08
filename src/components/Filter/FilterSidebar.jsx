@@ -112,8 +112,9 @@ const FilterSidebar = ({ onFilterChange, activeCategory }) => {
             <h6 className="mb-0 text-dark">Price</h6>
             <h6 className="mb-0">
               <i
-                className={`fas ${openSections.price ? "fa-angle-up" : "fa-angle-right"
-                  }`}
+                className={`fas ${
+                  openSections.price ? "fa-angle-up" : "fa-angle-right"
+                }`}
               ></i>
             </h6>
           </div>
@@ -134,11 +135,15 @@ const FilterSidebar = ({ onFilterChange, activeCategory }) => {
                   style={{
                     height: "4px",
                     width: "100%",
-                    background: `linear-gradient(to right, var(--border) ${((values[0] - MIN) / (MAX - MIN)) * 100
-                      }%, var(--sub) ${((values[0] - MIN) / (MAX - MIN)) * 100
-                      }%, var(--sub) ${((values[1] - MIN) / (MAX - MIN)) * 100
-                      }%, var(--border) ${((values[1] - MIN) / (MAX - MIN)) * 100
-                      }%)`,
+                    background: `linear-gradient(to right, var(--border) ${
+                      ((values[0] - MIN) / (MAX - MIN)) * 100
+                    }%, var(--sub) ${
+                      ((values[0] - MIN) / (MAX - MIN)) * 100
+                    }%, var(--sub) ${
+                      ((values[1] - MIN) / (MAX - MIN)) * 100
+                    }%, var(--border) ${
+                      ((values[1] - MIN) / (MAX - MIN)) * 100
+                    }%)`,
                     borderRadius: "3px",
                     margin: "20px 0",
                   }}
@@ -179,12 +184,11 @@ const FilterSidebar = ({ onFilterChange, activeCategory }) => {
         </div>
       </div>
 
-      {/* 🔥 APPLY / RESET (UI SAME) */}
       <div className="d-flex gap-2 px-2 mt-3">
-        <button className="darkbtn w-100" onClick={applyFilter}>
+        <button className="formbtn w-100" onClick={applyFilter}>
           Apply Filter
         </button>
-        <button className="lightbtn w-100" onClick={resetFilter}>
+        <button className="darkbtn w-100" onClick={resetFilter}>
           Reset
         </button>
       </div>

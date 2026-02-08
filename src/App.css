@@ -1,4 +1,10 @@
 /* Buttons CSS */
+button.disabled,
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 /* Home Banner Button */
 .homebannerbtn {
   background-color: var(--sub);
@@ -266,10 +272,7 @@
   .loginbtn,
   .ordertabs,
   .addcartbtn,
-  .buybtn {
-    font-size: 14px;
-  }
-
+  .buybtn,
   .shopnowbtn,
   .cartbtn,
   .sizebtn,
@@ -278,7 +281,7 @@
   .formbtn,
   .addressbtn,
   .tabsbtn {
-    font-size: 12px;
+    font-size: 14px;
   }
 
 }
@@ -293,10 +296,7 @@
   .loginbtn,
   .ordertabs,
   .addcartbtn,
-  .buybtn {
-    font-size: 12px;
-  }
-
+  .buybtn,
   .shopnowbtn,
   .cartbtn,
   .sizebtn,
@@ -304,7 +304,7 @@
   .formbtn,
   .addressbtn,
   .tabsbtn {
-    font-size: 10px;
+    font-size: 12px;
   }
 
 }

@@ -13,6 +13,7 @@
     color: var(--text-primary);
     font-weight: var(--fw-sm);
     margin-bottom: 8px;
+    cursor: pointer;
 }
 
 .portal-form h6 {
@@ -37,6 +38,7 @@
     padding: 10px 18px;
 }
 
+.portal-form .input-double-flex:focus-within,
 .portal-form .form-control:focus,
 .portal-form .form-select:focus {
     background-color: var(--input-bg);
@@ -45,9 +47,19 @@
     box-shadow: none;
 }
 
+.portal-form .input-double-flex {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 85% 15%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+}
+
 .portal-form .form-control::placeholder {
     color: var(--text-tertiary);
-    font-size: 12px;
+    font-size: 14px;
 }
 
 @media screen and (min-width: 1098px) {

@@ -18,7 +18,7 @@ const Cart = () => {
     try {
       const response = await getCartProducts();
       if (response?.data?.success) {
-        setCartProducts(response.data.data || []);        
+        setCartProducts(response.data.data || []);
       }
     } catch (error) {
       console.error("Cart fetch error:", error);
@@ -36,9 +36,9 @@ const Cart = () => {
   const shipping = cartProducts.length > 0 ? SHIPPING_CHARGE : 0;
   const grandTotal = subTotal + shipping;
   const isAuthenticated = localStorage.getItem("isAuthenticated");
-  
+
   const handleCheckout = async () => {
-    navigate('/checkout');
+    navigate("/checkout");
   };
 
   return (
@@ -82,7 +82,7 @@ const Cart = () => {
       {/* Cart Total */}
       {isAuthenticated && (
         <div className="cart-total mt-3">
-          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <div className="cart-bottom">
             {/* <div className="body-head d-block">
               <h5 className="mb-2 text-dark text-start">Discount Codes</h5>
               <h6 className="mb-3 text-start">
@@ -97,30 +97,26 @@ const Cart = () => {
                 <button className="couponbtn">Apply Coupon</button>
               </div>
             </div> */}
-            <div className="w-50">
-              <div className="shipping-card my-3">
-                <ul className="list-unstyled mb-0">
-                  <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    {/* <label>Arrives by Monday, June 7</label> */}
-                    <label>
-                      <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
-                      <span className="text-dark fw-bold">
-                        Professional Courier
-                      </span>
-                    </label>
-                  </li>
-                  <hr />
-                  <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <label>
-                      Delivery Charges <br />
-                      <span className=" text-muted">
-                        Additional fess may apply
-                      </span>
-                    </label>
-                    <label className="fw-bold"> ₹ {SHIPPING_CHARGE}.00</label>
-                  </li>
-                </ul>
-              </div>
+            <div className="shipping-card">
+              <ul className="list-unstyled mb-0">
+                <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                  {/* <label>Arrives by Monday, June 7</label> */}
+                  <label>
+                    <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
+                    <span className="text-dark fw-bold">Courier</span>
+                  </label>
+                </li>
+                <hr />
+                <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                  <label>
+                    Delivery Charges <br />
+                    <span className=" text-muted">
+                      Additional fees may apply
+                    </span>
+                  </label>
+                  <label className="fw-bold"> ₹ {SHIPPING_CHARGE}.00</label>
+                </li>
+              </ul>
             </div>
 
             <div className="cart-summary-table">
@@ -141,9 +137,15 @@ const Cart = () => {
                 </tbody>
               </table>
               <hr />
-              <button className="darkbtn" onClick={handleCheckout}>
-                Proceed to Checkout
-              </button>
+              <div className="d-flex justify-content-center">
+                <button
+                  className="darkbtn"
+                  onClick={handleCheckout}
+                  disabled={cartProducts.length === 0}
+                >
+                  Proceed to Checkout
+                </button>
+              </div>
             </div>
           </div>
         </div>

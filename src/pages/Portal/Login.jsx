@@ -2,33 +2,40 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../service/api";
 import "./Portal.css";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
 
     if (!email || !password) {
-      setError("Email and Password are required");
+      toast.error("Email and Password are required");
       return;
     }
 
     try {
       setLoading(true);
       const result = await loginUser(email, password);
-      
+
+      if (!result?.data?.token || !result?.data?.user) {
+        throw new Error("Invalid Credentials!");
+      }
+
       localStorage.setItem("access-token", result?.data?.token);
       localStorage.setItem("user", JSON.stringify(result?.data?.user));
       localStorage.setItem("isAuthenticated", "true");
       navigate("/profile");
     } catch (err) {
-      setError(err.message);
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("isAuthenticated");
+      toast.error(err.message || "Invalid Credentials!");
     } finally {
       setLoading(false);
     }
@@ -65,34 +72,35 @@ const Login = () => {
 
                 {/* Password */}
                 <div className="col-sm-12 mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <div className="input-double-flex">
+                    <input
+                      type={showPass ? "text" : "password"}
+                      className="form-control border-0 border-end rounded-end-0"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <label className="mb-0 text-center">
+                      <i
+                        className={`fas ${showPass ? "fa-eye-slash" : "fa-eye"}`}
+                        onClick={() => setShowPass(!showPass)}
+                      ></i>
+                    </label>
+                  </div>
                 </div>
 
-                {/* Error */}
-                {error && (
-                  <div className="col-sm-12 mb-0">
-                    <p className="text-danger">{error}</p>
-                  </div>
-                )}
-
                 {/* Remember + Forgot */}
-                <div className="col-sm-12 mb-3">
+                {/* <div className="col-sm-12 mb-3">
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center column-gap-2">
                       <input type="checkbox" />
                       <h6 className="mb-0">Remember Me</h6>
                     </div>
-                    {/* <Link to="/forgot">
+                    <Link to="/forgot">
                       <h6 className="mb-0">Forgot Password?</h6>
-                    </Link> */}
+                    </Link>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Login Button */}
                 <div className="col-sm-12 d-flex justify-content-center mb-4">

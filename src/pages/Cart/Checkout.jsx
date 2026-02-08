@@ -301,7 +301,7 @@ const Checkout = () => {
               <form onSubmit={handleContinueToDelivery}>
                 <div className="row">
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="firstName">First Name *</label>
+                    <label htmlFor="firstName">First Name <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -324,23 +324,12 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="country">Country / Region</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="country"
-                      placeholder="Country / Region"
-                      value={formData.country}
-                      onChange={handleFormChange}
-                    />
-                  </div>
-                  <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="company">Company Name</label>
+                    <label htmlFor="building">Building Name</label>
                     <input
                       type="text"
                       className="form-control"
                       name="company"
-                      placeholder="Company Name"
+                      placeholder="Building Name"
                       value={formData.company}
                       onChange={handleFormChange}
                     />
@@ -368,7 +357,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="city">City *</label>
+                    <label htmlFor="city">City <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -380,7 +369,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="state">State *</label>
+                    <label htmlFor="state">State <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -392,7 +381,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="pincode">Pin Code *</label>
+                    <label htmlFor="pincode">Pin Code <span>*</span></label>
                     <input
                       type="number"
                       className="form-control"
@@ -404,7 +393,18 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="phone">Phone *</label>
+                    <label htmlFor="country">Country / Region</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="country"
+                      placeholder="Country / Region"
+                      value={formData.country}
+                      onChange={handleFormChange}
+                    />
+                  </div>
+                  <div className="col-sm-12 col-md-6 mb-3">
+                    <label htmlFor="phone">Phone <span>*</span></label>
                     <input
                       type="number"
                       className="form-control"
@@ -440,17 +440,6 @@ const Checkout = () => {
           )}
 
           <Shipping cartItems={cartItems} selectedAddress={selectedAddressData} />
-
-          {/* Place Order Button - Only show if address is selected */}
-          {/* {addresses.length > 0 && (
-            <button
-              className="darkbtn mt-3 w-100"
-              onClick={handlePlaceOrder}
-              disabled={placingOrder || !selectedAddress}
-            >
-              {placingOrder ? "Placing Order..." : "Place Order"}
-            </button>
-          )} */}
         </div>
 
         <div className="checkout-right">

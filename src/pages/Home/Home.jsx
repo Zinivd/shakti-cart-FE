@@ -44,7 +44,7 @@ const Home = () => {
       <Banner />
 
       <div className="main-header">
-        <div className="body-head mb-4">
+        <div className="body-head mb-3">
           <h5>
             Quick <span>Hits</span>
           </h5>
@@ -60,7 +60,7 @@ const Home = () => {
       </div>
 
       <div className="main-header">
-        <div className="body-head mb-4">
+        <div className="body-head mb-3">
           <h5>
             Shop All <span>Products</span>
           </h5>

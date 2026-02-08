@@ -21,16 +21,14 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (!id) return;
-
     fetchProductDetails();
   }, [id]);
+
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
       setProduct(null);
-
       const response = await getProductById(id);
-
       if (response?.data?.success) {
         setProduct(response.data.data);
       }
@@ -125,7 +123,7 @@ const ProductDetails = () => {
               <span>|</span> User Comments
             </h4>
             <a data-bs-toggle="modal" data-bs-target="#addReview">
-              <button className="cartbtn">Add Review</button>
+              <button className="formbtn">Add Review</button>
             </a>
           </div>
           <div className="body-head mt-3">
@@ -146,7 +144,7 @@ const ProductDetails = () => {
         </div>
 
         <div className="main-header">
-          <div className="body-head mb-4">
+          <div className="body-head mb-3">
             <h5>
               Similar <span>Products</span>
             </h5>

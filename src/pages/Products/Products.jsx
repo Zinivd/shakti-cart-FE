@@ -5,14 +5,13 @@ import Filter from "../../components/Filter/Filter";
 import Card2 from "../../components/Card/Discover/Card2.jsx";
 import Offer from "../../components/Card/Offer/Offer.jsx";
 import "./Products.css";
+import { NoSimilar } from "../../../public/Assets.js";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // 🔥 FILTER STATE
   const [filters, setFilters] = useState(null);
+  const [hasProducts, setHasProducts] = useState(true);
 
-  // 🔥 READ CATEGORY FROM URL ON LOAD
   useEffect(() => {
     const catFromUrl = searchParams.get("cat");
 
@@ -28,7 +27,6 @@ const Products = () => {
   // 🔥 APPLY FILTER + UPDATE URL
   const handleFilterChange = (filterData) => {
     setFilters(filterData);
-
     if (filterData?.category_id) {
       setSearchParams({ cat: filterData.category_id });
     } else {
@@ -82,7 +80,18 @@ const Products = () => {
               </h6>
             </div>
 
-            <Product showCartBtn={true} filters={filters} />
+            {hasProducts ? (
+              <Product
+                showCartBtn={true}
+                filters={filters}
+                onResult={(count) => setHasProducts(count > 0)}
+              />
+            ) : (
+              <div className="empty-state mt-5 text-center">
+                <img src={NoSimilar} alt="No products" />
+                <h6>No Products Found</h6>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -92,7 +101,7 @@ const Products = () => {
 
       {/* ALL PRODUCTS */}
       <div className="main-header">
-        <div className="body-head mb-4">
+        <div className="body-head mb-3">
           <h5>
             Shop All <span>Products</span>
           </h5>

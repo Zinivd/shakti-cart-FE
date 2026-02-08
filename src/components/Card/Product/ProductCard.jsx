@@ -73,8 +73,28 @@ const ProductCard = (props) => {
     }
   };
 
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/products-details/${props.id}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: props.productname || "Check this product",
+          text: "Check out this product",
+          url: shareUrl,
+        });
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Product link copied to clipboard");
+      }
+    } catch (error) {
+      console.error("Share failed:", error);
+      toast.error("Unable to share product");
+    }
+  };
+
   return (
-    <div className="product-card my-3">
+    <div className="product-card mb-3">
       {/* Image → Product Details */}
       {isSameProduct ? (
         <div className="product-img">
@@ -109,6 +129,16 @@ const ProductCard = (props) => {
       {/* Rating */}
       <h6 className="product-rating">
         <i className="bx bxs-star text-warning"></i> {props.rating}
+      </h6>
+
+      {/* Share */}
+      <h6
+        className="product-share"
+        title="Share"
+        style={{ cursor: "pointer" }}
+        onClick={handleShare}
+      >
+        <i className="fas fa-share-alt"></i>
       </h6>
 
       <hr className="mt-0" />

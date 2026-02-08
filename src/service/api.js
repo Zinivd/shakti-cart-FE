@@ -40,17 +40,13 @@ export async function addToCart(body) {
 export async function loginUser(email, password) {
   try {
     const url = Urls.login;
-
-    const payload = {
-      email,
-      password,
-    };
-
+    const payload = { email, password };
     const result = await Client(url, payload, "post");
     return result;
   } catch (error) {
-    console.error(`error in function loginUser: `, error);
-    return null;
+    throw new Error(
+      error.response?.data?.message || "Invalid email or password"
+    );
   }
 }
 
@@ -274,7 +270,7 @@ export async function removeAddress(body, email) {
 
 export async function placeOrder(body) {
   try {
-    const result = await Client(Urls.placeOrder,body, "post");
+    const result = await Client(Urls.placeOrder, body, "post");
     return result;
   } catch (error) {
     console.error(`error in function placeOrder: `, error);
@@ -305,9 +301,8 @@ export async function getProductReviews(productId) {
 
 export async function createOrder(payload) {
   try {
-    
     const result = await Client(Urls.placeOrder, payload, "post");
-    console.log(result);
+    // console.log(result);
 
     return result;
   } catch (error) {
@@ -346,10 +341,10 @@ export const loadRazorpay = () => {
   });
 };
 
-export async function check_out({order_id}) {
-  const payload = {order_id};
+export async function check_out({ order_id }) {
+  const payload = { order_id };
   const result = await Client(Urls.checkout, payload, "post");
-  console.log("result", result);
+  // console.log("result", result);
   return result;
 }
 
@@ -366,7 +361,7 @@ export async function verify_checkout(payload) {
   //   "razorpay_signature": "ae0f5db68e1ac0d5edbc45aa383e9d21a85e6378033016630e9226cd4cd58513"
   // }
   const result = await Client(Urls.verify_checkout, payload, "post");
-  console.log("result", result);
+  // console.log("result", result);
   return result;
 }
 

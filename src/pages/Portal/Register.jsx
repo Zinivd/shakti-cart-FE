@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser, loginUser } from "../../service/api";
+import { toast } from "react-toastify";
 import "./Portal.css";
 
 const Register = () => {
@@ -17,6 +18,7 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +42,6 @@ const Register = () => {
 
   const validateForm = () => {
     let tempErrors = {};
-
     if (!formData.name) tempErrors.name = "Name is required";
     if (!formData.email) tempErrors.email = "Email is required";
     if (!formData.phone) tempErrors.phone = "Phone number is required";
@@ -54,12 +55,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
-
     try {
       setLoading(true);
-      setApiError("");
 
       const payload = {
         name: formData.name,
@@ -70,19 +68,19 @@ const Register = () => {
       };
 
       const response = await registerUser(payload);
-
-      console.log("Register Success:", response);
-
       if (response?.data?.success || response?.data?.status === "success") {
+        toast.success("Registration Successful!");
         const result = await loginUser(formData.email, formData.password);
+        if (!result?.data?.token || !result?.data?.user) {
+          throw new Error("Login failed after registration");
+        }
 
-        // 3️⃣ STORE TOKEN (SAME AS LOGIN PAGE)
         localStorage.setItem("access-token", result?.data?.token);
         localStorage.setItem("user", JSON.stringify(result?.data?.user));
         localStorage.setItem("isAuthenticated", "true");
         navigate("/");
       } else {
-        setApiError(
+        toast.error(
           response?.data?.error ||
             response?.data?.message ||
             "Registration failed",
@@ -90,18 +88,15 @@ const Register = () => {
       }
     } catch (error) {
       console.error("Register Error:", error);
-
-      // Handle error response from API
-      if (error.response && error.response.data) {
-        const errorData = error.response.data;
-        setApiError(
-          errorData.error || errorData.message || "Registration failed",
-        );
-      } else {
-        setApiError(
-          error.message || "Registration failed. Please try again later.",
-        );
-      }
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("isAuthenticated");
+      toast.error(
+        error.response?.data?.error ||
+          error.response?.data?.message ||
+          error.message ||
+          "Registration failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -124,15 +119,6 @@ const Register = () => {
           <div className="portal-form">
             <form onSubmit={handleSubmit}>
               <div className="row">
-                {/* Show API Error Message */}
-                {apiError && (
-                  <div className="col-sm-12 mb-3">
-                    <div className="alert alert-danger" role="alert">
-                      {apiError}
-                    </div>
-                  </div>
-                )}
-
                 {/* Name */}
                 <div className="col-sm-12 mb-4">
                   <input
@@ -181,14 +167,22 @@ const Register = () => {
 
                 {/* Password */}
                 <div className="col-sm-12 mb-4">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Password *"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
+                  <div className="input-double-flex">
+                    <input
+                      type={showPass ? "text" : "password"}
+                      className="form-control border-0 border-end rounded-end-0"
+                      placeholder="Password *"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                    />
+                    <label className="mb-0 text-center">
+                      <i
+                        className={`fas ${showPass ? "fa-eye-slash" : "fa-eye"}`}
+                        onClick={() => setShowPass(!showPass)}
+                      ></i>
+                    </label>
+                  </div>
                   {errors.password && (
                     <small className="text-danger">{errors.password}</small>
                   )}

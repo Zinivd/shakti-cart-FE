@@ -14,6 +14,7 @@ const Product = (props) => {
     categoryId,
     currentProductId,
     hideAds = false,
+    onResult,
   } = props;
 
   const [products, setProducts] = useState([]);
@@ -29,9 +30,7 @@ const Product = (props) => {
 
       let apiProducts = [];
 
-      // 🔥 FLOW 1 & 2 HANDLING
       if (categoryId) {
-        // Similar products flow
         const response = await getProductsByCategory(categoryId);
         apiProducts = response?.data?.data || [];
       } else if (filters?.category_id) {
@@ -45,7 +44,7 @@ const Product = (props) => {
       // ❌ REMOVE CURRENT PRODUCT (SIMILAR FLOW)
       if (currentProductId) {
         apiProducts = apiProducts.filter(
-          (p) => p.product_id !== currentProductId
+          (p) => p.product_id !== currentProductId,
         );
       }
 
@@ -73,9 +72,11 @@ const Product = (props) => {
       }));
 
       setProducts(mappedProducts);
+      onResult?.(mappedProducts.length);
     } catch (error) {
       console.error("Product load error:", error);
       setProducts([]);
+      onResult?.(0);
     } finally {
       setLoading(false);
     }

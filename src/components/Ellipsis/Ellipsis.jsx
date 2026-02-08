@@ -16,8 +16,8 @@ const Ellipsis = ({ onLoaded }) => {
     try {
       const response = await getAllProducts();
 
-      console.log("API RESPONSE:", response);
-      console.log("PRODUCT ARRAY:", response?.data?.data);
+      // console.log("API RESPONSE:", response);
+      // console.log("PRODUCT ARRAY:", response?.data?.data);
 
       const products = response?.data?.data || [];
 

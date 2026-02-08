@@ -14,7 +14,6 @@ const AddReview = ({ productId, onSuccess }) => {
     }
 
     setLoading(true);
-
     const payload = {
       product_id: productId,
       title: "User Review",
@@ -23,12 +22,11 @@ const AddReview = ({ productId, onSuccess }) => {
     };
 
     const response = await addProductReview(payload);
-
     if (response?.data?.success) {
       toast.success("Review added successfully");
       setRating("");
       setComment("");
-      onSuccess(); // refresh comments
+      onSuccess();
       document.querySelector("#addReview .btn-close").click();
     }
 
@@ -44,30 +42,45 @@ const AddReview = ({ productId, onSuccess }) => {
             <button className="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
-          <div className="modal-body">
-            <label>Rating *</label>
-            <select
-              className="form-select"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-            >
-              <option value="">Select Rating</option>
-              {[1,2,3,4,5].map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
+          <div className="modal-body form">
+            <div className="mb-3">
+              <label>
+                Rating <span>*</span>
+              </label>
+              <select
+                className="form-select"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+              >
+                <option value="">Select Rating</option>
+                {[1, 2, 3, 4, 5].map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            <label className="mt-3">Comment *</label>
-            <textarea
-              className="form-control"
-              rows="3"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
+            <div className="mb-3">
+              <label className="mt-3">
+                Comment <span>*</span>
+              </label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={comment}
+                placeholder="Leave your comment on this product..."
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="modal-footer">
-            <button className="formbtn" onClick={handleSubmit} disabled={loading}>
+          <div className="modal-footer d-flex justify-content-center">
+            <button
+              className="formbtn"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
               {loading ? "Submitting..." : "Submit Review"}
             </button>
           </div>
