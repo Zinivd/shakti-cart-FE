@@ -170,7 +170,7 @@ const ProductContent = ({ product }) => {
     setLoading(true);
 
     try {
-      const body = { product_id: props.id };
+      const body = { product_id: product.product_id };
       const response = await addToWishlist(body);
 
       if (response) {

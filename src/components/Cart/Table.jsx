@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addToCart, removeCartProduct } from "../../service/api";
+import {
+  addToCart,
+  removeCartProduct,
+  getProductQuantities,
+} from "../../service/api";
 import { NoCart } from "../../../public/Assets";
 import "./CartTable.css";
 
@@ -14,8 +18,33 @@ const CartTable = ({
   setCartTableData,
 }) => {
   const navigate = useNavigate();
-
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+
+  useEffect(() => {
+    if (!cartProducts.length) return;
+
+    const loadStocks = async () => {
+      const updated = await Promise.all(
+        cartProducts.map(async (item) => {
+          try {
+            const res = await getProductQuantities(item.product_id);
+
+            const sizeStock =
+              res?.data?.data?.quantities?.find((q) => q.size === item.size)
+                ?.quantity ?? 0;
+
+            return { ...item, available_quantity: sizeStock };
+          } catch {
+            return { ...item, available_quantity: 0 };
+          }
+        }),
+      );
+
+      setCartProducts(updated);
+    };
+
+    loadStocks();
+  }, [cartProducts.length]);
 
   const checkAuth = () => {
     if (!isAuthenticated) {
@@ -56,6 +85,11 @@ const CartTable = ({
   };
 
   const incQty = (item, index) => {
+    if (item.quantity >= item.available_quantity) {
+      toast.error("Stock limit reached for this size");
+      return;
+    }
+
     updateQty(item, item.quantity + 1, index);
   };
 
@@ -148,6 +182,7 @@ const CartTable = ({
                         <button
                           className="qtybtn"
                           onClick={() => incQty(item, index)}
+                          // disabled={item.quantity >= item.available_quantity}
                         >
                           +
                         </button>
