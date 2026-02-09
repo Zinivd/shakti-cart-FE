@@ -135,3 +135,7 @@ input[type="number"]::-ms-clear {
     color: var(--text-primary);
     font-size: 14px;
 }
+
+.Toastify__toast  {
+    text-transform: capitalize !important;
+}

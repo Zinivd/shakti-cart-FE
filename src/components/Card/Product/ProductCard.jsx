@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { addToWishlist, addToCart } from "../../../service/api";
+import { addToWishlist, addToCart, removeFromWishlist } from "../../../service/api";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 
 const ProductCard = (props) => {
-  const [isWished, setIsWished] = useState(false);
+  const [isWished, setIsWished] = useState(props.isWishlisted || false);
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
@@ -15,7 +15,7 @@ const ProductCard = (props) => {
     isProductDetailsPage && location.pathname.endsWith(`/${props.id}`);
 
   // Wishlist
-  const handleWishlistClick = async (e) => {
+  const handleAddWishlist = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -23,17 +23,45 @@ const ProductCard = (props) => {
     setLoading(true);
 
     try {
-      const body = { product_id: props.id };
-      const response = await addToWishlist(body);
+      const body = {
+        product_id: props.id,
+        size: props.size || "S",
+      };
 
-      if (response) {
-        setIsWished(true);
-        toast.success("Added to wishlist");
-      } else {
-        toast.error("Failed to add wishlist");
+      const res = await addToWishlist(body);
+
+      if (res?.data?.success || res) {
+        setIsWished(true); // 🔥 UPDATE UI
+        toast.success("Added to Wishlist");
       }
-    } catch (error) {
-      toast.error("Something went wrong");
+    } catch (err) {
+      toast.error("Failed to add wishlist");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveWishlist = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const payload = {
+        product_id: props.id,
+        size: props.size || "S",
+      };
+
+      const res = await removeFromWishlist(payload);
+
+      if (res?.data?.success || res) {
+        setIsWished(false); // 🔥 UPDATE UI
+        toast.error("Removed from Wishlist");
+      }
+    } catch (err) {
+      toast.error("Failed to remove wishlist");
     } finally {
       setLoading(false);
     }
@@ -121,7 +149,7 @@ const ProductCard = (props) => {
       {/* Wishlist */}
       <h6
         className={`heart m-0 ${isWished ? "active" : ""}`}
-        onClick={handleWishlistClick}
+        onClick={isWished ? handleRemoveWishlist : handleAddWishlist}
       >
         <i className={isWished ? "fas fa-heart" : "fa-regular fa-heart"}></i>
       </h6>

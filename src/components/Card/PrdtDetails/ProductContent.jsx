@@ -2,7 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   addToCart,
   addToWishlist,
+  removeFromWishlist,
   getProductQuantities,
+  getWishlistProducts,
 } from "../../../service/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +23,29 @@ const ProductContent = ({ product }) => {
     if (!selectedSize) return 0;
     return sizeQuantities.find((s) => s.size === selectedSize)?.qty || 0;
   }, [sizeQuantities, selectedSize]);
+
+  useEffect(() => {
+    setIsWished(!!product?.is_wishlisted);
+  }, [product]);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const res = await getWishlistProducts();
+        if (res?.data?.success) {
+          const sizes = res.data.data
+            .filter((w) => w.product_id === product.product_id)
+            .map((w) => w.size);
+
+          setWishlistSizes(sizes);
+        }
+      } catch (err) {
+        console.error("Wishlist fetch failed", err);
+      }
+    };
+
+    fetchWishlist();
+  }, [product]);
 
   useEffect(() => {
     const fetchQuantities = async () => {
@@ -93,7 +118,7 @@ const ProductContent = ({ product }) => {
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
     if (!isAuthenticated) {
-      toast.error("Please login to add products to cart");
+      toast.error("Please Login to Add Products to Cart");
       navigate("/login");
       return false;
     }
@@ -162,7 +187,7 @@ const ProductContent = ({ product }) => {
     }
   };
 
-  const handleWishlistClick = async (e) => {
+  const handleAddWishlist = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -170,17 +195,47 @@ const ProductContent = ({ product }) => {
     setLoading(true);
 
     try {
-      const body = { product_id: product.product_id };
-      const response = await addToWishlist(body);
+      const payload = {
+        product_id: product.product_id,
+      };
 
-      if (response) {
+      const res = await addToWishlist(payload);
+
+      if (res?.data?.success) {
         setIsWished(true);
-        toast.success("Added to Wishlist!");
+        toast.success("Added to Wishlist");
       } else {
-        toast.error("Failed to Add Wishlist");
+        toast.error("Failed to add to Wishlist");
       }
     } catch (error) {
-      toast.error("Something Went Wrong");
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveWishlist = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const payload = {
+        product_id: product.product_id,
+      };
+
+      const res = await removeFromWishlist(payload);
+
+      if (res?.data?.success) {
+        setIsWished(false);
+        toast.success("Removed from Wishlist");
+      } else {
+        toast.error("Failed to remove from Wishlist");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -196,8 +251,8 @@ const ProductContent = ({ product }) => {
         <h3 className="mb-2">{product.brand || "Brand Name"}</h3>
         <div className="d-flex align-items-center column-gap-4">
           <h5
-            className={`mb-3 ${isWished ? "active" : ""}`}
-            onClick={handleWishlistClick}
+            className={`mb-3 heart ${isWished ? "active" : ""}`}
+            onClick={isWished ? handleRemoveWishlist : handleAddWishlist}
           >
             <i
               className={isWished ? "fas fa-heart" : "fa-regular fa-heart"}

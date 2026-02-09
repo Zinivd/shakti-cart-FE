@@ -15,6 +15,7 @@ const Product = (props) => {
     currentProductId,
     hideAds = false,
     onResult,
+    selectedSize
   } = props;
 
   const [products, setProducts] = useState([]);
@@ -69,6 +70,8 @@ const Product = (props) => {
         slashprice: item.actual_price,
         badge: item.product_list_type?.toUpperCase() || "",
         icon: VegIcon,
+        size: item.size || "S",
+        isWishlisted: item.is_wishlisted
       }));
 
       setProducts(mappedProducts);

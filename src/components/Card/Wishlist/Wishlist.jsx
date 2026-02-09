@@ -62,6 +62,7 @@ const Wishlist = () => {
         setWishlistData((prev) =>
           prev.filter((item) => item.product_id !== productId),
         );
+        toast.error("Removed from Wishlist!");
       }
     } catch (err) {
       console.error("Remove wishlist error", err);
@@ -124,12 +125,11 @@ const Wishlist = () => {
               <h5 className="mb-0">₹ {item.product.selling_price}.00</h5>
             </div>
 
-            <button
-              className="darkbtn"
-              onClick={() => handleAddToCart(item.product_id)}
-            >
-              Add to Cart
-            </button>
+            <Link to={`/products-details/${item.product_id}`}>
+              <button className="darkbtn">
+                View Product
+              </button>
+            </Link>
           </div>
           <hr />
         </div>
