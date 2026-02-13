@@ -2,41 +2,76 @@ import React, { useEffect, useRef } from "react";
 import Banner from "../../components/Banner/Banner.jsx";
 import Ellipsis from "../../components/Ellipsis/Ellipsis.jsx";
 import Product from "../../components/Card/Product/Product.jsx";
-import Offer from "../../components/Card/Offer/Offer.jsx";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 
 const Home = () => {
   const splideRef = useRef(null);
+  const mountedRef = useRef(false);
 
   const initSplide = (count) => {
+    if (count === 0) return;
+
+    // Destroy existing instance
     if (splideRef.current) {
       splideRef.current.destroy(true);
       splideRef.current = null;
     }
 
-    splideRef.current = new Splide(".home_ellipsis", {
-      type: count > 6 ? "loop" : "slide",
-      perPage: Math.min(6, count),
-      perMove: 1,
-      pagination: false,
-      autoplay: true,
-      arrows: true,
-      interval: 1500,
-      breakpoints: {
-        1098: { perPage: Math.min(5, count) },
-        768: { perPage: Math.min(3, count) },
-        580: { perPage: Math.min(2, count) },
-        480: { perPage: Math.min(2, count) },
-        300: { perPage: Math.min(1, count) },
-      },
-    });
+    // Wait for DOM to be ready
+    setTimeout(() => {
+      const splideElement = document.querySelector(".home_ellipsis");
+      if (!splideElement) return;
 
-    splideRef.current.mount();
+      splideRef.current = new Splide(".home_ellipsis", {
+        type: count > 2 ? "loop" : "slide",
+        perPage: Math.min(5, count),
+        perMove: 1,
+        pagination: false,
+        arrows: count > 2, // Only show arrows if looping
+        autoplay: true,
+        interval: 2000,
+        speed: 800,
+        gap: "1rem",
+        pauseOnHover: true,
+        pauseOnFocus: true,
+        resetProgress: false,
+        breakpoints: {
+          1098: { 
+            perPage: Math.min(5, count),
+            gap: "0.75rem"
+          },
+          768: { 
+            perPage: Math.min(3, count),
+            gap: "0.5rem"
+          },
+          580: { 
+            perPage: Math.min(2, count),
+            gap: "0.5rem"
+          },
+          480: { 
+            perPage: Math.min(2, count),
+            gap: "0.5rem"
+          },
+          300: { 
+            perPage: Math.min(1, count),
+            gap: "0.25rem"
+          },
+        },
+      });
+
+      splideRef.current.mount();
+      mountedRef.current = true;
+    }, 100);
   };
 
   useEffect(() => {
-    return () => splideRef.current?.destroy();
+    return () => {
+      if (splideRef.current) {
+        splideRef.current.destroy(true);
+        splideRef.current = null;
+      }
+    };
   }, []);
 
   return (
@@ -52,9 +87,9 @@ const Home = () => {
 
         <div className="home_ellipsis splide">
           <div className="ellipsis splide__track">
-            <div className="ellipsis-list splide__list gap-1 gap-lg-3">
+            <ul className="ellipsis-list splide__list">
               <Ellipsis onLoaded={initSplide} />
-            </div>
+            </ul>
           </div>
         </div>
       </div>
@@ -69,10 +104,6 @@ const Home = () => {
         <div className="product-home">
           <Product limit={16} />
         </div>
-      </div>
-
-      <div className="main-header">
-        {/* <Offer /> */}
       </div>
     </div>
   );

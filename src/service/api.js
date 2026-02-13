@@ -232,10 +232,12 @@ export const updateUserInfo = async (email, payload) => {
   }
 };
 
-export const addAddress = (email, payload) => {
+export const addAddress = (email, payload, token) => {
   try {
     const url = `${Urls.addAddress}?email=${encodeURIComponent(email)}`;
-    const result = Client(url, payload, "post");
+     const result = Client(url, payload, "post", {
+      Authorization: `Bearer ${token}`,
+    });
     return result;
   } catch (error) {
     console.error("error in addAddress:", error);
@@ -243,10 +245,13 @@ export const addAddress = (email, payload) => {
   }
 };
 
-export const updateAddress = async (email, payload) => {
+export const updateAddress = async (email, payload, token) => {
   try {
-    const url = `${Urls.updateAddress}?email=${encodeURIComponent(email)}`;
-    const result = await Client(url, payload, "put");
+    console.log("payload", payload);
+    const url = `${Urls.updateAddress}/${payload.id}?email=${encodeURIComponent(email)}`;
+    const result = await Client(url, payload, "put", {
+      Authorization: `Bearer ${token}`,
+    });
     return result;
   } catch (error) {
     console.error("error in updateAddress:", error);

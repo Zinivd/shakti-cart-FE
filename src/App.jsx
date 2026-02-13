@@ -3,6 +3,7 @@ import "./Style.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Layouts
 import Navbar from "./layouts/Navbar/Navbar.jsx";
@@ -26,7 +27,7 @@ import Privacy_Policy from "./pages/Policy/Privacy_Policy.jsx";
 import Refund_Policy from "./pages/Policy/Refund_Policy.jsx";
 import Shipping_Policy from "./pages/Policy/Shipping_Policy.jsx";
 import AddAddress from "./components/Popup/AddAddress.jsx";
-import EditAddress from "./components/Popup/EditAddress.jsx";
+// import EditAddress from "./components/Popup/EditAddress.jsx";
 import AddReview from "./components/Popup/AddReview.jsx";
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
           <ResponsiveNav />
           <NavOffcanvas />
           <AddAddress />
-          <EditAddress />
+          {/* <EditAddress /> */}
           {/* <AddReview /> */}
           <Routes>
             <Route path="/" element={<Home />} />

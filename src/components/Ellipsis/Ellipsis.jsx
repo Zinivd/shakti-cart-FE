@@ -3,6 +3,7 @@ import EllipsisCard from "./EllipsisCard.jsx";
 import "./Ellipsis.css";
 import { getAllProducts } from "../../service/api";
 import Loader from "../Loader/Loader.jsx";
+import {NoProducts} from "../../../public/Assets.js";
 
 const Ellipsis = ({ onLoaded }) => {
   const [categories, setCategories] = useState([]);
@@ -15,9 +16,6 @@ const Ellipsis = ({ onLoaded }) => {
   const fetchCategories = async () => {
     try {
       const response = await getAllProducts();
-
-      // console.log("API RESPONSE:", response);
-      // console.log("PRODUCT ARRAY:", response?.data?.data);
 
       const products = response?.data?.data || [];
 
@@ -39,7 +37,12 @@ const Ellipsis = ({ onLoaded }) => {
   }
 
   if (!categories.length) {
-    return <p className="text-center">No Categories Found</p>;
+    return (
+      <div className="empty-state">
+        <img src={NoProducts} alt="" />
+        <h6>No Categories Found</h6>
+      </div>
+    );
   }
 
   return (

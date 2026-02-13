@@ -7,17 +7,14 @@ import { toast } from "react-toastify";
 
 const Address = () => {
   const [addresses, setAddresses] = useState([]);
-  const [editMode, setEditMode] = useState("add");
-  const [editAddress, setEditAddress] = useState(null);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [editAddress, setEditAddress] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userEmail = user?.email;
 
   useEffect(() => {
-    if (userEmail) {
-      loadAddresses();
-    }
+    if (userEmail) loadAddresses();
   }, [userEmail]);
 
   useEffect(() => {
@@ -27,28 +24,12 @@ const Address = () => {
   }, [addresses]);
 
   const loadAddresses = async () => {
-    try {
-      const res = await getUserAddresses(userEmail);
-      const addressList = res?.data?.data || [];
-      setAddresses(addressList);
-    } catch (err) {
-      console.error("Failed to load addresses", err);
-    }
+    const res = await getUserAddresses(userEmail);
+    setAddresses(res?.data?.data || []);
   };
 
   const handleEdit = (address) => {
-    setEditMode("edit");
     setEditAddress(address);
-  };
-
-  const handleSuccess = () => {
-    setEditMode("add");
-    setEditAddress(null);
-    loadAddresses().then(() => {
-      if (editedId) {
-        setSelectedAddressId(editedId); // 🔥 keep selection
-      }
-    });
   };
 
   return (
@@ -60,7 +41,7 @@ const Address = () => {
         <button
           className="formbtn"
           data-bs-toggle="modal"
-          data-bs-target="#addAddress" // Opens the modal
+          data-bs-target="#addAddress"
         >
           Add Address
         </button>
@@ -81,12 +62,17 @@ const Address = () => {
         </div>
       )}
 
-      <AddAddress
-        key={editAddress?.id || "add"}
-        mode={editMode}
-        addressData={editAddress}
-        onSuccess={handleSuccess}
-      />
+      {/* {editAddress && (
+        <EditAddress
+          addressData={editAddress}
+          onSuccess={() => {
+            setEditAddress(null);
+            loadAddresses();
+          }}
+        />
+      )} */}
+
+      <AddAddress onSuccess={loadAddresses} />
     </div>
   );
 };
