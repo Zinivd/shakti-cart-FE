@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Gpay, PayPal, Visa, PayPass } from "../../../public/Assets.js";
 import "./Shipping.css";
 import { toast } from "react-toastify";
-import { Link, useParams } from "react-router-dom";
-import { check_out, createOrder, verify_checkout } from "../../service/api.js";
+import { check_out, createOrder } from "../../service/api.js";
 import RazorpayButton from "./Razorpay.jsx";
 
 const Shipping = ({ cartItems = [], selectedAddress }) => {
-  const [orderId, setOrderId] = useState("");
   const [showPlaceOrder, setShowPlaceOrder] = useState(true);
-  const [showConfirmOrder, setShowConfirmOrder] = useState(false);
   const [showPayNow, setShowPayNow] = useState(false);
-  const [razorpay_order_id, setRazorpayOrderId] = useState("");
+  const [checkoutData, setCheckoutData] = useState(null);
   const SHIPPING = 40;
   const SAVINGS = 0;
+
   const subTotal = cartItems.reduce((sum, item) => {
     return (
       sum +
@@ -26,21 +24,29 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
   const get_rzap_pay_order_id = async (order_id) => {
     try {
       const res = await check_out({ order_id: order_id });
-      setRazorpayOrderId(res?.data?.checkout?.order_id);
-      setShowConfirmOrder(false);
-      setShowPayNow(true);
-      // razorpay_order_id()
-      toast.success("Order Confirmed Successfully");
+      if (res?.data?.success && res?.data?.checkout) {
+        // Store the complete checkout data from API
+        setCheckoutData(res.data.checkout);
+        setShowPlaceOrder(false);
+        setShowPayNow(true);
+        toast.success("Order Confirmed Successfully");
+      } else {
+        toast.error("Failed to initialize payment");
+      }
     } catch (err) {
-      console.error("Something went wrong");
+      console.error("Checkout error:", err);
+      toast.error("Something went wrong during checkout");
     }
   };
 
   const handleAddress = async () => {
-    if (!selectedAddress) {
-      alert("Please select an address");
+    const orderBtn = document.getElementById("orderBtn");
+    if (!selectedAddress || !orderBtn) {
+      toast.warning("Please select an address and place order");
       return;
     }
+    orderBtn.disabled = true;
+    orderBtn.innerHTML = "Placing Order...";
     try {
       const payload = {
         user_id: cartItems[0]?.user_id,
@@ -56,24 +62,22 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
           landmark: selectedAddress.landmark || "",
           address_type: selectedAddress.address_type || "home",
         },
-        items: [
-          {
-            product_id: cartItems[0]?.product_id,
-            size: cartItems[0]?.size,
-            quantity: cartItems[0]?.quantity,
-          },
-        ],
+        items: cartItems.map(item => ({
+          product_id: item.product_id,
+          size: item.size,
+          quantity: item.quantity,
+        })),
       };
       const response = await createOrder(payload);
       if (response?.data?.success) {
-        setOrderId(response.data.order_id);
-        setShowPlaceOrder(false);
-        setShowConfirmOrder(true);
-        get_rzap_pay_order_id(response.data.order_id);
         toast.success("Order Placed Successfully");
+        await get_rzap_pay_order_id(response.data.order_id);
+      } else {
+        toast.error("Failed to create order");
       }
     } catch (error) {
-      console.error("Cart fetch error:", error);
+      console.error("Order creation error:", error);
+      toast.error("Failed to place order");
     }
   };
 
@@ -196,12 +200,12 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
       </div> */}
 
       {showPlaceOrder && (
-        <button className="darkbtn" onClick={handleAddress}>
+        <button className="darkbtn" id="orderBtn" onClick={handleAddress}>
           Place Order
         </button>
       )}
       {showPayNow && (
-        <RazorpayButton total={total} razorpay_order_id={razorpay_order_id} cartItems={cartItems} />
+        <RazorpayButton checkoutData={checkoutData}  cartItems={cartItems} />
       )}
     </div>
   );

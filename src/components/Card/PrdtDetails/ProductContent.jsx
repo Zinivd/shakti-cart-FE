@@ -62,7 +62,7 @@ const ProductContent = ({ product }) => {
           // normalize for UI
           const normalized = quantities.map((item) => ({
             size: item.size, // "S", "M", "L"
-            qty: item.quantity, // number
+            qty: Number(item.quantity), // number
             unit: item.unit, // optional
           }));
 
@@ -241,6 +241,21 @@ const ProductContent = ({ product }) => {
     }
   };
 
+  useEffect(() => {
+    if (!selectedSize) return;
+
+    const exists = sizeQuantities.find(
+      (s) => s.size === selectedSize && s.qty > 0
+    );
+
+    if (!exists) {
+      const firstAvailable =
+        sizeQuantities.find((s) => s.qty > 0)?.size || "";
+      setSelectedSize(firstAvailable);
+      setQuantity(1);
+    }
+  }, [sizeQuantities, selectedSize]);
+
   if (loading) {
     return <Loader />;
   }
@@ -299,17 +314,15 @@ const ProductContent = ({ product }) => {
             <button
               key={i}
               className={`sizebtn ${selectedSize === s.size ? "active" : ""}`}
-              disabled={s.qty === 0}
+              disabled={!s.qty}
               onClick={() => {
+                if (!s.qty) return; // ✅ safety guard
                 setSelectedSize(s.size);
                 setQuantity(1);
               }}
-              style={{
-                opacity: s.qty === 0 ? 0.4 : 1,
-                cursor: s.qty === 0 ? "not-allowed" : "pointer",
-              }}
+              title={!s.qty ? 'No more size available' : s.size}
             >
-              {s.size}
+              {s.size ?? 'All Sizes Available'}
             </button>
           ))}
         </div>

@@ -1,13 +1,16 @@
+// RazorPay.jsx
 import { useNavigate } from "react-router-dom";
-import { loadRazorpay, removeCartProduct, verify_checkout } from "../../service/api";
+import {
+  loadRazorpay,
+  removeCartProduct,
+  verify_checkout,
+} from "../../service/api";
 
-const RazorpayButton = ({ total, razorpay_order_id, cartItems = [] }) => {
+const RazorpayButton = ({ checkoutData, cartItems = [] }) => {
   const navigate = useNavigate();
+
   const startPayment = async () => {
     const res = await loadRazorpay();
-
-    console.log("total", total);
-    console.log("razorpay_order_id", razorpay_order_id);
 
     if (!res) {
       alert("Razorpay SDK failed to load");
@@ -15,48 +18,57 @@ const RazorpayButton = ({ total, razorpay_order_id, cartItems = [] }) => {
     }
 
     const options = {
-      key: "rzp_test_S8AjOLZATEpF0Y", // 🔴 Public Key only
-      amount: total * 100 + 4000, // in paise
-      currency: "INR",
-      name: "Shakti Cart",
+      key: checkoutData.key, // Dynamic key from API
+      amount: checkoutData.amount, // Amount already in paise from API (includes shipping)
+      currency: checkoutData.currency,
+      name: checkoutData.name,
       description: "Order Payment",
-      order_id: razorpay_order_id, // 🔴 Your order ID
+      order_id: checkoutData.order_id, // Razorpay order ID from API
 
       handler: function (response) {
-        // Send response to backend for verification
-        response.razorpay_payment_id;
-        response.razorpay_order_id;
-        response.razorpay_signature;
         console.log("Payment ID:", response.razorpay_payment_id);
-        console.log("Order ID:", razorpay_order_id);
+        console.log("Order ID:", response.razorpay_order_id);
         console.log("Signature:", response.razorpay_signature);
-        console.log("Payment Success ---- > :", response);
-        navigate('/profile');
+        console.log("Payment Success:", response);
+
         const payload = {
           razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_order_id: razorpay_order_id,
-          razorpay_signature:response.razorpay_signature,
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
         };
+
         verify_checkout(payload);
-        removeCartProduct({ product_id: cartItems[0]?.product_id });
+
+        // Remove cart items after successful payment
+        cartItems.forEach((item) => {
+          removeCartProduct({ product_id: item.product_id });
+        });
+
+        navigate("/profile");
       },
 
       prefill: {
-        name: "Customer Name",
-        email: "customer@email.com",
-        contact: "9999999999",
+        name: checkoutData.prefill.name,
+        email: checkoutData.prefill.email,
+        contact: checkoutData.prefill.contact, // Dynamic contact from API
       },
 
       theme: {
         color: "#3399cc",
       },
+
+      notes: checkoutData.notes, // Include order notes
     };
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
 
-  return <button className="formbtn" onClick={startPayment}>Pay Now</button>;
+  return (
+    <button className="formbtn" onClick={startPayment}>
+      Pay Now
+    </button>
+  );
 };
 
 export default RazorpayButton;

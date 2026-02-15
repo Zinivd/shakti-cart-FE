@@ -3,13 +3,14 @@ import React from "react";
 import "./Tracking.css";
 
 const OrderDetails = ({ order, onBack }) => {
-  debugger
   const STATUS_FLOW = ["PLACED", "PACKAGED", "SHIPPED", "DELIVERED"];
   const currentStatusIndex = STATUS_FLOW.indexOf(order?.order_status);
   const progressWidth =
     currentStatusIndex >= 0
       ? ((currentStatusIndex + 1) / STATUS_FLOW.length) * 100
       : 0;
+
+  console.log(order);
 
   return (
     <div className="order-details">
@@ -90,8 +91,11 @@ const OrderDetails = ({ order, onBack }) => {
                             <h5 className="mb-2">
                               {item.product?.product_name}
                             </h5>
-                            <h6 className="mb-0">
+                            <h6 className="mb-2">
                               Color : {item.product?.color || "-"}
+                            </h6>
+                            <h6 className="mb-0">
+                              Size : {item.size || "-"}
                             </h6>
                           </div>
                         </div>

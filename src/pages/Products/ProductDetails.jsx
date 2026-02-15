@@ -71,11 +71,11 @@ const ProductDetails = () => {
             <Link to="/">
               Home <i className="fa fa-angle-right ps-1"></i>
             </Link>
-            <Link to="/categories">
+            {/* <Link to="/categories">
               All Categories <i className="fa fa-angle-right ps-1"></i>
             </Link>
             <Link to="/products">{product.category_name}</Link>
-            <i className="fa fa-angle-right ps-1"></i>
+            <i className="fa fa-angle-right ps-1"></i> */}
             <Link className="active">{product.product_name}</Link>
           </h6>
         </div>

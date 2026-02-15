@@ -7,6 +7,7 @@
 }
 
 .product-details-main-img {
+    background: #CFD2CC;
     width: 100%;
     border: 2px solid var(--border);
     border-radius: 5px;
@@ -172,7 +173,7 @@
 
 @media screen and (min-width: 1098px) {
     .product-details-main {
-        grid-template-columns: 35% 63%;
+        grid-template-columns: 33% 65%;
     }
 
     .product-description-div {
@@ -180,7 +181,7 @@
     }
 
     .product-details-main-img {
-        height: 400px;
+        height: 500px;
     }
 
     .product-details-gallery-img img {
