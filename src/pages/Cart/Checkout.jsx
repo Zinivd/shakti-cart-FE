@@ -313,7 +313,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="lastName">Last Name</label>
+                    <label htmlFor="lastName">Last Name <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -324,7 +324,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="building">Building Name</label>
+                    <label htmlFor="building">Building Name <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -335,7 +335,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="streetAddress">Street Address</label>
+                    <label htmlFor="streetAddress">Street Address <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -346,12 +346,12 @@ const Checkout = () => {
                     />
                   </div>
                   <div className="col-sm-12 col-md-6 mb-3">
-                    <label htmlFor="landmark">Landmark</label>
+                    <label htmlFor="landmark">Landmark <span>*</span></label>
                     <input
                       type="text"
                       className="form-control"
                       name="landmark"
-                      placeholder="Apartment, suite, unit etc. (optional)"
+                      placeholder="Apartment, suite, unit etc."
                       value={formData.landmark}
                       onChange={handleFormChange}
                     />
