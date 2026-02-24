@@ -32,7 +32,11 @@
 }
 
 .home-banner .splide__list .splide_1 {
-    background: url('../../../public/assets/images/Home-BG.png'), var(--main);
+    background: #D5D1C9;
+}
+
+.home-banner .splide__list .splide_2 {
+    background: #C8C9C4;
 }
 
 .home-banner .splide__list .splide__slide {
@@ -46,20 +50,21 @@
 .home-banner .splide__list .carousel-content h5,
 .home-banner .splide__list .carousel-content h4,
 .home-banner .splide__list .carousel-content h3 {
-    color: var(--secondary);
+    color: var(--text-primary);
 }
 
 .home-banner .splide__list .carousel-content h6,
 .home-banner .splide__list .carousel-content h4 {
-    font-weight: var(--fw-sm);
+    font-weight: var(--fw-md);
 }
 
 .home-banner .splide__list .carousel-content h3 {
-    font-weight: var(--fw-xl);
+    text-transform: uppercase;
+    font-weight: var(--fw-xxl);
 }
 
 .home-banner .splide__list .carousel-content h5 {
-    font-weight: var(--fw-md);
+    font-weight: var(--fw-lg);
 }
 
 @media screen and (min-width: 1098px) {
@@ -80,18 +85,18 @@
 
     .home-banner .splide__list .carousel-content h6,
     .home-banner .splide__list .carousel-content h4 {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 25px;
     }
 
     .home-banner .splide__list .carousel-content h5 {
-        font-size: 18px;
+        font-size: 20px;
         margin-bottom: 25px;
     }
 
     .home-banner .splide__list .carousel-content h3 {
-        font-size: 30px;
-        margin-bottom: 25px;
+        font-size: 50px;
+        margin-bottom: 10px;
     }
 
     .home-banner .banner-cl .splide__arrow {
@@ -119,17 +124,17 @@
 
     .home-banner .splide__list .carousel-content h6,
     .home-banner .splide__list .carousel-content h4 {
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
-
-    .home-banner .splide__list .carousel-content h5 {
         font-size: 14px;
         margin-bottom: 10px;
     }
 
+    .home-banner .splide__list .carousel-content h5 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
     .home-banner .splide__list .carousel-content h3 {
-        font-size: 20px;
+        font-size: 40px;
         margin-bottom: 10px;
     }
 
@@ -170,7 +175,7 @@
 
     .home-banner .splide__list .carousel-content h6,
     .home-banner .splide__list .carousel-content h4 {
-        font-size: 12px;
+        font-size: 14px;
         margin-bottom: 10px;
     }
 
@@ -180,7 +185,7 @@
     }
 
     .home-banner .splide__list .carousel-content h3 {
-        font-size: 20px;
+        font-size: 25px;
         margin-bottom: 10px;
     }
 

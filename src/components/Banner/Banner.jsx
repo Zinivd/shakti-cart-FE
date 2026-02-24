@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { HomeCL } from "../../../public/Assets.js";
+import { Hero_BG_1, Hero_BG_2 } from "../../../public/Assets.js";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import BannerCard from "./BannerCard.jsx";
@@ -15,7 +15,7 @@ const Banner = () => {
         autoplay: true,
         interval: 3000,
         arrows: true,
-        pagination: true,
+        pagination: false,
       }).mount();
       return () => {
         if (splide) {
@@ -28,12 +28,17 @@ const Banner = () => {
   const bannerData = [
     {
       bannerClass: "splide_1",
-      bannerImg: HomeCL,
-      bannerh6: "Let's Celebrate! | Over 6000 Chic Styles Now At 70% Off.",
-      bannerh5: "Best Deal Online on Clothing's",
-      bannerh3: "SMART WEARABLE.",
-      bannerh4: "Up to 80% Off",
+      bannerImg: Hero_BG_1,
+      bannerh3: "New Arrivals",
+      bannerh5: "Smart Shirts for College & Office",
     },
+    {
+      bannerClass: "splide_2",
+      bannerImg: Hero_BG_2,
+      bannerh3: "Flat 10% Off",
+      bannerh5: "Limited Time Offer",
+    },
+    
   ];
   return (
     <div className="home-banner">

@@ -8,10 +8,10 @@ button:disabled {
 
 /* Home Banner Button */
 .homebannerbtn {
-  background-color: var(--sub);
+  background-color: var(--primary);
   color: var(--secondary);
   font-weight: var(--fw-md);
-  border: 1px solid var(--sub);
+  border: 1px solid var(--primary);
   border-radius: 2px;
   padding: 6px 20px;
   transition: var(--transition);
@@ -216,8 +216,8 @@ button:disabled {
 /* Button Hover */
 .homebannerbtn:hover,
 .discoverbtn:hover {
-  background-color: transparent;
-  color: var(--secondary);
+  background-color: var(--secondary);
+  color: var(--text-primary);
 }
 
 .explorebtn:hover {

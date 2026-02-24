@@ -1,5 +1,7 @@
 // Logo
 import Logo_Main from "./assets/images/Logo.png";
+import Hero_BG_1 from "./assets/images/Hero_BG_1.png";
+import Hero_BG_2 from "./assets/images/Hero_BG_2.png";
 import HomeBG from "./assets/images/Home-BG.png";
 import HomeCL from "./assets/images/Home-CL-1.png";
 import Discover1 from "./assets/images/Discover-1.png";
@@ -45,6 +47,8 @@ import NoNotify from "./assets/images/Empty/NoNotify.png";
 export {
   Logo_Main,
   HomeBG,
+  Hero_BG_1,
+  Hero_BG_2,
   HomeCL,
   Discover1,
   Discover2,
