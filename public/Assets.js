@@ -43,6 +43,32 @@ import NoReviews from "./assets/images/Empty/NoReviews.png";
 import NoSimilar from "./assets/images/Empty/NoSimilar.png";
 import NoWishlist from "./assets/images/Empty/NoWishlist.png";
 import NoNotify from "./assets/images/Empty/NoNotify.png";
+import Reels_1 from "./assets/images/reels-1.jpg";
+import Reels_2 from "./assets/images/reels-2.jpg";
+import Reels_3 from "./assets/images/reels-3.jpg";
+import Reels_4 from "./assets/images/reels-4.jpg";
+import Reels_5 from "./assets/images/reels-5.jpg";
+import MenShirt1 from "./assets/images/MenShirt1.jpg";
+import MenShirt2 from "./assets/images/MenShirt2.jpg";
+import MenPant1 from "./assets/images/MenPant1.jpg";
+import MenPant2 from "./assets/images/MenPant2.jpg";
+import MenPant3 from "./assets/images/MenPant3.jpg";
+import Women1 from "./assets/images/Women1.jpg";
+import Women2 from "./assets/images/Women2.jpg";
+import Women3 from "./assets/images/Women3.jpg";
+import Women4 from "./assets/images/Women4.jpg";
+import Women5 from "./assets/images/Women5.jpg";
+import Kids1 from "./assets/images/Kids1.jpg";
+import Kids2 from "./assets/images/Kids2.jpg";
+import Kids3 from "./assets/images/Kids3.jpg";
+import Kids4 from "./assets/images/Kids4.jpg";
+import Kids5 from "./assets/images/Kids5.jpg";
+import Wedding1 from "./assets/images/Wedding1.jpg";
+import Wedding2 from "./assets/images/Wedding2.jpg";
+import Wedding3 from "./assets/images/Wedding3.jpg";
+import Wedding4 from "./assets/images/Wedding4.jpg";
+
+
 
 export {
   Logo_Main,
@@ -89,4 +115,29 @@ export {
   NoCart,
   NoProducts,
   NoNotify,
+  Reels_1,
+  Reels_2,
+  Reels_3,
+  Reels_4,
+  Reels_5,
+  MenShirt1,
+  MenShirt2,
+  MenPant1,
+  MenPant2,
+  MenPant3,
+  Women1,
+  Women2,
+  Women3,
+  Women4,
+  Women5,
+  Kids1,
+  Kids2,
+  Kids3,
+  Kids4,
+  Kids5,
+  Wedding1,
+  Wedding2,
+  Wedding3,
+  Wedding4,
+  
 };

@@ -29,6 +29,9 @@ import Shipping_Policy from "./pages/Policy/Shipping_Policy.jsx";
 import AddAddress from "./components/Popup/AddAddress.jsx";
 // import EditAddress from "./components/Popup/EditAddress.jsx";
 import AddReview from "./components/Popup/AddReview.jsx";
+import AllCategories from "./pages/AllCategories/AllCategories.jsx";
+import CategoryProduct from "./pages/CategoryProduct/CategoryProducts.jsx";
+import ProductDetail from "./pages/ProductDetails/ProductDetail.jsx";
 
 function App() {
   return (
@@ -61,6 +64,9 @@ function App() {
             <Route path="/privacy-policy" element={<Privacy_Policy />} />
             <Route path="/refund-policy" element={<Refund_Policy />} />
             <Route path="/shipping-policy" element={<Shipping_Policy />} />
+            <Route path="/allcategories" element={<AllCategories />}/>
+            <Route path="/categoryproducts" element={<CategoryProduct />}/>
+            <Route path="/productdetail/:id" element={<ProductDetail />}/>
           </Routes>
           <Footer />
         </Router>

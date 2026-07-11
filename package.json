@@ -19,6 +19,7 @@
     "@splidejs/splide": "^4.1.4",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "boxicons": "^2.1.4",
     "iconsax-react": "^0.0.8",
     "jquery": "^3.7.1",

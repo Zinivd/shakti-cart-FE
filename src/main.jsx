@@ -5,6 +5,7 @@ import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'boxicons/css/boxicons.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import $ from "jquery";
 // import "owl.carousel/dist/assets/owl.carousel.css";
 // import "owl.carousel";

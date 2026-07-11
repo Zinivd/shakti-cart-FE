@@ -11,21 +11,18 @@ const Navbar = () => {
       setIsExpanded((prev) => !prev);
     }, 300);
   };
-   
 
-useEffect(() => {
-  const hash = window.location.hash;
+  useEffect(() => {
+    const hash = window.location.hash;
 
-  if (hash) {
-    const tabButton = document.querySelector(
-      `[data-bs-target="${hash}"]`
-    );
+    if (hash) {
+      const tabButton = document.querySelector(`[data-bs-target="${hash}"]`);
 
-    if (tabButton) {
-      tabButton.click(); // Activate Bootstrap tab
+      if (tabButton) {
+        tabButton.click(); // Activate Bootstrap tab
+      }
     }
-  }
-}, []);
+  }, []);
 
   // Scroll effect
   // const [isScrolled, setIsScrolled] = useState(false);
@@ -71,9 +68,7 @@ useEffect(() => {
                 </NavLink>
               </div>
             </div>
-            <div className="my-0">
-              {/* <SearchBar /> */}
-            </div>
+            <div className="my-0">{/* <SearchBar /> */}</div>
           </div>
 
           {/* Web Navbar */}
@@ -143,13 +138,13 @@ useEffect(() => {
                 </NavLink>
               </li>
               <li className="nav-item" id="/">
-             <NavLink
-  className="nav-link d-flex align-items-center justify-content-center flex-column"
-  to="/profile#wishlist"
->
-  <i className="bx bx-heart mb-1"></i>
-  Wishlist
-</NavLink>
+                <NavLink
+                  className="nav-link d-flex align-items-center justify-content-center flex-column"
+                  to="/profile#wishlist"
+                >
+                  <i className="bx bx-heart mb-1"></i>
+                  Wishlist
+                </NavLink>
               </li>
               <li className="nav-item" id="cart">
                 <NavLink
