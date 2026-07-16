@@ -30,8 +30,26 @@ const NavOffcanvas = () => {
           </li>
 
           <li className="nav-item" data-bs-dismiss="offcanvas">
-            <NavLink className="nav-link" to="/products">
-              All Products
+            <NavLink className="nav-link" to="/allcategories">
+              All Categories
+            </NavLink>
+          </li>
+
+          <li className="nav-item" data-bs-dismiss="offcanvas">
+            <NavLink className="nav-link" to="blog">
+              Blog
+            </NavLink>
+          </li>
+
+          <li className="nav-item" data-bs-dismiss="offcanvas">
+            <NavLink className="nav-link" to="about">
+              About Us
+            </NavLink>
+          </li>
+
+          <li className="nav-item" data-bs-dismiss="offcanvas">
+            <NavLink className="nav-link" to="contact">
+              Contact Us
             </NavLink>
           </li>
           {/* <li className="nav-item" id="outfit" data-bs-dismiss="offcanvas">

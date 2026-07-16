@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ShopProductCard from "./ShopProductCard.jsx";
-import { products } from "../../data/products.js";
+import { getAllProducts } from "../../service/api";
+import Loader from "../Loader/Loader.jsx";
 import "./ShopAllProducts.css";
 
 const tabs = ["All", "Trending now", "best sellers", "top offers"];
@@ -26,17 +27,6 @@ const getBadgeForProduct = (product) => {
   return null;
 };
 
-const shopProducts = products.map((product) => ({
-  id: product.id,
-  productImg: product.image,
-  code: `CS-NB-${String(product.id).padStart(3, "0")}`,
-  rating: String(product.rating),
-  productname: product.name,
-  price: String(product.price),
-  slashprice: String(product.oldPrice),
-  badge: getBadgeForProduct(product),
-}));
-
 const DESKTOP_PREVIEW_COUNT = 8;
 const ITEMS_PER_PAGE = 6;
 
@@ -60,6 +50,8 @@ const ShopAllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -73,9 +65,9 @@ const ShopAllProducts = () => {
 
   const filteredProducts = useMemo(() => {
     return activeTab === "All"
-      ? shopProducts
-      : shopProducts.filter((item) => item.badge === tabToBadge[activeTab]);
-  }, [activeTab]);
+      ? products
+      : products.filter((item) => item.badge === tabToBadge[activeTab]);
+  }, [activeTab, products]);
 
   const desktopProducts = showAll
     ? filteredProducts
@@ -107,6 +99,57 @@ const ShopAllProducts = () => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+
+      const response = await getAllProducts();
+
+      const apiProducts = response?.data?.data || [];
+
+      const mappedProducts = apiProducts.map((item) => ({
+        id: item.product_id,
+
+        productImg:
+          item.images?.[0] ||
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
+
+        code: item.brand,
+
+        rating: Number(item.rating || 4),
+
+        productname: item.product_name,
+
+        price: Number(item.selling_price),
+
+        slashprice: Number(item.actual_price),
+
+        badge:
+          item.product_list_type ||
+          getBadgeForProduct({
+            price: Number(item.selling_price),
+            oldPrice: Number(item.actual_price),
+            rating: Number(item.rating || 4),
+          }),
+
+        isWishlisted: item.is_wishlisted,
+      }));
+
+      setProducts(mappedProducts);
+    } catch (err) {
+      console.log(err);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="shop-products-main">

@@ -4,9 +4,11 @@ import { addToWishlist, addToCart, removeFromWishlist } from "../../../service/a
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 
+
 const ProductCard = (props) => {
   const [isWished, setIsWished] = useState(props.isWishlisted || false);
   const [loading, setLoading] = useState(false);
+  
 
   const location = useLocation();
   const isProductDetailsPage =
@@ -31,7 +33,7 @@ const ProductCard = (props) => {
       const res = await addToWishlist(body);
 
       if (res?.data?.success || res) {
-        setIsWished(true); // 🔥 UPDATE UI
+        setIsWished(true); 
         toast.success("Added to Wishlist");
       }
     } catch (err) {

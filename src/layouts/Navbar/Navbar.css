@@ -218,3 +218,51 @@
     }
 
 }
+
+.navbarNav {
+    flex-wrap: nowrap !important;
+}
+
+.navbar ul .nav-link {
+    white-space: nowrap;
+}
+
+/* Mobile search bar — matches image 3 */
+.mobile-search-bar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 10% 90%;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    padding: 4px 10px;
+    margin-top: 8px;
+}
+
+.mobile-search-bar i {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.mobile-search-bar input {
+    background-color: var(--input-bg);
+    padding: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border: none;
+    width: 100%;
+}
+
+.mobile-search-bar input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+    background: transparent !important;
+}
+
+@media screen and (min-width: 1098px) {
+    .mobile-search-bar {
+        display: none !important;
+    }
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Logo_Main } from "../../../public/Assets";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
@@ -52,6 +52,7 @@ const Navbar = () => {
                   type="button"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#navOffcanvas"
+                  onClick={handleToggle}
                 >
                   <i className="bx bx-menu"></i>
                 </button>
@@ -68,7 +69,7 @@ const Navbar = () => {
                 </NavLink>
               </div>
             </div>
-            <div className="my-0">{/* <SearchBar /> */}</div>
+            <div className="my-0"><SearchBar /></div>
           </div>
 
           {/* Web Navbar */}
@@ -84,14 +85,14 @@ const Navbar = () => {
             </div>
 
             {/* Header Content */}
-            <ul className="navbar-nav col-lg-3 align-items-lg-center justify-content-lg-evenly navbarNav">
-              {/* <li className="nav-item" id="home">
+            <ul className="navbar-nav col-lg-4 align-items-lg-center justify-content-lg-evenly navbarNav">
+              <li className="nav-item" id="home">
                 <NavLink className="nav-link" to="/">
                   Home
                 </NavLink>
               </li>
               <li className="nav-item" id="categories">
-                <NavLink className="nav-link" to="/categories">
+                <NavLink className="nav-link" to="/allcategories">
                   All Categories
                 </NavLink>
               </li>
@@ -104,17 +105,17 @@ const Navbar = () => {
                 <NavLink className="nav-link" to="about">
                   About Us
                 </NavLink>
-              </li> */}
-              {/* <li className="nav-item" id="contact">
+              </li>
+              <li className="nav-item" id="contact">
                 <NavLink className="nav-link" to="contact">
                   Contact Us
                 </NavLink>
-              </li> */}
+              </li>
             </ul>
 
             {/* Search Div */}
-            <ul className="navbar-nav col-lg-4 mb-0">
-              {/* <li className="search-bar">
+            <ul className="navbar-nav col-lg-3 mb-0">
+              <li className="search-bar">
                 <i className="bx bx-search text-center"></i>
                 <input
                   type="text"
@@ -123,7 +124,7 @@ const Navbar = () => {
                   id="search"
                   placeholder="Search for products..."
                 />
-              </li> */}
+              </li>
             </ul>
 
             {/* Icon Div */}
