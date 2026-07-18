@@ -34,7 +34,7 @@ const CategoryBanner = () => {
       bannerImg: HomeCL,
       bannerTopLine: "Let's Celebrate! | Over 6000 Chic Styles Now At 70% Off.",
       bannerSmall: "Best Deal online on Clothing's",
-      bannerTitle: "SMART WEARABLE.",
+      bannerTitle: "SMART WEARABLE",
       bannerSubTitle: "UP to 80% OFF",
     },
     {
@@ -42,7 +42,7 @@ const CategoryBanner = () => {
       bannerImg: Hero_BG_1,
       bannerTopLine: "New Season | Fresh Styles Just Dropped.",
       bannerSmall: "Latest Collection",
-      bannerTitle: "NEW ARRIVALS.",
+      bannerTitle: "NEW ARRIVALS",
       bannerSubTitle: "LIMITED OFFER",
     },
     {
@@ -50,7 +50,7 @@ const CategoryBanner = () => {
       bannerImg: Hero_BG_2,
       bannerTopLine: "Trending Now | Handpicked Styles For You.",
       bannerSmall: "Exclusive Collection",
-      bannerTitle: "TRENDING STYLES.",
+      bannerTitle: "TRENDING STYLES",
       bannerSubTitle: "UP to 60% OFF",
     },
   ];

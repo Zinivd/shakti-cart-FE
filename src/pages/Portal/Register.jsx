@@ -19,6 +19,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -105,15 +106,25 @@ const Register = () => {
   return (
     <div className="portal-main my-4">
       <div className="portal-div">
-        <div className="portal-right mt-3">
-          <div className="body-head d-block mb-4">
-            <div>
-              <h4 className="mb-2 text-center">
-                <span className="pe-2">|</span> Register{" "}
-                <span className="ps-2">|</span>
-              </h4>
-              <h6 className="mb-0 text-center">Join To Us</h6>
+        {/* Left image side */}
+        {/* <div className="portal-left">
+          <div className="portal-img-placeholder">Img</div>
+        </div> */}
+
+        <div className="portal-right ">
+          <div className="portal-header-row">
+            <div className="body-head d-block mb-4">
+              <div>
+                <h4 className="mb-2">
+                  <span className="pe-2">|</span> Register{" "}
+                  <span className="ps-2">|</span>
+                </h4>
+                <h6 className="mb-0">Join To Us</h6>
+              </div>
             </div>
+            <Link to="/" className="back-link">
+              Back
+            </Link>
           </div>
 
           <div className="portal-form">
@@ -121,10 +132,11 @@ const Register = () => {
               <div className="row">
                 {/* Name */}
                 <div className="col-sm-12 mb-4">
+                  <label>Full Name*</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Full Name *"
+                    placeholder="Enter your Full name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -137,10 +149,11 @@ const Register = () => {
 
                 {/* Phone */}
                 <div className="col-sm-12 mb-4">
+                  <label>Contact Number*</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Contact Number *"
+                    placeholder="Enter your Contact Number"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -152,10 +165,11 @@ const Register = () => {
 
                 {/* Email */}
                 <div className="col-sm-12 mb-4">
+                  <label>Email Address*</label>
                   <input
                     type="email"
                     className="form-control"
-                    placeholder="Email Address *"
+                    placeholder="Enter your email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -167,11 +181,12 @@ const Register = () => {
 
                 {/* Password */}
                 <div className="col-sm-12 mb-4">
+                  <label>Password*</label>
                   <div className="input-double-flex">
                     <input
                       type={showPass ? "text" : "password"}
                       className="form-control border-0 border-end rounded-end-0"
-                      placeholder="Password *"
+                      placeholder="Enter your password"
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
@@ -188,10 +203,27 @@ const Register = () => {
                   )}
                 </div>
 
+                {/* Terms */}
+                <div className="col-sm-12 mb-3">
+                  <div className="d-flex align-items-center column-gap-2 checkbox-row">
+                    <input
+                      type="checkbox"
+                      checked={agreeTerms}
+                      onChange={(e) => setAgreeTerms(e.target.checked)}
+                    />
+                    <h6 className="mb-0">
+                      By signing up you agree to our{" "}
+                      <Link to="/terms">
+                        <strong>Terms and Conditions</strong>
+                      </Link>
+                    </h6>
+                  </div>
+                </div>
+
                 {/* Submit */}
                 <div className="col-sm-12 d-flex justify-content-center mb-4">
                   <button className="loginbtn" disabled={loading}>
-                    {loading ? "Registering..." : "Register"}
+                    {loading ? "Registering..." : "Create Account"}
                   </button>
                 </div>
 
@@ -199,6 +231,22 @@ const Register = () => {
                   <h6 className="text-center">
                     ALREADY A USER? <Link to="/login">LOGIN</Link>
                   </h6>
+                </div>
+
+                {/* Divider */}
+                <div className="col-sm-12">
+                  <div className="divider-or">
+                    <span></span>
+                    <p>OR</p>
+                    <span></span>
+                  </div>
+                </div>
+
+                {/* WhatsApp */}
+                <div className="col-sm-12 d-flex justify-content-center">
+                  <button type="button" className="whatsapp-btn">
+                    <i className="fab fa-whatsapp"></i> Continue With Whats app
+                  </button>
                 </div>
               </div>
             </form>

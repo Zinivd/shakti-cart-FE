@@ -2,7 +2,12 @@ import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import ShopAllProducts from "../../components/ShopAllproduct/ShopAllProducts.jsx";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
-import { getProductById, getAllProducts, getProductQuantities, addToCart } from "../../service/api";
+import {
+  getProductById,
+  getAllProducts,
+  getProductQuantities,
+  addToCart,
+} from "../../service/api";
 import Loader from "../../components/Loader/Loader";
 import { Discover2 } from "../../../public/Assets.js";
 import { toast } from "react-toastify";

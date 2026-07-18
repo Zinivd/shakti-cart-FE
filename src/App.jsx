@@ -20,6 +20,9 @@ import Checkout from "./pages/Cart/Checkout.jsx";
 import Address from "./pages/Cart/Address.jsx";
 import Login from "./pages/Portal/Login.jsx";
 import Register from "./pages/Portal/Register.jsx";
+import Forgot from "./pages/Portal/Forgot.jsx";
+import Create from "./pages/Portal/Create.jsx";
+import Verification from "./pages/Portal/Verification.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
 import Terms_Condition from "./pages/Policy/Terms_Condition.jsx";
@@ -58,15 +61,18 @@ function App() {
             <Route path="/address" element={<Address />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot" element={<Forgot />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/verification" element={<Verification />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/products-details/:id" element={<ProductDetails />} />
             <Route path="/terms-and-condition" element={<Terms_Condition />} />
             <Route path="/privacy-policy" element={<Privacy_Policy />} />
             <Route path="/refund-policy" element={<Refund_Policy />} />
             <Route path="/shipping-policy" element={<Shipping_Policy />} />
-            <Route path="/allcategories" element={<AllCategories />}/>
-            <Route path="/categoryproducts" element={<CategoryProduct />}/>
-            <Route path="/productdetail/:id" element={<ProductDetail />}/>
+            <Route path="/allcategories" element={<AllCategories />} />
+            <Route path="/categoryproducts" element={<CategoryProduct />} />
+            <Route path="/productdetail/:id" element={<ProductDetail />} />
           </Routes>
           <Footer />
         </Router>
