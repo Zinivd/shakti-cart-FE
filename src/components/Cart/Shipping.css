@@ -1,25 +1,68 @@
 .shipping-card {
     background-color: var(--sub-light);
     padding: 20px 15px;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 .shipping-card ul li label {
     font-weight: var(--fw-sm);
     color: var(--text-primary);
+    font-size: 14px;
+}
+
+.shipping-card ul li {
+    padding-block: 4px;
+}
+
+.shipping-card hr {
+    margin: 14px 0;
+    opacity: 0.5;
+}
+
+/* Payment method logos */
+.payment-icons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.payment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    height: 42px;
+    box-sizing: border-box;
+}
+
+.payment-icon img {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Payment input form */
+.payment-form {
+    row-gap: 16px;
+    column-gap: 0;
 }
 
 .payment-form .form-control {
-    background-color: transparent;
+    background-color: #fff;
     color: var(--text-primary);
-    font-size: 12px;
-    border: 1px solid var(--primary);
-    border-radius: 5px;
-    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    width: 100%;
 }
 
 .payment-form .form-control:focus {
-    background-color: transparent;
+    background-color: #fff;
     border: 1px solid var(--main);
     outline: none;
     box-shadow: none;
@@ -27,6 +70,21 @@
 
 .payment-form .form-control::placeholder {
     color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+.payment-field {
+    position: relative;
+}
+
+.payment-field .field-icon {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    font-size: 14px;
+    pointer-events: none;
 }
 
 /* Summary */
@@ -114,11 +172,11 @@
 
     .shipping-card ul li label,
     .summary-product h5 {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .summary-product h6 {
-        font-size: 10px;
+        font-size: 11px;
     }
 }
 
@@ -137,11 +195,16 @@
 
     .shipping-card ul li label,
     .summary-product h5 {
-        font-size: 10px;
+        font-size: 11px;
     }
 
     .summary-product h6 {
-        font-size: 8px;
+        font-size: 9px;
+    }
+
+    .payment-form .form-control {
+        padding: 10px 14px;
+        font-size: 13px;
     }
 }
 
@@ -160,10 +223,32 @@
 
     .shipping-card ul li label,
     .summary-product h5 {
-        font-size: 10px;
+        font-size: 11px;
     }
 
     .summary-product h6 {
-        font-size: 8px;
+        font-size: 9px;
+    }
+
+    .shipping-card {
+        padding: 15px 12px;
+    }
+
+    .payment-form {
+        row-gap: 12px;
+    }
+
+    .payment-form .form-control {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .payment-icon {
+        height: 36px;
+        padding: 6px 10px;
+    }
+
+    .payment-icon img {
+        height: 16px;
     }
 }

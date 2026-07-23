@@ -84,7 +84,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
   return (
     <div className="shipping mt-4 mb-3">
       {/* Shipping Address */}
-      {/* <div className="body-head d-block">
+      <div className="body-head d-block">
         <h5 className="mb-2">Shipping Address</h5>
         <h6 className="mb-0">
           Select the address that matches your card or payment method.
@@ -102,7 +102,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
             <label htmlhtmlFor="address2">Use a different shipping address</label>
           </li>
         </ul>
-      </div> */}
+      </div>
 
       {/* Shipping Method */}
       <div className="body-head d-block">
@@ -111,9 +111,10 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
       <div className="shipping-card my-3">
         <ul className="list-unstyled mb-0">
           <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+             <label>Arrives by Monday, June 7</label>
             <label>
               <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
-              <span className="text-dark fw-bold">Courier</span>
+              <span className="text-dark fw-bold">Professional Courier</span>
             </label>
           </li>
           <hr />
@@ -128,7 +129,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
       </div>
 
       {/* Payment Method */}
-      {/* <div className="body-head d-block">
+      <div className="body-head d-block">
         <h5 className="mb-2">Payment Method</h5>
         <h6 className="mb-0">All transactions are secure and encrypted.</h6>
       </div>
@@ -144,41 +145,50 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
                 </span>
               </label>
             </div>
-            <div className="d-flex align-items-center justify-content-start flex-wrap gap-2 mb-3">
-              <img src={Gpay} alt="" height="35px" />
-              <img src={Visa} alt="" height="35px" />
-              <img src={PayPass} alt="" height="35px" />
-              <img src={PayPal} alt="" height="35px" />
+            <div className="payment-icons mb-3">
+              <div className="payment-icon">
+                <img src={Gpay} alt="Google Pay" />
+              </div>
+              <div className="payment-icon">
+                <img src={Visa} alt="Visa" />
+              </div>
+              <div className="payment-icon">
+                <img src={PayPass} alt="Mastercard" />
+              </div>
+              <div className="payment-icon">
+                <img src={PayPal} alt="PayPal" />
+              </div>
             </div>
             <form action="">
               <div className="payment-form row">
-                <div className="col-sm-12 col-md-6 mb-3">
+                <div className="col-sm-12 col-md-6">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Card Number"
                   />
                 </div>
-                <div className="col-sm-12 col-md-6 mb-3">
+                <div className="col-sm-12 col-md-6">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Name of the Card"
                   />
                 </div>
-                <div className="col-sm-12 col-md-6 mb-3">
+                <div className="col-sm-12 col-md-6">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Expiry Date (MM/YY)"
                   />
                 </div>
-                <div className="col-sm-12 col-md-6 mb-3">
+                <div className="col-sm-12 col-md-6 payment-field">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Security Code"
                   />
+                  <i className="far fa-eye field-icon"></i>
                 </div>
               </div>
             </form>
@@ -197,7 +207,7 @@ const Shipping = ({ cartItems = [], selectedAddress }) => {
             <label htmlhtmlFor="payment3">Paypal</label>
           </li>
         </ul>
-      </div> */}
+      </div>
 
       {showPlaceOrder && (
         <button className="darkbtn" id="orderBtn" onClick={handleAddress}>

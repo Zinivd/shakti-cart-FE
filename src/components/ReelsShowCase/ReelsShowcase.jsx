@@ -6,25 +6,30 @@ import { Reels_1, Reels_2, Reels_3, Reels_5 } from "../../../public/Assets.js";
 const bannerImg =
   "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600";
 
+
 const reelsData = [
   {
     id: 1,
     productImg: Reels_1,
+    videoSrc: "https://youtube.com/shorts/24GSvfAjzEc?si=vCRo0eLNUXNZCqdG", // TODO: put the real video path here
     caption: "NaviBlue Chudi",
   },
   {
     id: 2,
     productImg: Reels_2,
+    videoSrc: "https://youtube.com/shorts/XHOg4xLnvVw?si=ZNzDnlG2Nh9XKLoV", // TODO: put the real video path here
     caption: "Cargo Shirt",
   },
   {
     id: 3,
     productImg: Reels_3,
+    videoSrc: "/videos/reel-3.mp4", // TODO: put the real video path here
     caption: "White Shirt",
   },
   {
     id: 4,
     productImg: Reels_5,
+    videoSrc: "/videos/reel-4.mp4", // TODO: put the real video path here
     caption: "Modern Style",
   },
 ];

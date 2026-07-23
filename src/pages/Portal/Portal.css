@@ -1,233 +1,441 @@
 .portal-main {
-    margin: auto;
+  margin: auto;
+  width: 92%;
+  max-width: 380px;
 }
 
 .portal-div {
-    display: flex;
-    justify-content:center;
-    align-items: stretch;
-    flex-direction: column;
-    background: var(--card-bg, #fff);
-    border-radius: 12px;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 /* Left image panel */
 .portal-left {
-    display: none;
+  display: none;
 }
 
 .portal-img-placeholder {
-    width: 100%;
-    height: 100%;
-    min-height: 400px;
-    background: #000;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 42px;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
 }
 
 /* Header row (title + Back link) */
 .portal-header-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .back-link {
-    color: var(--text-secondary);
-    text-decoration: underline;
-    font-size: 14px;
-    white-space: nowrap;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .back-link:hover {
-    color: var(--main);
+  color: var(--main);
 }
 
 .checkbox-row input[type="checkbox"] {
-    width: 12px;
-    height: 12px;
-    cursor: pointer;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
 }
 
 .forgot-link h6 {
-    color: var(--sub);
+  color: var(--sub);
 }
 
 /* Divider */
 .divider-or {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
 }
 
 .divider-or span {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 .divider-or p {
-    margin: 0;
-    color: var(--text-secondary);
-    font-size: 13px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
 }
 
 /* WhatsApp button */
 .whatsapp-btn {
-    width: 50%;
-    background-color: #25d366;
-    color: #fff;
-    border: none;
-    border-radius: 24px;
-    padding: 12px 16px;
-    font-size: 15px;
-    font-weight: var(--fw-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
+  width: 70%;
+  background-color: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: var(--fw-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
 .whatsapp-btn:hover {
-    background-color: #1ebe5b;
-}
-
-.portal-form label {
-    color: var(--text-primary);
-    font-weight: var(--fw-sm);
-    margin-bottom: 8px;
-    cursor: pointer;
+  background-color: #1ebe5b;
 }
 
 .portal-form h6 {
-    /* color: var(--text-secondary); */
-    font-weight: var(--fw-md);
+  font-weight: var(--fw-md);
 }
 
 .portal-form h6 a {
-    color: var(--sub);
+  color: var(--sub);
 }
 
 .portal-form a:hover {
-    color: var(--main);
+  color: var(--main);
 }
 
-.portal-form .form-control,
-.portal-form .form-select {
-    background-color: var(--input-bg);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 10px 18px;
+
+/* ===========================
+   Floating Label
+=========================== */
+
+.floating-group {
+  position: relative;
+  width: 100%;
 }
 
-.portal-form .input-double-flex:focus-within,
-.portal-form .form-control:focus,
-.portal-form .form-select:focus {
-    background-color: var(--input-bg);
-    border: 1px solid var(--sub);
-    outline: none;
-    box-shadow: none;
+.floating-group .form-control {
+  width: 100%;
+  height: 56px;
+  padding: 18px 16px 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  background: #fff;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  box-shadow: none;
 }
 
-.portal-form .input-double-flex {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 85% 15%;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 20px;
+.floating-group .form-control::placeholder {
+  color: transparent;
 }
 
-.portal-form .form-control::placeholder {
-    color: var(--text-tertiary);
-    font-size: 14px;
+.floating-group .form-control:focus {
+  border-color: #f59e0b;
+  box-shadow: none;
 }
 
-@media screen and (min-width: 1098px) {
-    .portal-main {
-        width: 80%;
-    }
-
-    .portal-div {
-        flex-direction: row;
-    }
-
-    .portal-left {
-        display: block;
-        width: 45%;
-    }
-
-    .portal-right {
-        width: 45%;
-        padding: 40px;
-    }
-
-    .portal-form label,
-    .portal-form .form-control,
-    .portal-form .form-select {
-        font-size: 14px;
-    }
-
-    .portal-form h6 {
-        font-size: 12px;
-    }
+.floating-group label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8b8b8b;
+  font-size: 15px;
+  transition: all .25s ease;
+  pointer-events: none;
+  background: transparent;
+  padding: 0;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1098px) {
-    .portal-main {
-        width: 90%;
-    }
-
-    .portal-div {
-        flex-direction: row;
-    }
-
-    .portal-left {
-        display: block;
-        width: 40%;
-    }
-
-    .portal-right {
-        width: 60%;
-        padding: 30px;
-    }
-
-    .portal-form label,
-    .portal-form .form-control,
-    .portal-form .form-select {
-        font-size: 14px;
-    }
-
-    .portal-form h6 {
-        font-size: 12px;
-    }
+/* Floating State */
+.floating-group .form-control:focus + label,
+.floating-group .form-control:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 6px;
+  font-size: 12px;
+  color: #f59e0b;
+  line-height: 1;
 }
 
-@media screen and (max-width: 767px) {
-    .portal-main {
-        width: 90%;
-    }
+/* ===========================
+   Password
+=========================== */
 
-    .portal-right {
-        width: 100%;
-        padding: 20px;
-    }
+.password-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
 
-    .portal-form label,
-    .portal-form .form-control,
-    .portal-form .form-select {
-        font-size: 14px;
-    }
+.password-group .form-control {
+  width: 100%;
+  height: 56px;
+  padding: 18px 52px 8px 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: none;
+}
 
-    .portal-form h6 {
-        font-size: 12px;
-    }
+.password-group .form-control:focus {
+  border-color: #f59e0b;
+  box-shadow: none;
+}
+
+.password-group label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8b8b8b;
+  transition: .25s;
+  pointer-events: none;
+}
+
+.password-group .form-control:focus + label,
+.password-group .form-control:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 6px;
+  font-size: 12px;
+  color: #f59e0b;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 5;
+}
+
+.toggle-icon:hover {
+  color: #000;
+}
+
+@media screen and (min-width: 320px) and (max-width: 374px) {
+  .portal-main {
+    width: 95%;
+    max-width: 320px;
+  }
+  .portal-right {
+    padding: 10px;
+  }
+  .portal-form h6 {
+    font-size: 11px;
+  }
+  .form-floating > label {
+    font-size: 11.5px;
+    padding-left: 14px;
+  }
+  .form-floating > .form-control {
+    height: 48px;
+    font-size: 13px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .input-double-flex.form-floating > label {
+    padding-left: 14px;
+  }
+  .whatsapp-btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 10px;
+  }
+  .back-link {
+    font-size: 12px;
+  }
+}
+
+/* Small phones: 375px - 479px (iPhone 12/13/14, most Android) */
+@media screen and (min-width: 375px) and (max-width: 479px) {
+  .portal-main {
+    width: 92%;
+    max-width: 360px;
+  }
+  .portal-right {
+    padding: 10px;
+  }
+  .form-floating > label {
+    font-size: 12.5px;
+  }
+  .form-floating > .form-control {
+    height: 50px;
+    font-size: 13.5px;
+  }
+  .whatsapp-btn {
+    width: 100%;
+  }
+}
+
+/* Large phones / phablets: 480px - 767px */
+@media screen and (min-width: 480px) and (max-width: 767px) {
+  .portal-main {
+    width: 82%;
+    max-width: 420px;
+  }
+  .portal-right {
+    padding: 24px;
+  }
+  .whatsapp-btn {
+    width: 70%;
+  }
+}
+
+/* Tablets: 768px - 1023px (iPad portrait/landscape) */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .portal-main {
+    width: 70%;
+    max-width: 700px;
+  }
+  .portal-div {
+    flex-direction: row;
+  }
+  .portal-left {
+    display: block;
+    width: 40%;
+  }
+  .portal-right {
+    width: 60%;
+    padding: 30px;
+  }
+  .form-floating > label,
+  .portal-form h6 {
+    font-size: 13px;
+  }
+  .whatsapp-btn {
+    width: 60%;
+  }
+}
+
+/* Small laptops: 1024px - 1439px */
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+  .portal-main {
+    width: 55%;
+    max-width: 800px;
+  }
+  .portal-div {
+    flex-direction: row;
+  }
+  .portal-left {
+    display: block;
+    width: 45%;
+  }
+  .portal-right {
+    width: 55%;
+    padding: 36px;
+  }
+  .form-floating > label,
+  .portal-form h6 {
+    font-size: 13px;
+  }
+  .whatsapp-btn {
+    width: 55%;
+  }
+}
+
+/* Standard desktops: 1440px - 1919px */
+@media screen and (min-width: 1440px) and (max-width: 1919px) {
+  .portal-main {
+    width: 40%;
+    max-width: 860px;
+  }
+  .portal-div {
+    flex-direction: row;
+  }
+  .portal-left {
+    display: block;
+    width: 45%;
+  }
+  .portal-right {
+    width: 55%;
+    padding: 44px;
+  }
+  .whatsapp-btn {
+    width: 50%;
+  }
+}
+
+/* Large / QHD displays: 1920px - 2559px */
+@media screen and (min-width: 1920px) and (max-width: 2559px) {
+  .portal-main {
+    width: 32%;
+    max-width: 940px;
+  }
+  .portal-div {
+    flex-direction: row;
+  }
+  .portal-left {
+    display: block;
+    width: 45%;
+  }
+  .portal-right {
+    width: 55%;
+    padding: 50px;
+  }
+  .form-floating > .form-control {
+    height: 58px;
+    font-size: 16px;
+  }
+  .form-floating > label {
+    font-size: 14.5px;
+  }
+  .whatsapp-btn {
+    width: 45%;
+    font-size: 16px;
+  }
+}
+
+/* 4K / UHD displays: 2560px and up */
+@media screen and (min-width: 2560px) {
+  .portal-main {
+    width: 26%;
+    max-width: 1100px;
+  }
+  .portal-div {
+    flex-direction: row;
+    border-radius: 18px;
+  }
+  .portal-left {
+    display: block;
+    width: 45%;
+  }
+  .portal-right {
+    width: 55%;
+    padding: 64px;
+  }
+  .form-floating > .form-control {
+    height: 66px;
+    font-size: 18px;
+  }
+  .form-floating > label {
+    font-size: 16px;
+    padding-top: 22px;
+  }
+
+  .whatsapp-btn {
+    width: 40%;
+    font-size: 18px;
+    padding: 14px 20px;
+  }
 }

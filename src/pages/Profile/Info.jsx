@@ -12,6 +12,10 @@ const Info = () => {
     contact: "",
   });
 
+  
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("male");
+
   const user = JSON.parse(localStorage.getItem("user"));
   const email = user?.email || "guest@email.com";
   useEffect(() => {
@@ -93,9 +97,10 @@ const Info = () => {
       <div className="form">
         <form onSubmit={handleSubmit}>
           <div className="row">
+      
             <div className="col-sm-12 col-md-6 mb-4">
               <label htmlFor="fullname">
-                Full Name <span>*</span>
+                First Name <span>*</span>
               </label>
               <input
                 type="text"
@@ -105,6 +110,21 @@ const Info = () => {
                 onChange={handleChange}
                 disabled={!isEdit || loading}
                 required
+              />
+            </div>
+
+           
+            <div className="col-sm-12 col-md-6 mb-4">
+              <label htmlFor="lastname">
+                Last Name <span>*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                name="lastname"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                disabled={!isEdit || loading}
               />
             </div>
 
@@ -122,9 +142,10 @@ const Info = () => {
               />
             </div>
 
+           
             <div className="col-sm-12 col-md-6 mb-4">
               <label htmlFor="contact">
-                Contact Number <span>*</span>
+                Phone <span>*</span>
               </label>
               <input
                 type="number"
@@ -135,6 +156,37 @@ const Info = () => {
                 disabled
                 required
               />
+            </div>
+
+          
+            <div className="col-sm-12 mb-4">
+              <label className="d-block">
+                Gender <span>*</span>
+              </label>
+              <div className="d-flex column-gap-4 gender-row">
+                <label className="d-flex align-items-center column-gap-2 mb-0">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={(e) => setGender(e.target.value)}
+                    disabled={!isEdit || loading}
+                  />
+                  Male
+                </label>
+                <label className="d-flex align-items-center column-gap-2 mb-0">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="female"
+                    checked={gender === "female"}
+                    onChange={(e) => setGender(e.target.value)}
+                    disabled={!isEdit || loading}
+                  />
+                  Female
+                </label>
+              </div>
             </div>
           </div>
 

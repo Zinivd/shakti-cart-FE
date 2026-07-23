@@ -1,14 +1,20 @@
 .address-main {
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     align-items: start;
-    justify-content: space-between;
+}
+
+/* cancel bootstrap's mb-3 since grid gap now handles spacing */
+.address-main .address-card.mb-3 {
+    margin-bottom: 0;
 }
 
 .address-card {
     background-color: var(--secondary);
     border: 2px solid var(--border);
     border-radius: 10px;
-    padding: 10px;
+    padding: 16px;
 }
 
 .address-card h5 {
@@ -27,17 +33,90 @@
     color: var(--main) !important;
 }
 
-@media screen and (min-width: 1098px) {
-    .address-main {
-        grid-template-columns: repeat(2, 49%);
-    }
+.address-card input[name="selectedAddress"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
 
+.address-card input[name="selectedAddress"]:checked {
+    background-color: #16a34a;
+    border-color: #16a34a;
+}
+
+.address-card input[name="selectedAddress"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 2px;
+    width: 3px;
+    height: 7px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.address-card input[name="selectedAddress"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
+
+/* ---- address type pill (Office / Home / etc) ---- */
+.address-card .addressbtn {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 16px;
+    font-size: 12px;
+    font-weight: var(--fw-sm);
+    color: var(--text-primary);
+    cursor: default;
+}
+
+/* ---- Remove | Edit row: show as "Remove | Edit" ---- */
+.address-card .column-gap-2 {
+    column-gap: 10px !important;
+}
+
+.address-card .formbtn,
+.address-card .darkbtn {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 13px;
+    color: var(--text-primary);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.address-card .formbtn {
+    order: 2;
+    border-left: 1px solid var(--border) !important;
+    padding-left: 10px !important;
+}
+
+.address-card .darkbtn {
+    order: 1;
+}
+
+@media screen and (min-width: 1098px) {
     .address-card h5 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .address-card h6 {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .addressType {
@@ -47,28 +126,28 @@
 
 @media screen and (min-width: 767px) and (max-width: 1098px) {
     .address-main {
-        grid-template-columns: repeat(2, 49%);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .address-card h5 {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .address-card h6 {
-        font-size: 10px;
+        font-size: 11px;
     }
 }
 
 @media screen and (max-width: 767px) {
     .address-main {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: 1fr;
     }
 
     .address-card h5 {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .address-card h6 {
-        font-size: 10px;
+        font-size: 11px;
     }
 }

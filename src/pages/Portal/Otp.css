@@ -1,0 +1,308 @@
+
+
+.otp-page {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(10px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+
+.otp-card {
+  width: 100%;
+  max-width: 600px;   
+  margin: 0 auto;
+  /* background: #ffffff; */
+  border-radius: 16px;
+  /* box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06); */
+  display: flex;
+  overflow: hidden;
+}
+
+
+.otp-image-section {
+  flex: 1;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+/*
+<div className="otp-image-section">
+  <img src="/path-to-your-image.png" alt="Shakti Cart" className="otp-image" />
+</div>
+
+.otp-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+*/
+
+.otp-image-placeholder {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+/* ---------- Form section ---------- */
+.otp-form-section {
+  flex: 1;
+  width: 100%;
+  /* padding: clamp(28px, 5vw, 48px) clamp(20px, 6vw, 56px); */
+  display: flex;
+  flex-direction: column;
+}
+
+.otp-form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.otp-title-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.otp-title-bar {
+  width: 4px;
+  height: clamp(20px, 3vw, 26px);
+  background: #f5a623;
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+.otp-title {
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.otp-back-link {
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: #4a4a4a;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.otp-subtitle {
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: #9a9a9a;
+  margin: 4px 0 0 14px;
+}
+
+/* Center block that holds heading / message / inputs / buttons */
+.otp-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 26px);
+  text-align: center;
+  padding-top: clamp(20px, 4vw, 32px);
+}
+
+.otp-enter-heading {
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.otp-message {
+  font-size: clamp(13px, 1.6vw, 16px);
+  color: #4a4a4a;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.otp-message strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* OTP input boxes — reduced footprint, scales down smoothly */
+.otp-input-group {
+  display: flex;
+  gap: clamp(8px, 2.2vw, 14px);
+}
+
+.otp-input {
+  width: clamp(36px, 8vw, 46px);
+  height: clamp(36px, 8vw, 46px);
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  text-align: center;
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 500;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s ease;
+  padding: 0;
+}
+
+.otp-input:focus {
+  border-color: #f5a623;
+}
+
+/* Buttons — full width of the (now narrow) card */
+.otp-verify-btn {
+  width: 100%;
+  padding: clamp(12px, 2vw, 15px);
+  background: #6b7280;
+  color: #ffffff;
+  font-size: clamp(14px, 1.6vw, 16px);
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.otp-verify-btn:hover:not(:disabled) {
+  background: #545a63;
+}
+
+.otp-verify-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.otp-resend-text {
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.otp-resend-text span {
+  color: #9a9a9a;
+}
+
+.otp-resend-btn {
+  width: 100%;
+  padding: clamp(11px, 1.8vw, 14px);
+  background: #e5e5e5;
+  color: #9a9a9a;
+  font-size: clamp(13px, 1.5vw, 15px);
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: not-allowed;
+}
+
+.otp-resend-btn:not(:disabled) {
+  background: #f5a623;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.otp-resend-spinner {
+  display: inline-block;
+  animation: otp-spin 1s linear infinite;
+}
+
+@keyframes otp-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.otp-change-number {
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: #4a4a4a;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+
+/* Divider */
+.otp-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.otp-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #d9d9d9;
+}
+
+.otp-divider-text {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: #9a9a9a;
+}
+
+/* WhatsApp button */
+.otp-whatsapp-btn {
+  width: 100%;
+  padding: clamp(12px, 2vw, 15px);
+  background: #1fa855;
+  color: #ffffff;
+  font-size: clamp(14px, 1.6vw, 16px);
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.otp-whatsapp-btn:hover {
+  background: #178a46;
+}
+
+/* ---------- Fine tuning at the extremes ---------- */
+/* Very small phones */
+@media (max-width: 360px) {
+  .otp-form-section {
+    padding: 20px 16px;
+  }
+
+  .otp-input-group {
+    gap: 6px;
+  }
+
+  .otp-input {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* If the image panel is ever un-commented for split layout again */
+@media (min-width: 901px) {
+  .otp-card:has(.otp-image-section) {
+    max-width: 1536px;
+    min-height: 700px;
+  }
+}

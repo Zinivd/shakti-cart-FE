@@ -132,16 +132,19 @@ const Register = () => {
               <div className="row">
                 {/* Name */}
                 <div className="col-sm-12 mb-4">
-                  <label>Full Name*</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter your Full name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    autoFocus
-                  />
+                  <div className="floating-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="regName"
+                      placeholder=" "
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      autoFocus
+                    />
+                    <label htmlFor="regName">Full Name</label>
+                  </div>
                   {errors.name && (
                     <small className="text-danger">{errors.name}</small>
                   )}
@@ -149,15 +152,18 @@ const Register = () => {
 
                 {/* Phone */}
                 <div className="col-sm-12 mb-4">
-                  <label>Contact Number*</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter your Contact Number"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                  />
+                  <div className="floating-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="regPhone"
+                      placeholder=" "
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="regPhone">Contact Number</label>
+                  </div>
                   {errors.phone && (
                     <small className="text-danger">{errors.phone}</small>
                   )}
@@ -165,15 +171,18 @@ const Register = () => {
 
                 {/* Email */}
                 <div className="col-sm-12 mb-4">
-                  <label>Email Address*</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter your email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
+                  <div className="floating-group">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="regEmail"
+                      placeholder=" "
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="regEmail">Email Address</label>
+                  </div>
                   {errors.email && (
                     <small className="text-danger">{errors.email}</small>
                   )}
@@ -181,22 +190,25 @@ const Register = () => {
 
                 {/* Password */}
                 <div className="col-sm-12 mb-4">
-                  <label>Password*</label>
-                  <div className="input-double-flex">
+                  <div className="floating-group password-group">
                     <input
                       type={showPass ? "text" : "password"}
-                      className="form-control border-0 border-end rounded-end-0"
-                      placeholder="Enter your password"
+                      className="form-control"
+                      id="regPassword"
+                      placeholder=" "
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
                     />
-                    <label className="mb-0 text-center">
+                    <label htmlFor="regPassword">Password</label>
+                    <span
+                      className="toggle-icon"
+                      onClick={() => setShowPass(!showPass)}
+                    >
                       <i
                         className={`fas ${showPass ? "fa-eye-slash" : "fa-eye"}`}
-                        onClick={() => setShowPass(!showPass)}
                       ></i>
-                    </label>
+                    </span>
                   </div>
                   {errors.password && (
                     <small className="text-danger">{errors.password}</small>

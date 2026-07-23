@@ -5,9 +5,9 @@ import "./Forgot.css";
 
 const Create = () => {
   const navigate = useNavigate();
-//   const location = useLocation();
-//   const email = location.state?.email || "";
-//   const code = location.state?.code || "";
+  //   const location = useLocation();
+  //   const email = location.state?.email || "";
+  //   const code = location.state?.code || "";
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -73,12 +73,12 @@ const Create = () => {
               <div className="row">
                 {/* Password */}
                 <div className="col-sm-12 mb-4">
-                  <label>Password</label>
-                  <div className="input-double-flex">
+                  <div className="floating-group password-group">
                     <input
                       type={showPass ? "text" : "password"}
-                      className="form-control border-0 border-end rounded-end-0"
-                      placeholder="**********"
+                      className="form-control"
+                      id="newPassword"
+                      placeholder=" "
                       value={password}
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -86,36 +86,49 @@ const Create = () => {
                       }}
                       autoFocus
                     />
-                    <label className="mb-0 text-center">
+
+                    <label htmlFor="newPassword">Password</label>
+
+                    <span
+                      className="toggle-icon"
+                      onClick={() => setShowPass(!showPass)}
+                    >
                       <i
                         className={`fas ${showPass ? "fa-eye-slash" : "fa-eye"}`}
-                        onClick={() => setShowPass(!showPass)}
                       ></i>
-                    </label>
+                    </span>
                   </div>
                 </div>
 
                 {/* Confirm Password */}
                 <div className="col-sm-12 mb-2">
-                  <label>Conform Password</label>
-                  <div className="input-double-flex">
+                  <div className="floating-group password-group">
                     <input
                       type={showConfirmPass ? "text" : "password"}
-                      className="form-control border-0 border-end rounded-end-0"
-                      placeholder="**********"
+                      className="form-control"
+                      id="confirmPassword"
+                      placeholder=" "
                       value={confirmPassword}
                       onChange={(e) => {
                         setConfirmPassword(e.target.value);
                         if (apiError) setApiError("");
                       }}
                     />
-                    <label className="mb-0 text-center">
+
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+
+                    <span
+                      className="toggle-icon"
+                      onClick={() => setShowConfirmPass(!showConfirmPass)}
+                    >
                       <i
-                        className={`fas ${showConfirmPass ? "fa-eye-slash" : "fa-eye"}`}
-                        onClick={() => setShowConfirmPass(!showConfirmPass)}
+                        className={`fas ${
+                          showConfirmPass ? "fa-eye-slash" : "fa-eye"
+                        }`}
                       ></i>
-                    </label>
+                    </span>
                   </div>
+
                   {apiError && (
                     <small className="text-danger d-block mt-2">
                       {apiError}

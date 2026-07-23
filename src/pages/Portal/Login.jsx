@@ -71,34 +71,40 @@ const Login = () => {
               <div className="row">
                 {/* Email */}
                 <div className="col-sm-12 mb-4">
-                  <label>Email Address*</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoFocus
-                  />
+                  <div className="floating-group">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="loginEmail"
+                      placeholder=" "
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      autoFocus
+                    />
+                    <label htmlFor="loginEmail">Enter the Email</label>
+                  </div>
                 </div>
 
                 {/* Password */}
                 <div className="col-sm-12 mb-3">
-                  <label>Password*</label>
-                  <div className="input-double-flex">
+                  <div className="floating-group password-group">
                     <input
                       type={showPass ? "text" : "password"}
-                      className="form-control border-0 border-end rounded-end-0"
-                      placeholder="Enter your password"
+                      className="form-control"
+                      id="loginPassword"
+                      placeholder=" "
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label className="mb-0 text-center">
+                    <label htmlFor="loginPassword">Enter the Password</label>
+                    <span
+                      className="toggle-icon"
+                      onClick={() => setShowPass(!showPass)}
+                    >
                       <i
                         className={`fas ${showPass ? "fa-eye-slash" : "fa-eye"}`}
-                        onClick={() => setShowPass(!showPass)}
                       ></i>
-                    </label>
+                    </span>
                   </div>
                 </div>
 

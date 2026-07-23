@@ -23,6 +23,8 @@ import Register from "./pages/Portal/Register.jsx";
 import Forgot from "./pages/Portal/Forgot.jsx";
 import Create from "./pages/Portal/Create.jsx";
 import Verification from "./pages/Portal/Verification.jsx";
+import GmailOtp from "./pages/Portal/GmailOtp.jsx";
+import WhatsappOtp from "./pages/Portal/WhatsappOtp.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
 import Terms_Condition from "./pages/Policy/Terms_Condition.jsx";
@@ -64,6 +66,8 @@ function App() {
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/create" element={<Create />} />
             <Route path="/verification" element={<Verification />} />
+            <Route path="/gmailotp" element={<GmailOtp />} />
+            <Route path="/whatsappotp" element={<WhatsappOtp />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/products-details/:id" element={<ProductDetails />} />
             <Route path="/terms-and-condition" element={<Terms_Condition />} />

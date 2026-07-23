@@ -61,18 +61,22 @@ const Verification = () => {
               <div className="row">
                 {/* Code */}
                 <div className="col-sm-12 mb-2">
-                  <label>Code</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter your email code"
-                    value={code}
-                    onChange={(e) => {
-                      setCode(e.target.value);
-                      if (apiError) setApiError("");
-                    }}
-                    autoFocus
-                  />
+                  <div className="floating-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="verificationCode"
+                      placeholder=" "
+                      value={code}
+                      onChange={(e) => {
+                        setCode(e.target.value);
+                        if (apiError) setApiError("");
+                      }}
+                      autoFocus
+                    />
+                    <label htmlFor="verificationCode">Enter the Verification Code</label>
+                  </div>
+
                   {apiError && (
                     <small className="text-danger d-block mt-2">
                       {apiError}

@@ -62,6 +62,97 @@
     }
 }
 
+
+/* --- Back link on Order Details --- */
+.back-link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--text-secondary);
+    font-weight: var(--fw-sm);
+}
+
+.back-link:hover {
+    color: var(--primary);
+}
+
+/* --- Order details product row --- */
+.order-detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.order-detail-row:last-child {
+    border-bottom: none;
+}
+
+.order-detail-row h5 {
+    color: var(--text-primary);
+    font-weight: var(--fw-md);
+}
+
+.order-close-icon {
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--text-secondary);
+    padding: 0 6px;
+}
+
+.order-close-icon:hover {
+    color: #d9534f;
+}
+
+/* --- Cancel confirmation modal --- */
+.cancel-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+}
+
+.cancel-modal {
+    background: #fff;
+    border-radius: 5px;
+    padding: 28px 32px;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    animation: fadeSlide 0.3s ease-in-out;
+}
+
+.cancel-modal h5 {
+    color: var(--text-primary);
+    font-weight: var(--fw-md);
+}
+
+.cancel-modal p {
+    color: var(--text-secondary);
+    font-weight: var(--fw-sm);
+}
+
+.cancel-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.lightbtn {
+    background-color: var(--ter-light);
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-weight: var(--fw-sm);
+    color: var(--text-primary);
+}
+
 @media screen and (min-width: 1098px) {
     .order-headcard h5 {
         font-size: 14px;

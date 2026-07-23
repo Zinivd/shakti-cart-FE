@@ -61,18 +61,22 @@ const Forgot = () => {
               <div className="row">
                 {/* Email */}
                 <div className="col-sm-12 mb-2">
-                  <label>Email Address*</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (apiError) setApiError("");
-                    }}
-                    autoFocus
-                  />
+                  <div className="floating-group">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="forgotEmail"
+                      placeholder=" "
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (apiError) setApiError("");
+                      }}
+                      autoFocus
+                    />
+                    <label htmlFor="forgotEmail">Enter the Email</label>
+                  </div>
+
                   {apiError && (
                     <small className="text-danger d-block mt-2">
                       {apiError}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartTable from "../../components/Cart/Table.jsx";
-import { createOrder, getCartProducts, placeOrder } from "../../service/api";
+import { getCartProducts } from "../../service/api";
+import { Offer1, Offer2 } from "../../../public/Assets.js";
 import "./Cart.css";
 
 const SHIPPING_CHARGE = 40;
@@ -75,7 +76,6 @@ const Cart = () => {
           cartProducts={cartProducts}
           setCartProducts={setCartProducts}
           refreshCart={fetchCartProducts}
-          // setCartTableData = {setCartTableData}
         />
       </div>
 
@@ -83,7 +83,7 @@ const Cart = () => {
       {isAuthenticated && (
         <div className="cart-total mt-3">
           <div className="cart-bottom">
-            {/* <div className="body-head d-block">
+            <div className="body-head d-block discount-block">
               <h5 className="mb-2 text-dark text-start">Discount Codes</h5>
               <h6 className="mb-3 text-start">
                 Enter your coupon code if you have one
@@ -96,27 +96,9 @@ const Cart = () => {
                 />
                 <button className="couponbtn">Apply Coupon</button>
               </div>
-            </div> */}
-            <div className="shipping-card">
-              <ul className="list-unstyled mb-0">
-                <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                  {/* <label>Arrives by Monday, June 7</label> */}
-                  <label>
-                    <i className="fas fa-truck-fast"></i>&nbsp; Ships from{" "}
-                    <span className="text-dark fw-bold">Courier</span>
-                  </label>
-                </li>
-                <hr />
-                <li className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                  <label>
-                    Delivery Charges <br />
-                    <span className=" text-muted">
-                      Additional fees may apply
-                    </span>
-                  </label>
-                  <label className="fw-bold"> ₹ {SHIPPING_CHARGE}.00</label>
-                </li>
-              </ul>
+              <Link to="/" className="continuebtn mt-3 d-inline-block">
+                Continue Shopping
+              </Link>
             </div>
 
             <div className="cart-summary-table">
@@ -151,10 +133,30 @@ const Cart = () => {
         </div>
       )}
 
-      {/* Offer */}
-      {/* <div className="main-header">
-        <Offer />
-      </div> */}
+      {/* Offer Banner */}
+      <div className="main-header">
+        <div className="promo-banner">
+          <img
+            src={Offer1}
+            alt="Flat 40% off women's dresses"
+            className="promo-banner-img promo-banner-left"
+          />
+          <div className="promo-banner-content">
+            <h2>Flat 40% OFF</h2>
+            <p>
+              on Women&apos;s Dresses
+              <br />
+              Limited Time!
+            </p>
+            <button className="promo-banner-btn">Discover Now</button>
+          </div>
+          <img
+            src={Offer2}
+            alt="Flat 40% off women's dresses"
+            className="promo-banner-img promo-banner-right"
+          />
+        </div>
+      </div>
     </div>
   );
 };
