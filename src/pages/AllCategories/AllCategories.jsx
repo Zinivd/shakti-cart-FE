@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CategoryBanner from "../../components/CategoryBanner/CategoryBanner";
 import ShopAllProducts from "../../components/ShopAllproduct/ShopAllProducts.jsx";
-import ReelsShowcase from "../../components/ReelsShowCase/ReelsShowcase.jsx";
+// import ReelsShowcase from "../../components/ReelsShowCase/ReelsShowcase.jsx";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
 import "../../components/Card/Category/Category.css";
 
@@ -79,7 +79,7 @@ const AllCategories = () => {
           </div>
 
           <ShopAllProducts />
-          <ReelsShowcase />
+          {/* <ReelsShowcase /> */}
         </div>
       </div>
 

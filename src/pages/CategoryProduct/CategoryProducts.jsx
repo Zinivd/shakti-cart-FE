@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import ShopAllProducts from "../../components/ShopAllproduct/ShopAllProducts.jsx";
 import { products } from "../../data/products.js";
@@ -7,6 +7,7 @@ import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
 import { Discover2 } from "../../../public/Assets.js";
 import { NoSimilar } from "../../../public/Assets.js";
 import Loader from "../../components/Loader/Loader.jsx";
+import { getAllCategories } from "../../service/api";
 import "./CategoryProducts.css";
 
 const colorSwatch = {
@@ -30,26 +31,6 @@ const colorSwatch = {
   Silver: "#c0c0c0",
   Multicolor:
     "linear-gradient(45deg, red, orange, yellow, green, blue, purple)",
-};
-
-const categoryKeyMap = {
-  women: "women",
-  men: "men",
-  kids: "kids",
-  wedding: "wedding",
-  "night suits": "nightSuit",
-  nightsuit: "nightSuit",
-  "bottom wear": "bottomWear",
-  bottomwear: "bottomWear",
-};
-
-const categoryLabelMap = {
-  men: "Men's Wear",
-  women: "Women's Wear",
-  kids: "Kids Wear",
-  wedding: "Wedding Collection",
-  nightSuit: "Night Suits",
-  bottomWear: "Bottom Wear",
 };
 
 const getBadgeForProduct = (product) => {
@@ -83,11 +64,36 @@ const getBadgeColor = (badge) => {
 
 const CategoryProduct = () => {
   const [searchParams] = useSearchParams();
-  const rawCategory = (searchParams.get("category") || "men").toLowerCase();
-  const category = categoryKeyMap[rawCategory] || rawCategory;
+  const rawCategory = (searchParams.get("category") || "").toLowerCase();
 
   const [activeTab, setActiveTab] = useState("All");
   const [loading, setLoading] = useState(true);
+
+  // ---------- CATEGORY DATA FROM API ----------
+  const [categoriesData, setCategoriesData] = useState([]);
+  const fetchedRef = useRef(false);
+
+  useEffect(() => {
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    const data = await getAllCategories();
+    setCategoriesData(Array.isArray(data) ? data : []);
+  };
+
+  // matched category object (with its subcategories) for the current URL param
+  const matchedCategory = useMemo(
+    () =>
+      categoriesData.find(
+        (c) => c.category_name.toLowerCase() === rawCategory,
+      ),
+    [categoriesData, rawCategory],
+  );
+
+  const category = rawCategory; // used for matching products by category field
 
   useEffect(() => {
     setLoading(true);
@@ -100,31 +106,51 @@ const CategoryProduct = () => {
   }, [category]);
 
   // ---------- FILTER STATE ----------
-  const [openMainCategories, setOpenMainCategories] = useState([]);
-  const [selectedCollections, setSelectedCollections] = useState([]);
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
-  const categoryLabel =
-    categoryLabelMap[category] ||
-    `${category.charAt(0).toUpperCase() + category.slice(1)}'s Wear`;
+  const categoryLabel = matchedCategory
+    ? matchedCategory.category_name
+    : rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1);
 
-  const categoryFilters = filters[category] || {};
-
-  const mainCategories =
-    categoryFilters.category || categoryFilters.mainCategory || {};
   const priceRange = filters.common.price || { min: 0, max: 50000 };
   const [maxPrice, setMaxPrice] = useState(priceRange.max);
 
-  const toggleMainCategory = (name) => {
-    setOpenMainCategories((prev) =>
-      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name],
-    );
-  };
+  // reset filters whenever category changes
+  useEffect(() => {
+    setSelectedSubcategories([]);
+    setSelectedColors([]);
+    setSelectedSizes([]);
+    setMaxPrice(priceRange.max);
+  }, [category]);
 
-  const toggleCollection = (name) => {
-    setSelectedCollections((prev) =>
+  // ---------- SUBCATEGORY LIST: dynamic from categories API ----------
+  const availableSubcategories = useMemo(() => {
+    if (!matchedCategory || !Array.isArray(matchedCategory.subcategories)) {
+      return [];
+    }
+    return matchedCategory.subcategories.map((s) => s.sub_category_name);
+  }, [matchedCategory]);
+
+  // products belonging to this top-level category only (base for building color list)
+  const categoryBaseProducts = useMemo(
+    () =>
+      products.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase(),
+      ),
+    [category],
+  );
+
+  // colors that actually exist for this category's products
+  const availableColors = useMemo(() => {
+    const set = new Set(categoryBaseProducts.map((p) => p.color).filter(Boolean));
+    return Array.from(set).sort();
+  }, [categoryBaseProducts]);
+
+  const toggleSubcategory = (name) => {
+    setSelectedSubcategories((prev) =>
       prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name],
     );
   };
@@ -142,12 +168,10 @@ const CategoryProduct = () => {
   };
 
   let categoryProducts = useMemo(() => {
-    let list = products.filter(
-      (p) => p.category.toLowerCase() === category.toLowerCase(),
-    );
+    let list = categoryBaseProducts;
 
-    if (selectedCollections.length > 0) {
-      list = list.filter((p) => selectedCollections.includes(p.collection));
+    if (selectedSubcategories.length > 0) {
+      list = list.filter((p) => selectedSubcategories.includes(p.subcategory));
     }
 
     if (selectedColors.length > 0) {
@@ -161,7 +185,7 @@ const CategoryProduct = () => {
     list = list.filter((p) => p.price <= maxPrice);
 
     return list;
-  }, [category, selectedCollections, selectedColors, selectedSizes, maxPrice]);
+  }, [categoryBaseProducts, selectedSubcategories, selectedColors, selectedSizes, maxPrice]);
 
   if (activeTab === "Trending now") {
     categoryProducts = categoryProducts.filter(
@@ -191,42 +215,25 @@ const CategoryProduct = () => {
         <div className="filter-block-head">
           <h6>Category</h6>
         </div>
-        <ul className="filter-maincat-list">
-          {Object.keys(mainCategories).map((mainCat) => {
-            const isOpen = openMainCategories.includes(mainCat);
-            return (
-              <li key={mainCat} className="filter-maincat-item">
-                <div
-                  className="filter-maincat-head"
-                  onClick={() => toggleMainCategory(mainCat)}
-                >
-                  <span>{mainCat}</span>
-                  {isOpen ? (
-                    <i className="bi bi-chevron-down"></i>
-                  ) : (
-                    <i className="bi bi-chevron-right"></i>
-                  )}
-                </div>
+        <ul className="filter-collection-list">
+          {availableSubcategories.map((sub) => (
+            <li key={sub} className="filter-checkbox-item">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedSubcategories.includes(sub)}
+                  onChange={() => toggleSubcategory(sub)}
+                />
+                <span>{sub}</span>
+              </label>
+            </li>
+          ))}
 
-                {isOpen && (
-                  <ul className="filter-collection-list">
-                    {mainCategories[mainCat].map((collection) => (
-                      <li key={collection} className="filter-checkbox-item">
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={selectedCollections.includes(collection)}
-                            onChange={() => toggleCollection(collection)}
-                          />
-                          <span>{collection}</span>
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
+          {availableSubcategories.length === 0 && (
+            <li className="filter-checkbox-item">
+              <span style={{ color: "#999" }}>No subcategories</span>
+            </li>
+          )}
         </ul>
       </div>
 
@@ -255,7 +262,7 @@ const CategoryProduct = () => {
           <h6>Colors</h6>
         </div>
         <div className="color-grid">
-          {filters.common.colors.map((c) => (
+          {availableColors.map((c) => (
             <div
               className={`color-item ${selectedColors.includes(c) ? "selected" : ""}`}
               key={c}
