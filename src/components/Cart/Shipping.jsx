@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Gpay, PayPal, Visa, PayPass } from "../../../public/Assets.js";
+import { Gpay, PayPal, Visa, PayPass } from "../../assets/Assets.js";
 import "./Shipping.css";
 import { toast } from "react-toastify";
 import { check_out, createOrder } from "../../service/api.js";

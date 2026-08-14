@@ -4,8 +4,7 @@ import ShopAllProducts from "../../components/ShopAllproduct/ShopAllProducts.jsx
 import { products } from "../../data/products.js";
 import { filters } from "../../data/filter.js";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
-import { Discover2 } from "../../../public/Assets.js";
-import { NoSimilar } from "../../../public/Assets.js";
+import { Discover2, NoSimilar } from "../../assets/Assets.js";
 import Loader from "../../components/Loader/Loader.jsx";
 import { getAllCategories } from "../../service/api";
 import "./CategoryProducts.css";

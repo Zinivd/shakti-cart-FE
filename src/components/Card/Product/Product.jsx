@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NoSimilar, VegIcon } from "../../../../public/Assets.js";
+import { NoSimilar, VegIcon } from "../../../assets/Assets.js";
 import ProductCard from "./ProductCard.jsx";
 import Card1 from "../Discover/Card1.jsx";
 import Card2 from "../Discover/Card2.jsx";

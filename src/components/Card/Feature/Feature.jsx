@@ -8,7 +8,7 @@ import {
   Bags,
   Skin,
   Electronics,
-} from "../../../../public/Assets.js";
+} from "../../../assets/Assets.js";
 import FeatureCard from "./FeatureCard.jsx";
 import "./Feature.css";
 

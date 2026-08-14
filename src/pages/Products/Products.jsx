@@ -5,7 +5,7 @@ import Filter from "../../components/Filter/Filter";
 import Card2 from "../../components/Card/Discover/Card2.jsx";
 import Offer from "../../components/Card/Offer/Offer.jsx";
 import "./Products.css";
-import { NoSimilar } from "../../../public/Assets.js";
+import { NoSimilar } from "../../assets/Assets.js";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();

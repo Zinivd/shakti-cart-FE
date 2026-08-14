@@ -1,5 +1,5 @@
 import React from "react";
-import { Offer1 } from "../../../../public/Assets.js";
+import { Offer1 } from "../../../assets/Assets.js";
 import "./Offer.css";
 
 const OfferProduct = () => {

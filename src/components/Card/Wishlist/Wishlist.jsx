@@ -8,7 +8,7 @@ import {
 } from "../../../service/api";
 import { toast } from "react-toastify";
 import Loader from "../../Loader/Loader";
-import { NoWishlist } from "../../../../public/Assets.js";
+import { NoWishlist } from "../../../assets/Assets.js";
 
 const Wishlist = () => {
   const [wishlistData, setWishlistData] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProductReviews } from "../../../service/api";
 import "./Reviews.css";
-import { NoReviews } from "../../../../public/Assets";
+import { NoReviews } from "../../../assets/Assets.js";
 
 const Comments = ({ productId }) => {
   const [comments, setComments] = useState([]);

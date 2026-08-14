@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddressCard from "../../components/Card/Address/Address";
 import AddAddress from "../../components/Popup/AddAddress";
-import { NoAddress } from "../../../public/Assets";
+import { NoAddress } from "../../assets/Assets.js";
 import { getUserAddresses } from "../../service/api";
 import { toast } from "react-toastify";
 

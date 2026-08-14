@@ -4,7 +4,7 @@ import OrderCards from "./OrderCards";
 import OrderDetails from "./OrderDetails";
 import { getOrders } from "../../../service/api";
 import "./Order.css";
-import { NoCart, NoProducts, NoNotify } from "../../../../public/Assets";
+import { NoCart, NoProducts, NoNotify } from "../../../assets/Assets.js";
 
 const Order = () => {
   const [activeOrders, setActiveOrders] = useState([]);

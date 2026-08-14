@@ -1,5 +1,5 @@
 import React from "react";
-import { Discover2 } from "../../../../public/Assets.js";
+import { Discover2 } from "../../../assets/Assets.js";
 import "./Card2.css";
 
 const Card_2 = () => {

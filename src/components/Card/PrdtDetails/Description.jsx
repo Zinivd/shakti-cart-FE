@@ -1,5 +1,5 @@
 import React from "react";
-import { DescriptionBG } from "../../../../public/Assets";
+import { DescriptionBG } from "../../../assets/Assets.js";
 
 const Description = ({ product }) => {
   return (

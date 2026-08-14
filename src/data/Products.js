@@ -21,7 +21,7 @@ import {
   Wedding2,
   Wedding3,
   Wedding4,
-} from "../../public/Assets";
+} from "../assets/Assets.js";
 
 export const products = [
 

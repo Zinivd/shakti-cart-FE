@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Logo_Main } from "../../../public/Assets";
+import { Logo_Main } from "../../assets/Assets.js";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import "./Navbar.css";
 const Navbar = () => {

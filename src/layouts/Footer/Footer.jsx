@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Logo_Main } from "../../../public/Assets";
+import { Logo_Main } from "../../assets/Assets.js";
 import "./Footer.css";
 
 const Footer = () => {

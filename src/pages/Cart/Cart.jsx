@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartTable from "../../components/Cart/Table.jsx";
 import { getCartProducts } from "../../service/api";
-import { Offer1, Offer2 } from "../../../public/Assets.js";
+import { Offer1, Offer2 } from "../../assets/Assets.js";
 import "./Cart.css";
 
 const SHIPPING_CHARGE = 40;

@@ -6,7 +6,7 @@ import {
   removeCartProduct,
   getProductQuantities,
 } from "../../service/api";
-import { NoCart } from "../../../public/Assets";
+import { NoCart } from "../../assets/Assets.js";
 import "./CartTable.css";
 
 const SAMPLE_IMAGE = "https://via.placeholder.com/80x80.png?text=Product";

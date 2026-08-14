@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Logout } from "../../../public/Assets";
+import { Avatar, Logout } from "../../assets/Assets.js";
 import "./Tabs.css";
 import { logoutUser } from "../../service/api";
 import { useNavigate } from "react-router-dom";

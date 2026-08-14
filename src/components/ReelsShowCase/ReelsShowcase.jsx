@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import ReelCard from "./ReelCard.jsx";
 import "./ReelsShowcase.css";
-import { Reels_1, Reels_2, Reels_3, Reels_5 } from "../../../public/Assets.js";
+import { Reels_1, Reels_2, Reels_3, Reels_5 } from "../../assets/Assets.js";
 
 const bannerImg =
   "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600";

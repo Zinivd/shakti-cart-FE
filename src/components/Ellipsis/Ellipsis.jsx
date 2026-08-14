@@ -3,7 +3,7 @@ import EllipsisCard from "./EllipsisCard.jsx";
 import "./Ellipsis.css";
 import { getAllProducts } from "../../service/api";
 import Loader from "../Loader/Loader.jsx";
-import { NoProducts } from "../../../public/Assets.js";
+import { NoProducts } from "../../assets/Assets.js";
 
 const Ellipsis = ({ onLoaded }) => {
   const [categories, setCategories] = useState([]);

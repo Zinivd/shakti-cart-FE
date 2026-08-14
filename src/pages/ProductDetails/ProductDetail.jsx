@@ -9,7 +9,7 @@ import {
   addToCart,
 } from "../../service/api";
 import Loader from "../../components/Loader/Loader";
-import { Discover2 } from "../../../public/Assets.js";
+import { Discover2} from "../../assets/Assets.js";
 import { toast } from "react-toastify";
 import "./ProductDetails.css";
 

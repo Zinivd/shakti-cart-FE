@@ -1,5 +1,5 @@
 import React from "react";
-import { Logo_Main } from "../../../public/Assets.js";
+import { Logo_Main } from "../../assets/Assets.js";
 import FilterSidebar from "./FilterSidebar.jsx";
 import "./Filter.css";
 

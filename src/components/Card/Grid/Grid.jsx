@@ -5,7 +5,7 @@ import {
   Grid3,
   Grid4,
   Grid5,
-} from "../../../../public/Assets.js";
+} from "../../../assets/Assets.js";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import GridCard from "./GridCard.jsx";
