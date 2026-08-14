@@ -157,7 +157,7 @@
         justify-content: center;
         flex-direction: column;
     }
-    
+
     .home-banner .splide__list .splide_1 {
         background-repeat: no-repeat;
         background-position: top center;
@@ -194,4 +194,41 @@
         width: 30px;
     }
 
+}
+
+/* ================================================= */
+/* Image-only banner slides (no text/content column) */
+/* Overrides the grid/text rules above for slides     */
+/* that only contain the banner image                 */
+/* ================================================= */
+.home-banner .splide__list .splide__slide.banner-slide-img {
+    display: block;
+    grid-template-columns: none;
+    cursor: pointer;
+    background: none;
+}
+
+.home-banner .splide__list .splide__slide.banner-slide-img .banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media screen and (min-width: 1098px) {
+    .home-banner .splide__list .splide__slide.banner-slide-img .banner-img {
+        height: 375px;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1098px) {
+    .home-banner .splide__list .splide__slide.banner-slide-img .banner-img {
+        height: 275px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .home-banner .splide__list .splide__slide.banner-slide-img .banner-img {
+        height: 350px;
+    }
 }

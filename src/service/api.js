@@ -12,7 +12,7 @@ export async function getCartProducts(body = {}) {
   }
 }
 
-// GET request with query parameters
+// GET request with query parameters — now hits shakti-products index w/ category_id filter
 export async function getProductsByCategory(categoryId) {
   try {
     const url = buildUrlWithParams(Urls.getProductsByCategory, {
@@ -22,6 +22,35 @@ export async function getProductsByCategory(categoryId) {
     return result;
   } catch (error) {
     console.error(`error in function getProductsByCategory: `, error);
+    return null;
+  }
+}
+
+// GET request with query parameters — shakti-products index w/ subcategory_id filter
+export async function getProductsBySubcategory(subcategoryId) {
+  try {
+    const url = buildUrlWithParams(Urls.getProductsBySubcategory, {
+      subcategory_id: subcategoryId,
+    });
+    const result = await Client(url, {}, "get");
+    return result;
+  } catch (error) {
+    console.error(`error in function getProductsBySubcategory: `, error);
+    return null;
+  }
+}
+
+// GET request with query parameters — shakti-products index w/ both filters
+export async function getProductsByFilter({ categoryId, subcategoryId } = {}) {
+  try {
+    const url = buildUrlWithParams(Urls.getProductsByFilter, {
+      category_id: categoryId,
+      subcategory_id: subcategoryId,
+    });
+    const result = await Client(url, {}, "get");
+    return result;
+  } catch (error) {
+    console.error(`error in function getProductsByFilter: `, error);
     return null;
   }
 }
@@ -61,27 +90,21 @@ export async function getUserAddresses(email) {
   }
 }
 
+// Shakti-products index — paginated response
 export async function getAllProducts() {
   try {
     const url = Urls.getAllProducts;
-
     const response = await Client(url, {}, "get");
-
     return response; // full axios response
   } catch (error) {
     console.error("Error in getAllProducts:", error);
-
     return {
       status: 500,
-      data: {
-        success: false,
-        data: [],
-      },
+      data: { success: false, data: { data: [] } },
     };
   }
 }
 
-// service/api.js
 export async function getAllCategories() {
   try {
     const url = Urls.getAllCategories;
@@ -92,17 +115,6 @@ export async function getAllCategories() {
     return [];
   }
 }
-
-// export async function getProductsByCategory(categoryId) {
-//   try {
-//     const url = `${Urls.getProductsByCategory}?category_id=${categoryId}`;
-//     const response = await Client(url, {}, "get");
-//     return response;
-//   } catch (error) {
-//     console.error("getProductsByCategory error", error);
-//     return null;
-//   }
-// }
 
 export async function addToWishlist(body = {}) {
   try {
@@ -133,6 +145,7 @@ export async function getWishlistProducts(body = {}) {
     return null;
   }
 }
+
 export async function getOrders() {
   try {
     const result = await Client(Urls.getOrders, {}, "get");
@@ -145,10 +158,7 @@ export async function getOrders() {
 
 export async function logoutUser(email) {
   try {
-    const body = {
-      email: email,
-    };
-
+    const body = { email: email };
     const result = await Client(Urls.logout, body, "post");
     return result;
   } catch (error) {
@@ -177,21 +187,10 @@ export async function registerUser(body = {}) {
   }
 }
 
-// export async function getProductById(productId) {
-//   try {
-//     const url = buildUrlWithParams(Urls.getProductById, {
-//       product_id: productId,
-//     });
-//     return await Client(url, {}, "get");
-//   } catch (error) {
-//     console.error("getProductById error", error);
-//     return null;
-//   }
-// }
-
+// Shakti-products show — GET /admin/shakti-products/{id} — path param, single product
 export async function getProductById(productId) {
   try {
-    const url = `${Urls.getProductById}?product_id=${productId}`;
+    const url = `${Urls.getProductById}/${productId}`;
     const result = await Client(url, {}, "get");
     return result;
   } catch (error) {
@@ -200,9 +199,10 @@ export async function getProductById(productId) {
   }
 }
 
+// Shakti-products inventory — GET /admin/shakti-products/{id}/inventory
 export const getProductQuantities = (productId) => {
   return Client(
-    `${Urls.getQuantityByProductId}${productId}/quantities`,
+    `${Urls.getQuantityByProductId}${productId}/inventory`,
     {},
     "get",
   );
@@ -211,9 +211,7 @@ export const getProductQuantities = (productId) => {
 export async function getUserInfo(email, token) {
   try {
     const url = `${Urls.userInfo}?email=${encodeURIComponent(email)}`;
-
     const result = await Client(url, {}, "get");
-
     return result;
   } catch (error) {
     console.error("error in getUserInfo:", error);
@@ -235,7 +233,7 @@ export const updateUserInfo = async (email, payload) => {
 export const addAddress = (email, payload, token) => {
   try {
     const url = `${Urls.addAddress}?email=${encodeURIComponent(email)}`;
-     const result = Client(url, payload, "post", {
+    const result = Client(url, payload, "post", {
       Authorization: `Bearer ${token}`,
     });
     return result;
@@ -293,6 +291,7 @@ export async function addProductReview(payload) {
     return null;
   }
 }
+
 export async function getProductReviews(productId) {
   try {
     const url = `${Urls.getProductReviews}/${productId}`;
@@ -307,34 +306,12 @@ export async function getProductReviews(productId) {
 export async function createOrder(payload) {
   try {
     const result = await Client(Urls.placeOrder, payload, "post");
-    // console.log(result);
-
     return result;
   } catch (error) {
     console.error(`error in function createOrder: `, error);
     return null;
   }
 }
-
-// export async function payment(orderId) {
-//   try {
-//     const body = {
-//       order_id: "ORD1769708030",
-//     };
-
-//     const result = await Client(Urls.checkout, body, "post");
-//     debugger
-//     // same validation as reference code
-//     if (!result?.success) {
-//       throw new Error(result?.message || "Checkout failed");
-//     }
-
-//     return result.checkout; // return only checkout data
-//   } catch (error) {
-//     console.error("error in function payment:", error);
-//     return null;
-//   }
-// }
 
 export const loadRazorpay = () => {
   return new Promise((resolve) => {
@@ -349,25 +326,21 @@ export const loadRazorpay = () => {
 export async function check_out({ order_id }) {
   const payload = { order_id };
   const result = await Client(Urls.checkout, payload, "post");
-  // console.log("result", result);
   return result;
 }
 
 export async function verify_checkout(payload) {
-  // const payload = {
-  //   razorpay_payment_id: "pay_S9o7fjfW8ruJ40",
-  //   razorpay_order_id: "order_S9o5xGEkZNIZgt",
-  //   razorpay_signature:
-  //     "a557c7569471d10d4e0d720409058f9968ce5e958c43389a6fc4c1662dd1fb0c",
-  // };
-  // {
-  //   "razorpay_order_id": "order_S9o5xGEkZNIZgt",
-  //   "razorpay_payment_id": "pay_S9o2fZ5LT07MJB",
-  //   "razorpay_signature": "ae0f5db68e1ac0d5edbc45aa383e9d21a85e6378033016630e9226cd4cd58513"
-  // }
   const result = await Client(Urls.verify_checkout, payload, "post");
-  // console.log("result", result);
   return result;
 }
 
-// import { loadRazorpay } from "./utils/loadRazorpay";
+export async function getbannerslist() {
+  try {
+    const url = Urls.getbannerslist;
+    const result = await Client(url, {}, "get");
+    return result;
+  } catch (error) {
+    console.error("getbannerslist error", error);
+    return null;
+  }
+}

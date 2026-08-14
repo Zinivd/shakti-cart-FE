@@ -3,7 +3,6 @@ import { placeOrder } from "./api";
 const BASE_URL = "http://127.0.0.1:8000";
 // const BASE_URL = "https://api-prod.shakticart.com";
 
-
 export const Urls = {
   // Authentication Endpoints
   register: `${BASE_URL}/api/register`,
@@ -37,16 +36,30 @@ export const Urls = {
   updateSubcategories: `${BASE_URL}/api/subcategories/update`,
   deleteSubcategory: `${BASE_URL}/api/subcategories/delete`,
 
-  // Product Endpoints
-  createProduct: `${BASE_URL}/api/product/create`,
-  updateProduct: `${BASE_URL}/api/product/update`,
-  deleteProduct: `${BASE_URL}/api/product/delete`,
-  getAllProducts: `${BASE_URL}/api/product/all`,
-  getProductById: `${BASE_URL}/api/product/by-id`,
-  getProductsByCategory: `${BASE_URL}/api/products/by-category`,
-  getProductsBySubcategory: `${BASE_URL}/api/products/by-subcategory`,
-  getProductsByFilter: `${BASE_URL}/api/products/filter`,
-  getQuantityByProductId: `${BASE_URL}/api/product/`,
+  // // Product Endpoints — ALL now point at the shakti-products admin API
+  // createProduct: `${BASE_URL}/api/product/create`,
+  // updateProduct: `${BASE_URL}/api/product/update`,
+  // deleteProduct: `${BASE_URL}/api/product/delete`,
+  // shaktiProducts: `${BASE_URL}/api/admin/shakti-products`, // base — index (?filters) / show (/{id})
+  // getAllProducts: `${BASE_URL}/api/admin/shakti-products`,
+  // getProductById: `${BASE_URL}/api/admin/shakti-products`, // append /${id}
+  // getProductsByCategory: `${BASE_URL}/api/admin/shakti-products`, // ?category_id=
+  // getProductsBySubcategory: `${BASE_URL}/api/admin/shakti-products`, // ?subcategory_id=
+  // getProductsByFilter: `${BASE_URL}/api/admin/shakti-products`, // ?category_id=&subcategory_id=
+  // getQuantityByProductId: `${BASE_URL}/api/admin/shakti-products/`, // append /${id}/inventory
+
+
+
+  // Product Endpoints — storefront reads hit /api/user/shakti-products, no admin prefix
+createProduct: `${BASE_URL}/api/product/create`,
+updateProduct: `${BASE_URL}/api/product/update`,
+deleteProduct: `${BASE_URL}/api/product/delete`,
+getAllProducts: `${BASE_URL}/api/user/shakti-products`,
+getProductById: `${BASE_URL}/api/user/shakti-products`, // append /${id}
+getProductsByCategory: `${BASE_URL}/api/user/shakti-products`, // ?category_id=
+getProductsBySubcategory: `${BASE_URL}/api/user/shakti-products`, // ?subcategory_id=
+getProductsByFilter: `${BASE_URL}/api/user/shakti-products`, // ?category_id=&subcategory_id=
+getQuantityByProductId: `${BASE_URL}/api/user/shakti-products/`, // append /${id}/inventory
 
   // Cart Endpoints
   addToCart: `${BASE_URL}/api/cart/add`,
@@ -64,19 +77,17 @@ export const Urls = {
   getOrdersByUserId: `${BASE_URL}/api/orders`,
   getOrderByOrderId: `${BASE_URL}/api/orders_byorderId`,
   updateOrderStatus: `${BASE_URL}/api/order/update-status`,
-
   getProductReviews: `${BASE_URL}/api/product/review`,
   addProductReview: `${BASE_URL}/api/product/review`,
-
-  placeOrder: `${BASE_URL}/api/order/place`,
   checkout: `${BASE_URL}/api/checkout`,
   verify_checkout: `${BASE_URL}/api/razorpay/verify-payment`,
+  getbannerslist: `${BASE_URL}/api/admin/banners`,
 };
 
 // Helper function to build URL with query parameters
 export const buildUrlWithParams = (baseUrl, params = {}) => {
   const url = new URL(baseUrl);
-  Object.keys(params).forEach(key => {
+  Object.keys(params).forEach((key) => {
     if (params[key] !== undefined && params[key] !== null) {
       url.searchParams.append(key, params[key]);
     }

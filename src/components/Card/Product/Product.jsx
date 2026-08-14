@@ -7,6 +7,7 @@ import Offer from "../Offer/Offer.jsx";
 import { getAllProducts, getProductsByCategory } from "../../../service/api";
 import "./Product.css";
 import Loader from "../../Loader/Loader.jsx";
+
 const Product = (props) => {
   const {
     filters,
@@ -28,51 +29,55 @@ const Product = (props) => {
   const loadProducts = async () => {
     try {
       setLoading(true);
-
       let apiProducts = [];
 
       if (categoryId) {
         const response = await getProductsByCategory(categoryId);
-        apiProducts = response?.data?.data || [];
+        // ⬇️ shakti-products index is paginated — data nested one level deeper
+        apiProducts = response?.data?.data?.data || [];
       } else if (filters?.category_id) {
         const response = await getProductsByCategory(filters.category_id);
-        apiProducts = response?.data?.data || [];
+        apiProducts = response?.data?.data?.data || [];
       } else {
         const response = await getAllProducts();
-        apiProducts = response?.data?.data || [];
+        apiProducts = response?.data?.data?.data || [];
       }
 
-      // ❌ REMOVE CURRENT PRODUCT (SIMILAR FLOW)
       if (currentProductId) {
-        apiProducts = apiProducts.filter(
-          (p) => p.product_id !== currentProductId,
-        );
+        apiProducts = apiProducts.filter((p) => p.id !== currentProductId);
       }
 
-      // 💰 PRICE FILTER
       const min = filters?.minPrice ?? 0;
       const max = filters?.maxPrice ?? 10000;
-
       const filteredProducts = apiProducts.filter((p) => {
         const price = Number(p.selling_price);
         return price >= min && price <= max;
       });
 
-      const mappedProducts = filteredProducts.map((item) => ({
-        id: item.product_id,
-        productImg:
-          item.images?.[0] ||
-          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
-        brand: item.brand,
-        rating: "4.0",
-        productname: item.product_name,
-        price: item.selling_price,
-        slashprice: item.actual_price,
-        badge: item.product_list_type?.toUpperCase() || "",
-        icon: VegIcon,
-        size: item.size || "S",
-        isWishlisted: item.is_wishlisted
-      }));
+      const mappedProducts = filteredProducts.map((item) => {
+        const firstColorImage = item.colors?.[0]?.images?.[0];
+        const fallbackImage = item.images?.[0];
+        const productImg =
+          firstColorImage ||
+          fallbackImage ||
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
+
+        const firstSize = item.colors?.[0]?.inventories?.[0]?.size || "S";
+
+        return {
+          id: item.id,
+          productImg,
+          brand: item.brand,
+          rating: "4.0",
+          productname: item.name,
+          price: item.selling_price,
+          slashprice: item.actual_price,
+          badge: item.product_list_type?.toUpperCase() || "",
+          icon: VegIcon,
+          size: selectedSize || firstSize,
+          isWishlisted: item.is_wishlisted
+        };
+      });
 
       setProducts(mappedProducts);
       onResult?.(mappedProducts.length);
@@ -87,7 +92,6 @@ const Product = (props) => {
 
   if (loading) return <Loader />;
 
-  // 🔥 CHUNK PRODUCTS INTO GROUPS OF 8
   const chunkArray = (arr, size) => {
     const chunks = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -111,14 +115,11 @@ const Product = (props) => {
     <div className="product">
       {productChunks.map((chunk, chunkIndex) => (
         <React.Fragment key={chunkIndex}>
-          {/* PRODUCT GRID */}
           <div className="product-list">
             {chunk.map((item) => (
               <ProductCard key={item.id} {...item} showCartBtn={showCartBtn} />
             ))}
           </div>
-
-          {/* 🚫 ADS DISABLED FOR SIMILAR PRODUCTS */}
           {!hideAds && (
             <>
               {chunkIndex === 0 && products.length >= 8 && <Card1 />}

@@ -3,7 +3,7 @@ import EllipsisCard from "./EllipsisCard.jsx";
 import "./Ellipsis.css";
 import { getAllProducts } from "../../service/api";
 import Loader from "../Loader/Loader.jsx";
-import {NoProducts} from "../../../public/Assets.js";
+import { NoProducts } from "../../../public/Assets.js";
 
 const Ellipsis = ({ onLoaded }) => {
   const [categories, setCategories] = useState([]);
@@ -16,9 +16,8 @@ const Ellipsis = ({ onLoaded }) => {
   const fetchCategories = async () => {
     try {
       const response = await getAllProducts();
-
-      const products = response?.data?.data || [];
-
+      // ⬇️ CHANGED: paginated response, product array nested one level deeper
+      const products = response?.data?.data?.data || [];
       setCategories(products);
       setTimeout(() => {
         onLoaded?.(products.length);
@@ -47,15 +46,20 @@ const Ellipsis = ({ onLoaded }) => {
 
   return (
     <>
-      {categories.map((item) => (
-        <EllipsisCard
-          key={item.product_id}
-          id={item.product_id}
-          ellipsisImg={item.images?.[0]}
-          ellipsish6={item.product_name}
-          categoryId={item.product_id}
-        />
-      ))}
+      {categories.map((item) => {
+        const firstColorImage = item.colors?.[0]?.images?.[0];
+        const fallbackImage = item.images?.[0];
+        const displayImage = firstColorImage || fallbackImage;
+
+        return (
+          <EllipsisCard
+            key={item.id}
+            id={item.id}
+            ellipsisImg={displayImage}
+            ellipsish6={item.name}
+          />
+        );
+      })}
     </>
   );
 };

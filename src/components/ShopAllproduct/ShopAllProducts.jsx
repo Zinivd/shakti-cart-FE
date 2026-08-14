@@ -6,7 +6,6 @@ import Loader from "../Loader/Loader.jsx";
 import "./ShopAllProducts.css";
 
 const tabs = ["All", "Trending now", "best sellers", "top offers"];
-
 const tabToBadge = {
   "Trending now": "Trending Now",
   "best sellers": "Best Seller",
@@ -18,12 +17,10 @@ const getBadgeForProduct = (product) => {
     product.oldPrice && product.price
       ? ((product.oldPrice - product.price) / product.oldPrice) * 100
       : 0;
-
   if (discountPercent >= 35) return "Top Offer";
   if (product.rating >= 4.7) return "Trending Now";
   if (product.rating >= 4.5) return "Top Rated";
   if (discountPercent >= 25) return "Best Seller";
-
   return null;
 };
 
@@ -34,9 +31,7 @@ const getPageNumbers = (current, total) => {
   const range = [];
   const left = Math.max(current - 2, 1);
   const right = Math.min(current + 2, total);
-
   for (let i = left; i <= right; i++) range.push(i);
-
   return {
     pages: range,
     showLeftDots: left > 1,
@@ -72,6 +67,7 @@ const ShopAllProducts = () => {
   const desktopProducts = showAll
     ? filteredProducts
     : filteredProducts.slice(0, DESKTOP_PREVIEW_COUNT);
+
   const showViewAllBtn =
     !showAll && filteredProducts.length > DESKTOP_PREVIEW_COUNT;
 
@@ -79,10 +75,12 @@ const ShopAllProducts = () => {
     Math.ceil(filteredProducts.length / ITEMS_PER_PAGE),
     1,
   );
+
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
+
   const { pages, showLeftDots, showRightDots } = getPageNumbers(
     currentPage,
     totalPages,
@@ -100,54 +98,58 @@ const ShopAllProducts = () => {
     setCurrentPage(page);
   };
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  const loadProducts = async () => {
+  const loadProducts = async (signal) => {
     try {
       setLoading(true);
-
       const response = await getAllProducts();
 
-      const apiProducts = response?.data?.data || [];
+      if (signal?.aborted) return;
 
-      const mappedProducts = apiProducts.map((item) => ({
-        id: item.product_id,
+      // ⬇️ CHANGED: paginated response, product array nested one level deeper
+      const apiProducts = response?.data?.data?.data || [];
 
-        productImg:
-          item.images?.[0] ||
-          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
+      const mappedProducts = apiProducts.map((item) => {
+        const firstColorImage = item.colors?.[0]?.images?.[0];
+        const fallbackImage = item.images?.[0];
+        const productImg =
+          firstColorImage ||
+          fallbackImage ||
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
 
-        code: item.brand,
+        const price = Number(item.selling_price);
+        const oldPrice = Number(item.actual_price);
+        const rating = Number(item.rating || 4);
 
-        rating: Number(item.rating || 4),
-
-        productname: item.product_name,
-
-        price: Number(item.selling_price),
-
-        slashprice: Number(item.actual_price),
-
-        badge:
-          item.product_list_type ||
-          getBadgeForProduct({
-            price: Number(item.selling_price),
-            oldPrice: Number(item.actual_price),
-            rating: Number(item.rating || 4),
-          }),
-
-        isWishlisted: item.is_wishlisted,
-      }));
+        return {
+          id: item.id,
+          productImg,
+          code: item.brand,
+          rating,
+          productname: item.name,
+          price,
+          slashprice: oldPrice,
+          badge:
+            item.product_list_type ||
+            getBadgeForProduct({ price, oldPrice, rating }),
+          isWishlisted: item.is_wishlisted,
+        };
+      });
 
       setProducts(mappedProducts);
     } catch (err) {
+      if (signal?.aborted) return;
       console.log(err);
       setProducts([]);
     } finally {
-      setLoading(false);
+      if (!signal?.aborted) setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadProducts(controller.signal);
+    return () => controller.abort();
+  }, []);
 
   if (loading) return <Loader />;
 
@@ -157,7 +159,6 @@ const ShopAllProducts = () => {
         <h5>
           Shop all <span>Products</span>
         </h5>
-
         <div className="shop-products-tabs">
           {tabs.map((tab) => (
             <span
@@ -169,7 +170,6 @@ const ShopAllProducts = () => {
             </span>
           ))}
         </div>
-
         <div className="shop-mobile-filter-wrap" ref={filterRef}>
           <button
             className="shop-filter-icon-btn"
@@ -178,7 +178,6 @@ const ShopAllProducts = () => {
           >
             <i className="fa fa-sliders-h"></i>
           </button>
-
           {filterOpen && (
             <div className="shop-filter-dropdown">
               {tabs.map((tab) => (
@@ -198,7 +197,7 @@ const ShopAllProducts = () => {
       <div className="shop-products-list desktop-only">
         {desktopProducts.map((item) => (
           <Link
-            to={`/productdetail/${item.id}`}
+            to={`/product-details?id=${item.id}`}
             className="shop-product-card-link"
             key={item.id}
           >
@@ -221,7 +220,7 @@ const ShopAllProducts = () => {
       <div className="shop-products-list mobile-only">
         {paginatedProducts.map((item) => (
           <Link
-            to={`/productdetail/${item.id}`}
+            to={`/product-details?id=${item.id}`}
             className="shop-product-card-link"
             key={item.id}
           >
@@ -240,7 +239,6 @@ const ShopAllProducts = () => {
           >
             <i className="fa fa-chevron-left"></i>
           </button>
-
           {showLeftDots && (
             <span
               className="shop-page-dots"
@@ -249,7 +247,6 @@ const ShopAllProducts = () => {
               ..
             </span>
           )}
-
           {pages.map((page) => (
             <span
               key={page}
@@ -261,7 +258,6 @@ const ShopAllProducts = () => {
               {page}
             </span>
           ))}
-
           {showRightDots && (
             <span
               className="shop-page-dots"
@@ -270,7 +266,6 @@ const ShopAllProducts = () => {
               ..
             </span>
           )}
-
           <button
             className="shop-page-arrow"
             onClick={() => goToPage(currentPage + 1)}
