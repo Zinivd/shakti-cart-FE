@@ -298,3 +298,131 @@
     }
 
 }
+
+/* ---- Added: heading + pagination styles (moved from ShopAllProducts.css, used only when showTabs / paginated props are on) ---- */
+
+.shop-products-head {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+/* Replaces the old "All / Trending now / best sellers / top offers" tab bar
+   with a single left-aligned heading. */
+.shop-products-title {
+    font-size: 18px;
+    font-weight: var(--fw-md);
+    color: var(--text-primary);
+    text-transform: capitalize;
+}
+
+.shop-view-all-btn {
+    background-color: var(--text-primary);
+    color: var(--secondary);
+    border: none;
+    padding: 8px 26px;
+    border-radius: 4px;
+    font-weight: var(--fw-md);
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.shop-view-all-btn:hover {
+    opacity: 0.85;
+}
+
+.shop-view-all-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.shop-pagination-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.shop-page-number,
+.shop-page-dots,
+.shop-page-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 4px;
+    border-radius: 50%;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: var(--transition);
+}
+
+.shop-page-number.active {
+    background-color: var(--text-primary);
+    color: var(--secondary);
+    font-weight: var(--fw-md);
+}
+
+.shop-page-dots {
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.shop-page-arrow {
+    color: var(--text-primary);
+    font-size: 12px;
+}
+
+.shop-page-arrow:disabled {
+    color: var(--text-secondary);
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: flex;
+}
+
+.product-list.desktop-only {
+    display: grid;
+}
+
+@media screen and (max-width: 767px) {
+
+    .shop-products-head {
+        justify-content: flex-start;
+    }
+
+    .shop-products-title {
+        font-size: 16px;
+    }
+
+    .desktop-only {
+        display: none !important;
+    }
+
+    .shop-view-all-wrap {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+
+    .product-list.mobile-only {
+        display: grid;
+    }
+}

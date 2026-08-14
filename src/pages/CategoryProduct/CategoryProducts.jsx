@@ -1,36 +1,12 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import ShopAllProducts from "../../components/ShopAllproduct/ShopAllProducts.jsx";
-import { products } from "../../data/products.js";
+import Product from "../../components/Card/Product/Product.jsx";
 import { filters } from "../../data/filter.js";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
 import { Discover2, NoSimilar } from "../../assets/Assets.js";
 import Loader from "../../components/Loader/Loader.jsx";
-import { getAllCategories } from "../../service/api";
+import { getAllCategories, getProductsByCategory } from "../../service/api";
 import "./CategoryProducts.css";
-
-const colorSwatch = {
-  Black: "#111111",
-  White: "#ffffff",
-  Blue: "#2f80ed",
-  Green: "#38a169",
-  Grey: "#a0a0a0",
-  Red: "#e63946",
-  Pink: "#f4a6c1",
-  Yellow: "#f2c94c",
-  Purple: "#8e44ad",
-  Brown: "#8d5524",
-  Cream: "#f5e9d8",
-  Orange: "#f77f00",
-  Beige: "#e8dcc8",
-  Maroon: "#7a1f2b",
-  Navy: "#1b2a4a",
-  Olive: "#6b7a3a",
-  Gold: "#d4af37",
-  Silver: "#c0c0c0",
-  Multicolor:
-    "linear-gradient(45deg, red, orange, yellow, green, blue, purple)",
-};
 
 const getBadgeForProduct = (product) => {
   const discountPercent =
@@ -64,9 +40,7 @@ const getBadgeColor = (badge) => {
 const CategoryProduct = () => {
   const [searchParams] = useSearchParams();
   const rawCategory = (searchParams.get("category") || "").toLowerCase();
-
-  const [activeTab, setActiveTab] = useState("All");
-  const [loading, setLoading] = useState(true);
+  const categoryIdFromUrl = searchParams.get("category_id");
 
   // ---------- CATEGORY DATA FROM API ----------
   const [categoriesData, setCategoriesData] = useState([]);
@@ -84,29 +58,117 @@ const CategoryProduct = () => {
   };
 
   // matched category object (with its subcategories) for the current URL param
+  // FIX: compare against the numeric `id` (same id used when building the link
+  // from AllCategories: `cat.id`) instead of the string `category_id` code
+  // (e.g. "CTGRY4"). Previously this mismatch made matchedCategory almost
+  // always resolve only via the name check, and the wrong id got sent to the
+  // products API below.
   const matchedCategory = useMemo(
     () =>
       categoriesData.find(
-        (c) => c.category_name.toLowerCase() === rawCategory,
+        (c) =>
+          c.category_name.toLowerCase() === rawCategory ||
+          String(c.id) === String(categoryIdFromUrl),
       ),
-    [categoriesData, rawCategory],
+    [categoriesData, rawCategory, categoryIdFromUrl],
   );
 
   const category = rawCategory; // used for matching products by category field
 
+  // ---------- PRODUCTS FROM API (replaces static products.js) ----------
+  const [rawProducts, setRawProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+
   useEffect(() => {
-    setLoading(true);
+    // FIX: use matchedCategory.id (numeric) instead of matchedCategory.category_id
+    // (string code) so the correct category id is sent to the API.
+    const categoryId = matchedCategory?.id || categoryIdFromUrl;
+    if (!categoryId) return;
 
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    let ignore = false;
 
-    return () => clearTimeout(timer);
-  }, [category]);
+    const fetchProducts = async () => {
+      try {
+        setProductsLoading(true);
+        const response = await getProductsByCategory(categoryId);
+        const apiProducts = response?.data?.data?.data || [];
+        if (!ignore) setRawProducts(apiProducts);
+      } catch (err) {
+        console.log(err);
+        if (!ignore) setRawProducts([]);
+      } finally {
+        if (!ignore) setProductsLoading(false);
+      }
+    };
+
+    fetchProducts();
+    return () => {
+      ignore = true;
+    };
+  }, [matchedCategory, categoryIdFromUrl]);
+
+  // map API shape -> the shape this page's existing filter logic expects
+  // (same field names as the old static products.js: id, name, image, color, size, price, oldPrice, rating)
+  // FIX: added a client-side safety-net filter so that even if the API ever
+  // returns products from other categories (e.g. backend ignores the id, or
+  // sends every product), only products belonging to the current category
+  // are shown on the right-hand side.
+  const categoryBaseProducts = useMemo(() => {
+    const targetId = matchedCategory?.id ?? categoryIdFromUrl;
+
+    const scoped = rawProducts.filter((item) => {
+      const itemCatId = item.category_id ?? item.category?.id;
+      const itemCatName = (item.category?.category_name || "").toLowerCase();
+
+      const idMatches =
+        targetId != null && String(itemCatId) === String(targetId);
+      const nameMatches = rawCategory && itemCatName === rawCategory;
+
+      // If we don't have a target id/name to compare against yet, don't
+      // filter anything out (avoids flashing an empty grid on first render).
+      if (targetId == null && !rawCategory) return true;
+
+      return idMatches || nameMatches;
+    });
+
+    return scoped.map((item) => {
+      const firstColorImage = item.colors?.[0]?.images?.[0];
+      const fallbackImage = item.images?.[0];
+      const image =
+        firstColorImage ||
+        fallbackImage ||
+        "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
+
+      const sizes =
+        item.colors?.flatMap(
+          (c) => c.inventories?.map((inv) => inv.size) || [],
+        ) || [];
+
+      // subcategory is also a nested object: item.subcategory.sub_category_name
+      const subcategory = item.subcategory?.sub_category_name || "";
+
+      const price = Number(item.selling_price);
+      const oldPrice = Number(item.actual_price);
+      const rating = Number(item.rating || 4);
+
+      return {
+        id: item.id,
+        subcategory,
+        name: item.name,
+        image,
+        size: sizes,
+        price,
+        oldPrice,
+        rating,
+        badge:
+          item.product_list_type ||
+          getBadgeForProduct({ price, oldPrice, rating }),
+      };
+    });
+  }, [rawProducts, matchedCategory, categoryIdFromUrl, rawCategory]);
 
   // ---------- FILTER STATE ----------
   const [selectedSubcategories, setSelectedSubcategories] = useState([]);
-  const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
@@ -120,7 +182,6 @@ const CategoryProduct = () => {
   // reset filters whenever category changes
   useEffect(() => {
     setSelectedSubcategories([]);
-    setSelectedColors([]);
     setSelectedSizes([]);
     setMaxPrice(priceRange.max);
   }, [category]);
@@ -133,29 +194,8 @@ const CategoryProduct = () => {
     return matchedCategory.subcategories.map((s) => s.sub_category_name);
   }, [matchedCategory]);
 
-  // products belonging to this top-level category only (base for building color list)
-  const categoryBaseProducts = useMemo(
-    () =>
-      products.filter(
-        (p) => p.category.toLowerCase() === category.toLowerCase(),
-      ),
-    [category],
-  );
-
-  // colors that actually exist for this category's products
-  const availableColors = useMemo(() => {
-    const set = new Set(categoryBaseProducts.map((p) => p.color).filter(Boolean));
-    return Array.from(set).sort();
-  }, [categoryBaseProducts]);
-
   const toggleSubcategory = (name) => {
     setSelectedSubcategories((prev) =>
-      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name],
-    );
-  };
-
-  const toggleColor = (name) => {
-    setSelectedColors((prev) =>
       prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name],
     );
   };
@@ -173,10 +213,6 @@ const CategoryProduct = () => {
       list = list.filter((p) => selectedSubcategories.includes(p.subcategory));
     }
 
-    if (selectedColors.length > 0) {
-      list = list.filter((p) => selectedColors.includes(p.color));
-    }
-
     if (selectedSizes.length > 0) {
       list = list.filter((p) => p.size?.some((s) => selectedSizes.includes(s)));
     }
@@ -184,17 +220,12 @@ const CategoryProduct = () => {
     list = list.filter((p) => p.price <= maxPrice);
 
     return list;
-  }, [categoryBaseProducts, selectedSubcategories, selectedColors, selectedSizes, maxPrice]);
-
-  if (activeTab === "Trending now") {
-    categoryProducts = categoryProducts.filter(
-      (p) => getBadgeForProduct(p) === "Trending Now",
-    );
-  } else if (activeTab === "best sellers") {
-    categoryProducts = categoryProducts.filter(
-      (p) => getBadgeForProduct(p) === "Best Seller",
-    );
-  }
+  }, [
+    categoryBaseProducts,
+    selectedSubcategories,
+    selectedSizes,
+    maxPrice,
+  ]);
 
   const filterSidebarContent = (
     <>
@@ -255,28 +286,6 @@ const CategoryProduct = () => {
         </div>
       </div>
 
-      {/* COLORS */}
-      <div className="filter-block">
-        <div className="filter-block-head">
-          <h6>Colors</h6>
-        </div>
-        <div className="color-grid">
-          {availableColors.map((c) => (
-            <div
-              className={`color-item ${selectedColors.includes(c) ? "selected" : ""}`}
-              key={c}
-              onClick={() => toggleColor(c)}
-            >
-              <span
-                className="color-dot"
-                style={{ background: colorSwatch[c] || "#ccc" }}
-              ></span>
-              <small>{c}</small>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* SIZE */}
       <div className="filter-block">
         <div className="filter-block-head">
@@ -297,7 +306,7 @@ const CategoryProduct = () => {
     </>
   );
 
-  if (loading) {
+  if (productsLoading) {
     return (
       <div
         style={{
@@ -318,7 +327,7 @@ const CategoryProduct = () => {
         <div className="cp-breadcrumb">
           <Link to="/">Home</Link>
           <span>/</span>
-          <Link to="/all-categories">All Categories</Link>
+          <Link to="/allcategories">All Categories</Link>
           <span>/</span>
           <span className="active">{categoryLabel}</span>
         </div>
@@ -343,17 +352,6 @@ const CategoryProduct = () => {
                 {categoryLabel} <span>Collections</span>
               </h4>
               <div className="head-right">
-                <div className="product-tabs">
-                  {["All", "Trending now", "best sellers"].map((tab) => (
-                    <span
-                      key={tab}
-                      className={activeTab === tab ? "active" : ""}
-                      onClick={() => setActiveTab(tab)}
-                    >
-                      {tab}
-                    </span>
-                  ))}
-                </div>
                 <button
                   type="button"
                   className="mobile-filter-btn"
@@ -367,8 +365,6 @@ const CategoryProduct = () => {
 
             <div className="product-grid">
               {categoryProducts.map((product) => {
-                const badge = getBadgeForProduct(product);
-
                 return (
                   <Link
                     to={`/productdetail/${product.id}`}
@@ -378,12 +374,14 @@ const CategoryProduct = () => {
                     <div className="product-card-img">
                       <img src={product.image} alt={product.name} />
 
-                      {badge && (
+                      {product.badge && (
                         <span
                           className="product-badge"
-                          style={{ backgroundColor: getBadgeColor(badge) }}
+                          style={{
+                            backgroundColor: getBadgeColor(product.badge),
+                          }}
                         >
-                          {badge}
+                          {product.badge}
                         </span>
                       )}
 
@@ -449,7 +447,7 @@ const CategoryProduct = () => {
           </div>
         </div>
 
-        <ShopAllProducts />
+        <Product paginated showTabs hideAds />
       </div>
 
       <NewsletterBanner />

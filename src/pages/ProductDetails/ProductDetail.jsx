@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import ShopAllProducts from "../../components/ShopAllproduct/ShopAllProducts.jsx";
+import Product from "../../components/Card/Product/Product.jsx";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
 import {
   getProductById,
@@ -9,7 +9,7 @@ import {
   addToCart,
 } from "../../service/api";
 import Loader from "../../components/Loader/Loader";
-import { Discover2} from "../../assets/Assets.js";
+import { Discover2 } from "../../assets/Assets.js";
 import { toast } from "react-toastify";
 import "./ProductDetails.css";
 
@@ -42,6 +42,9 @@ const ProductDetail = () => {
   const [sizeQuantities, setSizeQuantities] = useState([]);
   const [cartLoading, setCartLoading] = useState(false);
 
+  // ---- COLOR STATE (new) ----
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+
   const selectedSizeStock = useMemo(() => {
     if (!selectedSize) return 0;
     return sizeQuantities.find((s) => s.size === selectedSize)?.qty || 0;
@@ -68,14 +71,14 @@ const ProductDetail = () => {
   const loadAllProducts = useCallback(async () => {
     try {
       const response = await getAllProducts();
-      setAllProducts(response?.data?.data || []);
+      setAllProducts(response?.data?.data?.data || []);
     } catch (error) {
       console.log(error);
       setAllProducts([]);
     }
   }, []);
 
-  // Fetch per-size stock quantities for this product (same API used on ProductContent.jsx)
+  
   const fetchQuantities = useCallback(async () => {
     if (!id) return;
 
@@ -106,17 +109,18 @@ const ProductDetail = () => {
       fetchProduct();
       fetchQuantities();
     }
-    // reset gallery/size/quantity whenever product id changes
+    
     setActiveImage(0);
     setQuantity(1);
     setSelectedSize("");
+    setSelectedColorIndex(0);
   }, [id, fetchProduct, fetchQuantities]);
 
   useEffect(() => {
     loadAllProducts();
   }, [loadAllProducts]);
 
-  // Auto-select first in-stock size once quantities arrive
+  
   useEffect(() => {
     if (!sizeQuantities.length || selectedSize) return;
 
@@ -125,14 +129,14 @@ const ProductDetail = () => {
     setQuantity(1);
   }, [sizeQuantities, selectedSize]);
 
-  // Keep quantity within the stock available for the selected size
+
   useEffect(() => {
     if (quantity > selectedSizeStock) {
       setQuantity(selectedSizeStock || 1);
     }
-  }, [selectedSizeStock]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedSizeStock]); 
 
-  // ---- NORMALIZE BACKEND FIELDS (matches ShopAllProducts mapping) ----
+  
   const normalized = useMemo(() => {
     if (!product) return null;
 
@@ -143,26 +147,51 @@ const ProductDetail = () => {
         ? Math.round(((oldPrice - price) / oldPrice) * 100)
         : 0;
 
+  
+    const categoryRaw = product.category;
+    const categoryName =
+      typeof categoryRaw === "string"
+        ? categoryRaw
+        : categoryRaw?.category_name || categoryRaw?.name || "";
+    const categoryId =
+      typeof categoryRaw === "object" ? categoryRaw?.category_id : undefined;
+
+  
+    const colors = (product.colors || []).map((c) => ({
+      id: c.id,
+      colorId: c.color_id,
+      name: c.color?.name || "",
+      code: c.color?.code || "",
+      images: c.images?.length > 0 ? c.images : [PLACEHOLDER_IMG],
+      inventories: c.inventories || [],
+    }));
+
+    const flatImages = product.images || [];
+
     return {
-      id: product.product_id,
-      sku: product.product_id,
+      id: product.product_id ?? product.id,
+      sku: product.product_id ?? product.id,
       name: product.product_name || product.name || "Product",
       brand: product.brand,
-      category: product.category,
+      category: categoryName,
+      categoryId,
       collection: product.collection,
       rating: Number(product.rating || 4),
       price,
       oldPrice,
       discount,
       description: product.description,
+      colors,
       images:
-        product.images && product.images.length > 0
-          ? product.images
-          : [PLACEHOLDER_IMG],
+        colors.length > 0
+          ? colors[0].images
+          : flatImages.length > 0
+            ? flatImages
+            : [PLACEHOLDER_IMG],
     };
   }, [product]);
 
-  // ---- CURATED PICKS (same category, excluding current product) ----
+
   const curatedPicks = useMemo(() => {
     if (!normalized) return [];
 
@@ -185,7 +214,7 @@ const ProductDetail = () => {
     setOpenPanel((prev) => (prev === key ? null : key));
   };
 
-  // Quantity +/- now bounded by the selected size's stock (same as ProductContent.jsx)
+  
   const increment = () =>
     setQuantity((q) => (q < selectedSizeStock ? q + 1 : q));
   const decrement = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -210,7 +239,7 @@ const ProductDetail = () => {
     }
   };
 
-  // ---- ADD TO CART / BUY NOW: same addToCart API + validation as ProductContent.jsx ----
+ 
   const handleAddToCart = async () => {
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
@@ -266,7 +295,7 @@ const ProductDetail = () => {
     if (success) navigate("/cart");
   };
 
-  // ---- EARLY RETURNS AFTER ALL HOOKS ARE DECLARED ----
+  
   if (loading) return <Loader />;
 
   if (!normalized) {
@@ -305,7 +334,16 @@ const ProductDetail = () => {
     },
   ];
 
-  const gallery = normalized.images;
+  const hasColors = normalized.colors && normalized.colors.length > 0;
+  const activeColor = hasColors
+    ? normalized.colors[selectedColorIndex] || normalized.colors[0]
+    : null;
+  const gallery = hasColors ? activeColor.images : normalized.images;
+
+  const handleSelectColor = (idx) => {
+    setSelectedColorIndex(idx);
+    setActiveImage(0); 
+  };
 
   return (
     <>
@@ -316,9 +354,15 @@ const ProductDetail = () => {
             <i className="bi bi-chevron-right"></i>
             <Link to="/all-categories">All Categories</Link>
             <i className="bi bi-chevron-right"></i>
-            <Link to={`/category?category=${normalized.category}`}>
-              {categoryLabelMap[normalized.category] ||
-                `${normalized.category}'s Wear`}
+            <Link
+              to={`/categoryproducts?category_id=${normalized.categoryId || ""}&category=${encodeURIComponent(
+                normalized.category,
+              )}`}
+            >
+              {categoryLabelMap[normalized.category?.toLowerCase()] ||
+                (normalized.category
+                  ? `${normalized.category} Wear`
+                  : "Category")}
             </Link>
             <i className="bi bi-chevron-right"></i>
             <span className="active">
@@ -426,7 +470,30 @@ const ProductDetail = () => {
                 )}
               </div>
 
-              {/* SIZES - only shown if the product has size-based stock */}
+              {hasColors && (
+                <div className="pd-colors mt-3">
+                  <h6 className="mb-2">
+                    Colour{activeColor?.name ? `: ${activeColor.name}` : ""}
+                  </h6>
+                  <div className="colors-div">
+                    {normalized.colors.map((c, idx) => (
+                      <button
+                        key={c.id ?? idx}
+                        type="button"
+                        className={`colorswatch ${
+                          selectedColorIndex === idx ? "active" : ""
+                        }`}
+                        onClick={() => handleSelectColor(idx)}
+                        title={c.name || `Colour ${idx + 1}`}
+                      >
+                        <img src={c.images[0]} alt={c.name || "colour"} />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            
               {sizeQuantities.length > 0 && (
                 <div className="pd-sizes mt-3">
                   <h6 className="mb-2">Sizes Available</h6>
@@ -581,7 +648,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        <ShopAllProducts />
+        <Product paginated showTabs currentProductId={normalized.id} />
       </div>
 
       <NewsletterBanner />

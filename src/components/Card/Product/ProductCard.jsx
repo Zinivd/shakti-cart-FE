@@ -10,7 +10,7 @@ const ProductCard = (props) => {
 
   const location = useLocation();
   const isProductDetailsPage =
-    location.pathname.startsWith("/products-details");
+    location.pathname.startsWith("/productdetail");
   const isSameProduct =
     isProductDetailsPage && location.pathname.endsWith(`/${props.id}`);
 
@@ -30,7 +30,7 @@ const ProductCard = (props) => {
         setIsWished(true);
         toast.success("Added to Wishlist");
       }
-    } catch (err) {
+    } catch  {
       toast.error("Failed to add wishlist");
     } finally {
       setLoading(false);
@@ -52,7 +52,7 @@ const ProductCard = (props) => {
         setIsWished(false);
         toast.error("Removed from Wishlist");
       }
-    } catch (err) {
+    } catch  {
       toast.error("Failed to remove wishlist");
     } finally {
       setLoading(false);
@@ -72,7 +72,7 @@ const ProductCard = (props) => {
       if (res?.data?.success) {
         toast.success("Added to Cart");
       }
-    } catch (err) {
+    } catch  {
       toast.error("Failed to add to cart");
     }
   };
@@ -92,7 +92,7 @@ const ProductCard = (props) => {
   };
 
   const handleShare = async () => {
-    const shareUrl = `${window.location.origin}/products-details/${props.id}`;
+    const shareUrl = `${window.location.origin}/productdetail/${props.id}`;
     try {
       if (navigator.share) {
         await navigator.share({
@@ -118,7 +118,7 @@ const ProductCard = (props) => {
           <img src={props.productImg} alt={props.productname} />
         </div>
       ) : (
-        <Link to={`/products-details/${props.id}`}>
+        <Link to={`/productdetail/${props.id}`}>
           <div className="product-img">
             <img src={props.productImg} alt={props.productname} />
           </div>

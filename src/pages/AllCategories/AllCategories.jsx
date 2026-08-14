@@ -6,8 +6,8 @@ import "../../components/Card/Category/Category.css";
 import { getAllCategories } from "../../service/api";
 import Loader from "../../components/Loader/Loader.jsx";
 
-const ShopAllProducts = lazy(() =>
-  import("../../components/ShopAllproduct/ShopAllProducts.jsx")
+const Product = lazy(() =>
+  import("../../components/Card/Product/Product.jsx")
 );
 // import ReelsShowcase from "../../components/ReelsShowCase/ReelsShowcase.jsx";
 
@@ -76,8 +76,8 @@ const AllCategories = () => {
               <div className="category-list">
                 {categories.map((cat) => (
                   <Link
-                    key={cat.category_id}
-                    to={`/categoryproducts?category_id=${cat.category_id}&category=${encodeURIComponent(
+                    key={cat.id}
+                    to={`/categoryproducts?category_id=${cat.id}&category=${encodeURIComponent(
                       cat.category_name
                     )}`}
                     className="category-card-link"
@@ -111,7 +111,7 @@ const AllCategories = () => {
           </div>
 
           <Suspense fallback={<Loader />}>
-            <ShopAllProducts />
+            <Product paginated showTabs hideAds />
           </Suspense>
           {/* <ReelsShowcase /> */}
         </div>
