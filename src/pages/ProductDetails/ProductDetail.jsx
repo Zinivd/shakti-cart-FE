@@ -2,12 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Product from "../../components/Card/Product/Product.jsx";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
-import {
-  getProductById,
-  getAllProducts,
-  getProductQuantities,
-  addToCart,
-} from "../../service/api";
+import { getProductById, getAllProducts, addToCart } from "../../service/api";
 import Loader from "../../components/Loader/Loader";
 import { Discover2 } from "../../assets/Assets.js";
 import { toast } from "react-toastify";
@@ -37,24 +32,20 @@ const ProductDetail = () => {
   const [openPanel, setOpenPanel] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
 
-  // ---- SIZE / STOCK STATE (same pattern as ProductContent.jsx) ----
+  // ---- SIZE / STOCK STATE ----
+  // FIX: sizes now come straight from the selected color's `inventories`
+  // (per the real ShaktiProduct API shape) instead of a separate
+  // getProductQuantities call, which had no idea which color was selected.
   const [selectedSize, setSelectedSize] = useState("");
-  const [sizeQuantities, setSizeQuantities] = useState([]);
   const [cartLoading, setCartLoading] = useState(false);
 
-  // ---- COLOR STATE (new) ----
+  // ---- COLOR STATE ----
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-
-  const selectedSizeStock = useMemo(() => {
-    if (!selectedSize) return 0;
-    return sizeQuantities.find((s) => s.size === selectedSize)?.qty || 0;
-  }, [sizeQuantities, selectedSize]);
 
   const fetchProduct = useCallback(async () => {
     try {
       setLoading(true);
       const response = await getProductById(id);
-
       if (response?.data?.success) {
         setProduct(response.data.data);
       } else {
@@ -78,65 +69,21 @@ const ProductDetail = () => {
     }
   }, []);
 
-  
-  const fetchQuantities = useCallback(async () => {
-    if (!id) return;
-
-    try {
-      const res = await getProductQuantities(id);
-
-      if (res?.data?.success) {
-        const quantities = res.data.data?.quantities || [];
-
-        const normalized = quantities.map((item) => ({
-          size: item.size,
-          qty: Number(item.quantity),
-          unit: item.unit,
-        }));
-
-        setSizeQuantities(normalized);
-      } else {
-        setSizeQuantities([]);
-      }
-    } catch (error) {
-      console.log(error);
-      setSizeQuantities([]);
-    }
-  }, [id]);
-
   useEffect(() => {
     if (id) {
       fetchProduct();
-      fetchQuantities();
     }
-    
     setActiveImage(0);
     setQuantity(1);
     setSelectedSize("");
     setSelectedColorIndex(0);
-  }, [id, fetchProduct, fetchQuantities]);
+  }, [id, fetchProduct]);
 
   useEffect(() => {
     loadAllProducts();
   }, [loadAllProducts]);
 
-  
-  useEffect(() => {
-    if (!sizeQuantities.length || selectedSize) return;
-
-    const firstAvailable = sizeQuantities.find((s) => s.qty > 0)?.size || "";
-    setSelectedSize(firstAvailable);
-    setQuantity(1);
-  }, [sizeQuantities, selectedSize]);
-
-
-  useEffect(() => {
-    if (quantity > selectedSizeStock) {
-      setQuantity(selectedSizeStock || 1);
-    }
-  }, [selectedSizeStock]); 
-
-  
+  // ---- NORMALIZE PRODUCT (ShaktiProduct API shape) ----
   const normalized = useMemo(() => {
     if (!product) return null;
 
@@ -147,35 +94,36 @@ const ProductDetail = () => {
         ? Math.round(((oldPrice - price) / oldPrice) * 100)
         : 0;
 
-  
-    const categoryRaw = product.category;
-    const categoryName =
-      typeof categoryRaw === "string"
-        ? categoryRaw
-        : categoryRaw?.category_name || categoryRaw?.name || "";
-    const categoryId =
-      typeof categoryRaw === "object" ? categoryRaw?.category_id : undefined;
+    // FIX: category is always the nested object in the real API response.
+    const categoryName = product.category?.category_name || "";
+    const categoryId = product.category?.id;
 
-  
     const colors = (product.colors || []).map((c) => ({
-      id: c.id,
+      id: c.id, // product_color_id — needed to scope inventories per color
       colorId: c.color_id,
       name: c.color?.name || "",
       code: c.color?.code || "",
       images: c.images?.length > 0 ? c.images : [PLACEHOLDER_IMG],
-      inventories: c.inventories || [],
+      // Normalize each color's own size/stock list
+      sizes: (c.inventories || []).map((inv) => ({
+        inventoryId: inv.id,
+        size: inv.size,
+        qty: Number(inv.stock ?? 0),
+        sku: inv.sku,
+        price: inv.price != null ? Number(inv.price) : null,
+      })),
     }));
 
     const flatImages = product.images || [];
 
     return {
-      id: product.product_id ?? product.id,
-      sku: product.product_id ?? product.id,
-      name: product.product_name || product.name || "Product",
+      id: product.id,
+      sku: product.id,
+      name: product.name || "Product",
       brand: product.brand,
       category: categoryName,
       categoryId,
-      collection: product.collection,
+      subcategory: product.subcategory?.sub_category_name || "",
       rating: Number(product.rating || 4),
       price,
       oldPrice,
@@ -191,37 +139,76 @@ const ProductDetail = () => {
     };
   }, [product]);
 
+  const hasColors = normalized?.colors && normalized.colors.length > 0;
+  const activeColor = hasColors
+    ? normalized.colors[selectedColorIndex] || normalized.colors[0]
+    : null;
+
+  // Sizes for the CURRENTLY selected color — this is what makes the size
+  // list correctly sit "under" and react to the color selection.
+  const sizeOptions = useMemo(() => {
+    return activeColor?.sizes || [];
+  }, [activeColor]);
+
+  const selectedSizeStock = useMemo(() => {
+    if (!selectedSize) return 0;
+    return sizeOptions.find((s) => s.size === selectedSize)?.qty || 0;
+  }, [sizeOptions, selectedSize]);
+
+  // Whenever the selected color changes, re-pick a size from ITS inventory
+  useEffect(() => {
+    if (!sizeOptions.length) {
+      setSelectedSize("");
+      return;
+    }
+    const stillValid = sizeOptions.some(
+      (s) => s.size === selectedSize && s.qty > 0,
+    );
+    if (stillValid) return;
+
+    const firstAvailable = sizeOptions.find((s) => s.qty > 0)?.size || "";
+    setSelectedSize(firstAvailable);
+    setQuantity(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sizeOptions]);
+
+  useEffect(() => {
+    if (quantity > selectedSizeStock) {
+      setQuantity(selectedSizeStock || 1);
+    }
+  }, [selectedSizeStock]);
 
   const curatedPicks = useMemo(() => {
     if (!normalized) return [];
-
     return allProducts
       .filter(
         (p) =>
-          p.category === normalized.category && p.product_id !== normalized.id,
+          (p.category?.id ?? p.category_id) === normalized.categoryId &&
+          p.id !== normalized.id,
       )
       .slice(0, 4)
-      .map((p) => ({
-        id: p.product_id,
-        image: p.images?.[0] || PLACEHOLDER_IMG,
-        name: p.product_name,
-        price: Number(p.selling_price || 0),
-        oldPrice: Number(p.actual_price || 0),
-      }));
+      .map((p) => {
+        const firstColorImage = p.colors?.[0]?.images?.[0];
+        return {
+          id: p.id,
+          image: firstColorImage || p.images?.[0] || PLACEHOLDER_IMG,
+          name: p.name,
+          price: Number(p.selling_price || 0),
+          oldPrice: Number(p.actual_price || 0),
+        };
+      });
   }, [allProducts, normalized]);
 
   const togglePanel = (key) => {
     setOpenPanel((prev) => (prev === key ? null : key));
   };
 
-  
   const increment = () =>
     setQuantity((q) => (q < selectedSizeStock ? q + 1 : q));
   const decrement = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
   const handleShare = async () => {
     const shareUrl = `${window.location.origin}/productdetail/${normalized.id}`;
-
     try {
       if (navigator.share) {
         await navigator.share({
@@ -239,28 +226,32 @@ const ProductDetail = () => {
     }
   };
 
- 
   const handleAddToCart = async () => {
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-
     if (!isAuthenticated) {
       toast.error("Please Login to Add Products to Cart");
       navigate("/login");
       return false;
     }
-
-    if (sizeQuantities.length > 0 && !selectedSize) {
+    if (sizeOptions.length > 0 && !selectedSize) {
       toast.error("Please select a size");
       return false;
     }
-
-    if (sizeQuantities.length > 0 && selectedSizeStock === 0) {
+    if (sizeOptions.length > 0 && selectedSizeStock === 0) {
       toast.error("Selected size is out of stock");
       return false;
     }
-
-    if (sizeQuantities.length > 0 && quantity > selectedSizeStock) {
+    if (sizeOptions.length > 0 && quantity > selectedSizeStock) {
       toast.error("Quantity exceeds available stock");
+      return false;
+    }
+    // FIX: the backend validates `product_color_id` against
+    // shakti_product_colors.id — that's activeColor.id (the color VARIANT
+    // row), not activeColor.colorId (the underlying Color's id, e.g.
+    // "Grey" = 1). Sending colorId here would fail validation, since the
+    // backend does `exists:shakti_product_colors,id`.
+    if (hasColors && !activeColor?.id) {
+      toast.error("Please select a color");
       return false;
     }
 
@@ -268,12 +259,11 @@ const ProductDetail = () => {
     try {
       const cartData = {
         product_id: normalized.id,
+        product_color_id: activeColor?.id ?? undefined,
         size: selectedSize || undefined,
         quantity,
       };
-
       const response = await addToCart(cartData);
-
       if (response?.data?.success) {
         toast.success("Product added to cart");
         return true;
@@ -295,9 +285,7 @@ const ProductDetail = () => {
     if (success) navigate("/cart");
   };
 
-  
   if (loading) return <Loader />;
-
   if (!normalized) {
     return (
       <div className="main product-details-page">
@@ -334,15 +322,11 @@ const ProductDetail = () => {
     },
   ];
 
-  const hasColors = normalized.colors && normalized.colors.length > 0;
-  const activeColor = hasColors
-    ? normalized.colors[selectedColorIndex] || normalized.colors[0]
-    : null;
   const gallery = hasColors ? activeColor.images : normalized.images;
 
   const handleSelectColor = (idx) => {
     setSelectedColorIndex(idx);
-    setActiveImage(0); 
+    setActiveImage(0);
   };
 
   return (
@@ -366,7 +350,7 @@ const ProductDetail = () => {
             </Link>
             <i className="bi bi-chevron-right"></i>
             <span className="active">
-              {normalized.collection || "Product Details"}
+              {normalized.subcategory || "Product Details"}
             </span>
           </div>
         </div>
@@ -387,14 +371,11 @@ const ProductDetail = () => {
                   </button>
                 ))}
               </div>
-
               <div className="pd-main-image">
                 <img src={gallery[activeImage]} alt={normalized.name} />
-
                 <span className="pd-image-counter d-lg-none">
                   {activeImage + 1}/{gallery.length}
                 </span>
-
                 {gallery.length > 1 && (
                   <>
                     <button
@@ -441,9 +422,7 @@ const ProductDetail = () => {
                   <i className="bi bi-share"></i>
                 </button>
               </div>
-
               <h1 className="pd-title">{normalized.name}</h1>
-
               <div className="pd-rating">
                 {[...Array(5)].map((_, i) => (
                   <i
@@ -457,7 +436,6 @@ const ProductDetail = () => {
                 ))}
                 <span>{normalized.rating}</span>
               </div>
-
               <div className="pd-price-row">
                 <span className="pd-price">₹{normalized.price}</span>
                 {normalized.oldPrice > 0 && (
@@ -470,6 +448,7 @@ const ProductDetail = () => {
                 )}
               </div>
 
+              {/* COLOR — always renders first */}
               {hasColors && (
                 <div className="pd-colors mt-3">
                   <h6 className="mb-2">
@@ -493,14 +472,15 @@ const ProductDetail = () => {
                 </div>
               )}
 
-            
-              {sizeQuantities.length > 0 && (
+              {/* SIZE — always sits below the color block, and reflects
+                  ONLY the currently selected color's inventory */}
+              {sizeOptions.length > 0 && (
                 <div className="pd-sizes mt-3">
                   <h6 className="mb-2">Sizes Available</h6>
                   <div className="sizes-div">
-                    {sizeQuantities.map((s, i) => (
+                    {sizeOptions.map((s) => (
                       <button
-                        key={i}
+                        key={s.inventoryId}
                         type="button"
                         className={`sizebtn ${selectedSize === s.size ? "active" : ""}`}
                         disabled={!s.qty}
@@ -520,7 +500,7 @@ const ProductDetail = () => {
 
               <div className="pd-stock">
                 <span className="pd-stock-dot"></span>
-                {sizeQuantities.length > 0
+                {sizeOptions.length > 0
                   ? selectedSizeStock > 0
                     ? "In stock"
                     : "Out of stock"
@@ -545,7 +525,6 @@ const ProductDetail = () => {
                     <i className="bi bi-plus"></i>
                   </button>
                 </div>
-
                 <button
                   type="button"
                   className="pd-add-cart-btn"
@@ -556,7 +535,6 @@ const ProductDetail = () => {
                   {cartLoading ? "ADDING..." : "ADD TO CART"}
                 </button>
               </div>
-
               <button
                 type="button"
                 className="pd-buy-now-btn"
@@ -599,7 +577,6 @@ const ProductDetail = () => {
             <h3 className="pd-section-title text-center">
               Curated Picks For You
             </h3>
-
             <div className="row pd-curated-grid gx-3 gy-4">
               {curatedPicks.map((item) => (
                 <div className="col-6 col-md-3" key={item.id}>
@@ -631,18 +608,15 @@ const ProductDetail = () => {
           <div className="klarna-left">
             <h2 className="klarna-logo">Klarna.</h2>
           </div>
-
           <div className="klarna-image">
             <img src={Discover2} alt="Pets" />
           </div>
-
           <div className="klarna-content">
             <p>Pay with 4 installment, 0% interest</p>
             <h3>
               <strong>Buy Now,</strong> Pay Later
             </h3>
           </div>
-
           <div className="klarna-action">
             <button className="klarna-btn">DISCOVER NOW</button>
           </div>
@@ -650,7 +624,6 @@ const ProductDetail = () => {
 
         <Product paginated showTabs currentProductId={normalized.id} />
       </div>
-
       <NewsletterBanner />
     </>
   );

@@ -11,19 +11,15 @@ const Navbar = () => {
       setIsExpanded((prev) => !prev);
     }, 300);
   };
-
   useEffect(() => {
     const hash = window.location.hash;
-
     if (hash) {
       const tabButton = document.querySelector(`[data-bs-target="${hash}"]`);
-
       if (tabButton) {
         tabButton.click(); // Activate Bootstrap tab
       }
     }
   }, []);
-
   // Scroll effect
   // const [isScrolled, setIsScrolled] = useState(false);
   // useEffect(() => {
@@ -69,9 +65,11 @@ const Navbar = () => {
                 </NavLink>
               </div>
             </div>
-            <div className="my-0"><SearchBar /></div>
+            {/* Mobile-only search — hidden on desktop via CSS (min-width: 1098px) */}
+            <div className="my-0 mobile-searchbar-wrap">
+              <SearchBar />
+            </div>
           </div>
-
           {/* Web Navbar */}
           <div
             className="navbar-collapse d-lg-flex justify-content-evenly align-items-center collapse"
@@ -83,7 +81,6 @@ const Navbar = () => {
                 <img src={Logo_Main} height="50px" title="" alt="" />
               </a>
             </div>
-
             {/* Header Content */}
             <ul className="navbar-nav col-lg-4 align-items-lg-center justify-content-lg-evenly navbarNav">
               <li className="nav-item" id="home">
@@ -112,21 +109,12 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
-
-            {/* Search Div */}
+            {/* Search Div — desktop-only, wired to real search (tag/name/category match) */}
             <ul className="navbar-nav col-lg-3 mb-0">
-              <li className="search-bar">
-                <i className="bx bx-search text-center"></i>
-                <input
-                  type="text"
-                  className="form-control border-0"
-                  name="search"
-                  id="search"
-                  placeholder="Search for products..."
-                />
+              <li className="desktop-searchbar-wrap">
+                <SearchBar />
               </li>
             </ul>
-
             {/* Icon Div */}
             <ul className="navbar-nav col-lg-3 d-flex align-items-center flex-row icon-end">
               <li className="nav-item" id="profile">
@@ -163,5 +151,4 @@ const Navbar = () => {
     </>
   );
 };
-
 export default Navbar;

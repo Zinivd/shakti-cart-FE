@@ -344,3 +344,16 @@ export async function getbannerslist() {
     return null;
   }
 }
+
+
+
+  export async function getAllProductsWithTags() {
+  try {
+    const url = Urls.getAllProductsWithTags;
+    const result = await Client(url, {}, "get");
+    return result;
+  } catch (error) {
+    console.error("error in function getAllProductsWithTags:", error);
+    return null;
+  }
+}

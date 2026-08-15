@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getCartProducts,
-  placeOrder,
   getUserAddresses,
   addAddress,
 } from "../../service/api";
@@ -39,7 +33,6 @@ const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [placingOrder, setPlacingOrder] = useState(false);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
   const [savingAddress, setSavingAddress] = useState(false);
 
@@ -88,7 +81,6 @@ const Checkout = () => {
 
   const handleContinueToDelivery = async (e) => {
     e.preventDefault();
-
     // Validate required fields
     if (
       !formData.firstName ||
@@ -100,10 +92,8 @@ const Checkout = () => {
       toast.error("Please fill in all required fields");
       return;
     }
-
     try {
       setSavingAddress(true);
-
       const payload = {
         name: `${formData.firstName} ${formData.lastName}`.trim(),
         phone: formData.phone,
@@ -117,12 +107,9 @@ const Checkout = () => {
         landmark: formData.landmark || "",
         address_type: "home",
       };
-
       const result = await addAddress(userEmail, payload);
-
       if (result?.data?.success || result?.success) {
         toast.success("Address added successfully");
-
         // Clear form
         setFormData({
           firstName: "",
@@ -136,7 +123,6 @@ const Checkout = () => {
           pincode: "",
           phone: "",
         });
-
         // Reload addresses
         await loadAddresses();
       } else {
@@ -149,56 +135,6 @@ const Checkout = () => {
       toast.error(err.message || "An error occurred");
     } finally {
       setSavingAddress(false);
-    }
-  };
-
-  const handlePlaceOrder = async () => {
-    if (!selectedAddress) {
-      toast.error("Please select a delivery address");
-      return;
-    }
-
-    try {
-      setPlacingOrder(true);
-
-      const selectedAddressData = addresses.find(
-        (addr) => addr.id === selectedAddress,
-      );
-
-      // Transform address data to match API expectations
-      const transformedAddress = {
-        building: selectedAddressData.building_name || "",
-        address_line1: selectedAddressData.address_1 || "",
-        address_line2: selectedAddressData.address_2 || "",
-        city: selectedAddressData.city || "",
-        district: selectedAddressData.district || "",
-        state: selectedAddressData.state || "",
-        pincode: selectedAddressData.pincode || "",
-        landmark: selectedAddressData.landmark || "",
-        address_type: selectedAddressData.address_type || "home",
-      };
-      
-      const payload = {
-        payment_mode: "UPI",
-        address: transformedAddress,
-        items: cartItems.map((item) => ({
-          product_id: item.product_id,
-          quantity: item.quantity,
-        })),
-      };
-
-      const res = await placeOrder(payload);
-
-      if (res?.data?.success) {
-        toast.success("Order placed successfully");
-        navigate("/home");
-      } else {
-        toast.error("Order failed");
-      }
-    } catch (err) {
-      toast.error("Something went wrong");
-    } finally {
-      setPlacingOrder(false);
     }
   };
 
@@ -223,8 +159,8 @@ const Checkout = () => {
   };
 
   const selectedAddressData = selectedAddress
-  ? addresses.find((addr) => addr.id === selectedAddress)
-  : null;
+    ? addresses.find((addr) => addr.id === selectedAddress)
+    : null;
 
   return (
     <div className="main">
@@ -245,9 +181,7 @@ const Checkout = () => {
           </h6>
         </div>
       </div>
-
       <hr />
-
       <div className="checkout-main">
         <div className="checkout-left">
           <div className="body-head d-block">
@@ -260,7 +194,6 @@ const Checkout = () => {
                 : "Billing Details"}
             </h5>
           </div>
-
           {loadingAddresses ? (
             <Loader />
           ) : addresses.length > 0 ? (
@@ -290,7 +223,6 @@ const Checkout = () => {
                   </div>
                 ))}
               </div>
-
               <button className="formbtn mt-2" onClick={() => setAddresses([])}>
                 + Add New Address
               </button>
@@ -438,10 +370,8 @@ const Checkout = () => {
               </form>
             </div>
           )}
-
           <Shipping cartItems={cartItems} selectedAddress={selectedAddressData} />
         </div>
-
         <div className="checkout-right">
           <Summary cartItems={cartItems} />
         </div>

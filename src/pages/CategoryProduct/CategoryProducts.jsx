@@ -13,12 +13,10 @@ const getBadgeForProduct = (product) => {
     product.oldPrice && product.price
       ? ((product.oldPrice - product.price) / product.oldPrice) * 100
       : 0;
-
   if (discountPercent >= 35) return "Top Offer";
   if (product.rating >= 4.7) return "Trending Now";
   if (product.rating >= 4.5) return "Top Rated";
   if (discountPercent >= 25) return "Best Seller";
-
   return null;
 };
 
@@ -36,6 +34,11 @@ const getBadgeColor = (badge) => {
       return "#9c27b0";
   }
 };
+
+// Small helper so subcategory comparisons don't silently break because of
+// case differences or stray whitespace coming from two different API
+// endpoints (categories API vs products API).
+const normalize = (str) => (str || "").toString().trim().toLowerCase();
 
 const CategoryProduct = () => {
   const [searchParams] = useSearchParams();
@@ -58,11 +61,6 @@ const CategoryProduct = () => {
   };
 
   // matched category object (with its subcategories) for the current URL param
-  // FIX: compare against the numeric `id` (same id used when building the link
-  // from AllCategories: `cat.id`) instead of the string `category_id` code
-  // (e.g. "CTGRY4"). Previously this mismatch made matchedCategory almost
-  // always resolve only via the name check, and the wrong id got sent to the
-  // products API below.
   const matchedCategory = useMemo(
     () =>
       categoriesData.find(
@@ -75,16 +73,13 @@ const CategoryProduct = () => {
 
   const category = rawCategory; // used for matching products by category field
 
-  // ---------- PRODUCTS FROM API (replaces static products.js) ----------
+  // ---------- PRODUCTS FROM API ----------
   const [rawProducts, setRawProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
 
   useEffect(() => {
-    // FIX: use matchedCategory.id (numeric) instead of matchedCategory.category_id
-    // (string code) so the correct category id is sent to the API.
     const categoryId = matchedCategory?.id || categoryIdFromUrl;
     if (!categoryId) return;
-
     let ignore = false;
 
     const fetchProducts = async () => {
@@ -107,27 +102,20 @@ const CategoryProduct = () => {
     };
   }, [matchedCategory, categoryIdFromUrl]);
 
-  // map API shape -> the shape this page's existing filter logic expects
-  // (same field names as the old static products.js: id, name, image, color, size, price, oldPrice, rating)
-  // FIX: added a client-side safety-net filter so that even if the API ever
-  // returns products from other categories (e.g. backend ignores the id, or
-  // sends every product), only products belonging to the current category
-  // are shown on the right-hand side.
+  // map API shape -> the shape this page's filter logic expects
   const categoryBaseProducts = useMemo(() => {
     const targetId = matchedCategory?.id ?? categoryIdFromUrl;
 
     const scoped = rawProducts.filter((item) => {
       const itemCatId = item.category_id ?? item.category?.id;
-      const itemCatName = (item.category?.category_name || "").toLowerCase();
-
+      const itemCatName = normalize(item.category?.category_name);
       const idMatches =
         targetId != null && String(itemCatId) === String(targetId);
-      const nameMatches = rawCategory && itemCatName === rawCategory;
+      const nameMatches = rawCategory && itemCatName === normalize(rawCategory);
 
       // If we don't have a target id/name to compare against yet, don't
       // filter anything out (avoids flashing an empty grid on first render).
       if (targetId == null && !rawCategory) return true;
-
       return idMatches || nameMatches;
     });
 
@@ -139,21 +127,25 @@ const CategoryProduct = () => {
         fallbackImage ||
         "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
 
-      const sizes =
-        item.colors?.flatMap(
-          (c) => c.inventories?.map((inv) => inv.size) || [],
-        ) || [];
+      // Dedupe sizes per product (a color can repeat a size across variants)
+      const sizes = Array.from(
+        new Set(
+          (item.colors?.flatMap(
+            (c) => c.inventories?.map((inv) => inv.size) || [],
+          ) || []).filter(Boolean),
+        ),
+      );
 
-      // subcategory is also a nested object: item.subcategory.sub_category_name
-      const subcategory = item.subcategory?.sub_category_name || "";
-
+      const subcategoryName = item.subcategory?.sub_category_name || "";
       const price = Number(item.selling_price);
       const oldPrice = Number(item.actual_price);
       const rating = Number(item.rating || 4);
 
       return {
         id: item.id,
-        subcategory,
+        subcategory: subcategoryName,
+        // normalized version used only for filter comparisons
+        subcategoryNormalized: normalize(subcategoryName),
         name: item.name,
         image,
         size: sizes,
@@ -176,23 +168,63 @@ const CategoryProduct = () => {
     ? matchedCategory.category_name
     : rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1);
 
-  const priceRange = filters.common.price || { min: 0, max: 50000 };
-  const [maxPrice, setMaxPrice] = useState(priceRange.max);
+  // ---------- PRICE RANGE: derive from real product data ----------
+  // Falls back to filters.common.price only when we don't have products yet,
+  // so the slider always reflects what's actually filterable.
+  const staticPriceRange = filters.common.price || { min: 0, max: 50000 };
+  const derivedPriceRange = useMemo(() => {
+    if (categoryBaseProducts.length === 0) return staticPriceRange;
+    const prices = categoryBaseProducts
+      .map((p) => p.price)
+      .filter((p) => !Number.isNaN(p));
+    if (prices.length === 0) return staticPriceRange;
+    return {
+      min: Math.floor(Math.min(...prices)),
+      max: Math.ceil(Math.max(...prices)),
+    };
+  }, [categoryBaseProducts, staticPriceRange]);
+
+  const [maxPrice, setMaxPrice] = useState(derivedPriceRange.max);
 
   // reset filters whenever category changes
   useEffect(() => {
     setSelectedSubcategories([]);
     setSelectedSizes([]);
-    setMaxPrice(priceRange.max);
-  }, [category]);
+  }, [category, categoryIdFromUrl]);
 
-  // ---------- SUBCATEGORY LIST: dynamic from categories API ----------
+  // keep maxPrice in sync once real product prices are known
+  useEffect(() => {
+    setMaxPrice(derivedPriceRange.max);
+  }, [derivedPriceRange.max, category, categoryIdFromUrl]);
+
+  // ---------- SUBCATEGORY LIST: dynamic from categories API,
+  // falls back to whatever subcategories actually exist on the products
+  // themselves in case the categories API doesn't return a subcategories
+  // array (or it's out of sync with the products API). ----------
   const availableSubcategories = useMemo(() => {
-    if (!matchedCategory || !Array.isArray(matchedCategory.subcategories)) {
-      return [];
-    }
-    return matchedCategory.subcategories.map((s) => s.sub_category_name);
-  }, [matchedCategory]);
+    const fromCategoryApi =
+      matchedCategory && Array.isArray(matchedCategory.subcategories)
+        ? matchedCategory.subcategories.map((s) => s.sub_category_name)
+        : [];
+
+    if (fromCategoryApi.length > 0) return fromCategoryApi;
+
+    // Fallback: derive from the products we actually have
+    const fromProducts = Array.from(
+      new Set(categoryBaseProducts.map((p) => p.subcategory).filter(Boolean)),
+    );
+    return fromProducts;
+  }, [matchedCategory, categoryBaseProducts]);
+
+  // ---------- SIZE LIST: dynamic from actual product data,
+  // falls back to the static filters.common.sizes if no products loaded yet ----------
+  const availableSizes = useMemo(() => {
+    const fromProducts = Array.from(
+      new Set(categoryBaseProducts.flatMap((p) => p.size)),
+    ).filter(Boolean);
+    if (fromProducts.length > 0) return fromProducts;
+    return filters.common.sizes || [];
+  }, [categoryBaseProducts]);
 
   const toggleSubcategory = (name) => {
     setSelectedSubcategories((prev) =>
@@ -206,11 +238,18 @@ const CategoryProduct = () => {
     );
   };
 
-  let categoryProducts = useMemo(() => {
+  const selectedSubcategoriesNormalized = useMemo(
+    () => selectedSubcategories.map(normalize),
+    [selectedSubcategories],
+  );
+
+  const categoryProducts = useMemo(() => {
     let list = categoryBaseProducts;
 
-    if (selectedSubcategories.length > 0) {
-      list = list.filter((p) => selectedSubcategories.includes(p.subcategory));
+    if (selectedSubcategoriesNormalized.length > 0) {
+      list = list.filter((p) =>
+        selectedSubcategoriesNormalized.includes(p.subcategoryNormalized),
+      );
     }
 
     if (selectedSizes.length > 0) {
@@ -222,7 +261,7 @@ const CategoryProduct = () => {
     return list;
   }, [
     categoryBaseProducts,
-    selectedSubcategories,
+    selectedSubcategoriesNormalized,
     selectedSizes,
     maxPrice,
   ]);
@@ -258,7 +297,6 @@ const CategoryProduct = () => {
               </label>
             </li>
           ))}
-
           {availableSubcategories.length === 0 && (
             <li className="filter-checkbox-item">
               <span style={{ color: "#999" }}>No subcategories</span>
@@ -274,14 +312,14 @@ const CategoryProduct = () => {
         </div>
         <input
           type="range"
-          min={priceRange.min}
-          max={priceRange.max}
+          min={derivedPriceRange.min}
+          max={derivedPriceRange.max}
           value={maxPrice}
           onChange={(e) => setMaxPrice(Number(e.target.value))}
           className="price-range"
         />
         <div className="price-values">
-          <span className="price-pill">₹{priceRange.min}</span>
+          <span className="price-pill">₹{derivedPriceRange.min}</span>
           <span className="price-pill">₹{maxPrice}</span>
         </div>
       </div>
@@ -292,7 +330,7 @@ const CategoryProduct = () => {
           <h6>Size</h6>
         </div>
         <div className="size-grid">
-          {filters.common.sizes.map((s) => (
+          {availableSizes.map((s) => (
             <div
               className={`size-box ${selectedSizes.includes(s) ? "selected" : ""}`}
               key={s}
@@ -301,6 +339,9 @@ const CategoryProduct = () => {
               {s}
             </div>
           ))}
+          {availableSizes.length === 0 && (
+            <span style={{ color: "#999", fontSize: 12 }}>No sizes</span>
+          )}
         </div>
       </div>
     </>
@@ -373,7 +414,6 @@ const CategoryProduct = () => {
                   >
                     <div className="product-card-img">
                       <img src={product.image} alt={product.name} />
-
                       {product.badge && (
                         <span
                           className="product-badge"
@@ -384,7 +424,6 @@ const CategoryProduct = () => {
                           {product.badge}
                         </span>
                       )}
-
                       <span
                         className="wishlist-icon"
                         onClick={(e) => e.preventDefault()}
@@ -392,7 +431,6 @@ const CategoryProduct = () => {
                         <i className="bi bi-heart"></i>
                       </span>
                     </div>
-
                     <div className="product-card-content">
                       <div className="product-meta">
                         <span className="product-sku">
@@ -430,18 +468,15 @@ const CategoryProduct = () => {
           <div className="klarna-left">
             <h2 className="klarna-logo">Klarna.</h2>
           </div>
-
           <div className="klarna-image">
             <img src={Discover2} alt="Pets" />
           </div>
-
           <div className="klarna-content">
             <p>Pay with 4 installment, 0% interest</p>
             <h3>
               <strong>Buy Now,</strong> Pay Later
             </h3>
           </div>
-
           <div className="klarna-action">
             <button className="klarna-btn">DISCOVER NOW</button>
           </div>
@@ -449,7 +484,6 @@ const CategoryProduct = () => {
 
         <Product paginated showTabs hideAds />
       </div>
-
       <NewsletterBanner />
     </>
   );

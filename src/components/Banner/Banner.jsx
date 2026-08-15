@@ -5,7 +5,7 @@ import "@splidejs/splide/dist/css/splide.min.css";
 import "./Banner.css";
 import axios from "axios"; // swap for your existing axios instance if you have one
 
-const BANNER_API_URL = "http://127.0.0.1:8000/api/admin/banners"; // update as needed
+const BANNER_API_URL = "https://api-prod.shakticart.com/api/admin/banners"; // update as needed
 const MOBILE_BREAKPOINT = 768;
 
 const getBannerList = async () => {

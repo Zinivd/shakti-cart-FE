@@ -60,6 +60,7 @@ getProductsByCategory: `${BASE_URL}/api/user/shakti-products`, // ?category_id=
 getProductsBySubcategory: `${BASE_URL}/api/user/shakti-products`, // ?subcategory_id=
 getProductsByFilter: `${BASE_URL}/api/user/shakti-products`, // ?category_id=&subcategory_id=
 getQuantityByProductId: `${BASE_URL}/api/user/shakti-products/`, // append /${id}/inventory
+getAllProductsWithTags: `${BASE_URL}/api/user/shakti-products/list-with-tags`,
 
   // Cart Endpoints
   addToCart: `${BASE_URL}/api/cart/add`,
