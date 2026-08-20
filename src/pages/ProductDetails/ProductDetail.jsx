@@ -118,7 +118,7 @@ const ProductDetail = () => {
 
     return {
       id: product.id,
-      sku: product.id,
+      sku: `${product.id}-${product.brand || ""}`,
       name: product.name || "Product",
       brand: product.brand,
       category: categoryName,
@@ -371,39 +371,18 @@ const ProductDetail = () => {
                   </button>
                 ))}
               </div>
+              {/* Desktop: single image, no arrows — thumbnail list on the left handles switching */}
               <div className="pd-main-image">
                 <img src={gallery[activeImage]} alt={normalized.name} />
-                <span className="pd-image-counter d-lg-none">
-                  {activeImage + 1}/{gallery.length}
-                </span>
-                {gallery.length > 1 && (
-                  <>
-                    <button
-                      type="button"
-                      className="pd-nav-arrow prev d-lg-none"
-                      aria-label="Previous image"
-                      onClick={() =>
-                        setActiveImage((prev) =>
-                          prev === 0 ? gallery.length - 1 : prev - 1,
-                        )
-                      }
-                    >
-                      <i className="bi bi-chevron-left"></i>
-                    </button>
-                    <button
-                      type="button"
-                      className="pd-nav-arrow next d-lg-none"
-                      aria-label="Next image"
-                      onClick={() =>
-                        setActiveImage((prev) =>
-                          prev === gallery.length - 1 ? 0 : prev + 1,
-                        )
-                      }
-                    >
-                      <i className="bi bi-chevron-right"></i>
-                    </button>
-                  </>
-                )}
+              </div>
+
+              {/* Mobile: swipe strip with a visible scrollbar */}
+              <div className="pd-mobile-scroll">
+                {gallery.map((img, idx) => (
+                  <div className="pd-mobile-scroll-item" key={idx}>
+                    <img src={img} alt={`${normalized.name} ${idx + 1}`} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

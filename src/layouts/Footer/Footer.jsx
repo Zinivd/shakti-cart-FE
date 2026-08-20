@@ -4,10 +4,14 @@ import { Logo_Main } from "../../assets/Assets.js";
 import "./Footer.css";
 
 const Footer = () => {
-  const [openMenu, setOpenMenu] = useState(null);
+  const [openMenu, setOpenMenu] = useState("help");
+
   const toggleCollapse = (menuName) => {
-    setOpenMenu(openMenu === menuName ? null : menuName);
+    setOpenMenu((prev) => (prev === menuName ? null : menuName));
   };
+
+  const isClosed = (menuName) => openMenu !== menuName;
+
   return (
     <>
       <footer className="footer">
@@ -109,14 +113,14 @@ const Footer = () => {
                   Need Help
                   <i
                     className={`bx ${
-                      openMenu === "help" ? "bx-plus" : "bx-minus"
+                      isClosed("help") ? "bx-plus" : "bx-minus"
                     }`}
                   ></i>
                 </h5>
                 <br />
                 <ul
                   className={`nav flex-column collapse-wrapper ${
-                    openMenu === "help" ? "hide" : ""
+                    isClosed("help") ? "hide" : ""
                   }`}
                 >
                   <li className="nav-item mb-2">
@@ -152,14 +156,14 @@ const Footer = () => {
                   Company
                   <i
                     className={`bx ${
-                      openMenu === "company" ? "bx-plus" : "bx-minus"
+                      isClosed("company") ? "bx-plus" : "bx-minus"
                     }`}
                   ></i>
                 </h5>
                 <br />
                 <ul
                   className={`nav flex-column collapse-wrapper ${
-                    openMenu === "company" ? "hide" : ""
+                    isClosed("company") ? "hide" : ""
                   }`}
                 >
                   <li className="nav-item mb-2">
@@ -190,14 +194,14 @@ const Footer = () => {
                   Policies
                   <i
                     className={`bx ${
-                      openMenu === "policy" ? "bx-plus" : "bx-minus"
+                      isClosed("policy") ? "bx-plus" : "bx-minus"
                     }`}
                   ></i>
                 </h5>
                 <br />
                 <ul
                   className={`nav flex-column collapse-wrapper ${
-                    openMenu === "policy" ? "hide" : ""
+                    isClosed("policy") ? "hide" : ""
                   }`}
                 >
                   <li className="nav-item mb-2">
@@ -228,14 +232,14 @@ const Footer = () => {
                   Location
                   <i
                     className={`bx ${
-                      openMenu === "location" ? "bx-plus" : "bx-minus"
+                      isClosed("location") ? "bx-plus" : "bx-minus"
                     }`}
                   ></i>
                 </h5>
                 <br />
                 <ul
                   className={`nav flex-column collapse-wrapper ${
-                    openMenu === "location" ? "hide" : ""
+                    isClosed("location") ? "hide" : ""
                   }`}
                 >
                   <li className="nav-item mb-2">

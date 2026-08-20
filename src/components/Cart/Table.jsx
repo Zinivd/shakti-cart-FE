@@ -102,7 +102,7 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
   return (
     <>
       {/* ================= DESKTOP ================= */}
-      <div className="table-wrapper desktop-only">
+      <div className="table-wrapper cart-table-desktop">
         <table className="table">
           <thead>
             <tr>
@@ -195,7 +195,7 @@ const CartTable = ({ cartProducts, setCartProducts, refreshCart }) => {
       </div>
 
       {/* ================= MOBILE ================= */}
-      <div className="mobile-only cart-cards">
+      <div className="cart-table-mobile cart-cards">
         {cartProducts.length === 0 ? (
           <div className="empty-state">
             <img src={NoCart} alt="" />

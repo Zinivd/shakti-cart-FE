@@ -102,7 +102,7 @@ const Cart = () => {
             </div>
 
             <div className="cart-summary-table">
-              <table className="table table-borderless">
+              <table className="cart-summary-table-inner">
                 <tbody>
                   <tr>
                     <th>Sub Total</th>

@@ -5,7 +5,13 @@ import { filters } from "../../data/filter.js";
 import NewsletterBanner from "../../components/NewsLetterBanner/NewsLetter.jsx";
 import { Discover2, NoSimilar } from "../../assets/Assets.js";
 import Loader from "../../components/Loader/Loader.jsx";
-import { getAllCategories, getProductsByCategory } from "../../service/api";
+import {
+  getAllCategories,
+  getProductsByCategory,
+  addToWishlist,
+  removeFromWishlist,
+} from "../../service/api";
+import { toast } from "react-toastify";
 import "./CategoryProducts.css";
 
 const getBadgeForProduct = (product) => {
@@ -35,9 +41,6 @@ const getBadgeColor = (badge) => {
   }
 };
 
-// Small helper so subcategory comparisons don't silently break because of
-// case differences or stray whitespace coming from two different API
-// endpoints (categories API vs products API).
 const normalize = (str) => (str || "").toString().trim().toLowerCase();
 
 const CategoryProduct = () => {
@@ -76,6 +79,8 @@ const CategoryProduct = () => {
   // ---------- PRODUCTS FROM API ----------
   const [rawProducts, setRawProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
+  const [wishlistItems, setWishlistItems] = useState({});
+  const [wishlistLoading, setWishlistLoading] = useState({});
 
   useEffect(() => {
     const categoryId = matchedCategory?.id || categoryIdFromUrl;
@@ -130,9 +135,11 @@ const CategoryProduct = () => {
       // Dedupe sizes per product (a color can repeat a size across variants)
       const sizes = Array.from(
         new Set(
-          (item.colors?.flatMap(
-            (c) => c.inventories?.map((inv) => inv.size) || [],
-          ) || []).filter(Boolean),
+          (
+            item.colors?.flatMap(
+              (c) => c.inventories?.map((inv) => inv.size) || [],
+            ) || []
+          ).filter(Boolean),
         ),
       );
 
@@ -197,10 +204,6 @@ const CategoryProduct = () => {
     setMaxPrice(derivedPriceRange.max);
   }, [derivedPriceRange.max, category, categoryIdFromUrl]);
 
-  // ---------- SUBCATEGORY LIST: dynamic from categories API,
-  // falls back to whatever subcategories actually exist on the products
-  // themselves in case the categories API doesn't return a subcategories
-  // array (or it's out of sync with the products API). ----------
   const availableSubcategories = useMemo(() => {
     const fromCategoryApi =
       matchedCategory && Array.isArray(matchedCategory.subcategories)
@@ -265,6 +268,80 @@ const CategoryProduct = () => {
     selectedSizes,
     maxPrice,
   ]);
+
+  const handleAddWishlist = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (wishlistLoading[product.id]) return;
+
+    setWishlistLoading((prev) => ({
+      ...prev,
+      [product.id]: true,
+    }));
+
+    try {
+      const body = {
+        product_id: product.id,
+        size: product.size?.[0] || "S",
+      };
+
+      const res = await addToWishlist(body);
+
+      if (res?.data?.success || res) {
+        setWishlistItems((prev) => ({
+          ...prev,
+          [product.id]: true,
+        }));
+
+        toast.success("Added to Wishlist");
+      }
+    } catch {
+      toast.error("Failed to add wishlist");
+    } finally {
+      setWishlistLoading((prev) => ({
+        ...prev,
+        [product.id]: false,
+      }));
+    }
+  };
+
+  const handleRemoveWishlist = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (wishlistLoading[product.id]) return;
+
+    setWishlistLoading((prev) => ({
+      ...prev,
+      [product.id]: true,
+    }));
+
+    try {
+      const payload = {
+        product_id: product.id,
+        size: product.size?.[0] || "S",
+      };
+
+      const res = await removeFromWishlist(payload);
+
+      if (res?.data?.success || res) {
+        setWishlistItems((prev) => ({
+          ...prev,
+          [product.id]: false,
+        }));
+
+        toast.error("Removed from Wishlist");
+      }
+    } catch {
+      toast.error("Failed to remove wishlist");
+    } finally {
+      setWishlistLoading((prev) => ({
+        ...prev,
+        [product.id]: false,
+      }));
+    }
+  };
 
   const filterSidebarContent = (
     <>
@@ -425,10 +502,27 @@ const CategoryProduct = () => {
                         </span>
                       )}
                       <span
-                        className="wishlist-icon"
-                        onClick={(e) => e.preventDefault()}
+                        className={`wishlist-icon ${
+                          wishlistItems[product.id] ? "active" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          if (wishlistItems[product.id]) {
+                            handleRemoveWishlist(e, product);
+                          } else {
+                            handleAddWishlist(e, product);
+                          }
+                        }}
                       >
-                        <i className="bi bi-heart"></i>
+                        <i
+                          className={
+                            wishlistItems[product.id]
+                              ? "bi bi-heart-fill"
+                              : "bi bi-heart"
+                          }
+                        ></i>
                       </span>
                     </div>
                     <div className="product-card-content">
@@ -436,7 +530,7 @@ const CategoryProduct = () => {
                         <span className="product-sku">
                           CS-NB-{String(product.id).padStart(3, "0")}
                         </span>
-                        <span className="product-rating">
+                        <span className="category-product-rating">
                           <i className="bi bi-star-fill"></i> {product.rating}
                         </span>
                       </div>
@@ -466,7 +560,7 @@ const CategoryProduct = () => {
 
         <div className="klarna-banner">
           <div className="klarna-left">
-            <h2 className="klarna-logo">Klarna.</h2>
+            <h2 className="klarna-logo">Klarna</h2>
           </div>
           <div className="klarna-image">
             <img src={Discover2} alt="Pets" />

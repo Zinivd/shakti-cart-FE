@@ -38,6 +38,8 @@ import AllCategories from "./pages/AllCategories/AllCategories.jsx";
 import CategoryProduct from "./pages/CategoryProduct/CategoryProducts.jsx";
 import ProductDetail from "./pages/ProductDetails/ProductDetail.jsx";
 
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop.jsx";
+
 function App() {
   return (
     <>
@@ -48,6 +50,10 @@ function App() {
             position="bottom-right"
             autoClose={2000}
           />
+
+          {/* Scroll to top whenever route changes */}
+          <ScrollToTop />
+
           <Navbar />
           <ResponsiveNav />
           <NavOffcanvas />

@@ -16,7 +16,7 @@ const Ellipsis = ({ onLoaded }) => {
   const fetchCategories = async () => {
     try {
       const response = await getAllProducts();
-      // ⬇️ CHANGED: paginated response, product array nested one level deeper
+
       const products = response?.data?.data?.data || [];
       setCategories(products);
       setTimeout(() => {
@@ -57,6 +57,9 @@ const Ellipsis = ({ onLoaded }) => {
             id={item.id}
             ellipsisImg={displayImage}
             ellipsish6={item.name}
+            brand={item.brand}
+            price={item.selling_price}
+            slashprice={item.actual_price}
           />
         );
       })}

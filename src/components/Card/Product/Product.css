@@ -187,6 +187,7 @@
 
     .product-img {
         height: 400px;
+        position: relative;
     }
 
     .product-content {
@@ -214,7 +215,8 @@
 
     .product-card .product-rating,
     .product-card .product-share {
-        bottom: 22%;
+        bottom: auto;
+        top: 355px; 
     }
 
 }
@@ -227,6 +229,7 @@
 
     .product-img {
         height: 400px;
+        position: relative;
     }
 
     .product-content {
@@ -254,7 +257,8 @@
 
     .product-card .product-rating,
     .product-card .product-share {
-        bottom: 24%;
+        bottom: auto;
+        top: 355px; 
     }
 
 }
@@ -267,6 +271,7 @@
 
     .product-img {
         height: 275px;
+        position: relative;
     }
 
     .product-content {
@@ -291,15 +296,16 @@
     .product-details h6 span {
         font-size: 10px !important;
     }
-    
+
     .product-card .product-rating,
     .product-card .product-share {
-        bottom: 26%;
+        bottom: auto;
+        top: 235px; 
     }
 
 }
 
-/* ---- Added: heading + pagination styles (moved from ShopAllProducts.css, used only when showTabs / paginated props are on) ---- */
+
 
 .shop-products-head {
     display: flex;
@@ -425,4 +431,26 @@
     .product-list.mobile-only {
         display: grid;
     }
+}
+
+@media screen and (max-width: 340px) {
+
+    .product-card .product-rating {
+        font-size: 10px;
+        padding: 2px 6px;
+        left: 2%;
+    }
+
+    .product-share {
+        height: 23px;
+        width: 23px;
+        font-size: 12px;
+        right: 2%;
+    }
+
+    .product-card .product-rating,
+    .product-card .product-share {
+        top: 240px; 
+    }
+
 }

@@ -12,13 +12,11 @@ const Home = () => {
   const initSplide = (count) => {
     if (count === 0) return;
 
-    // Destroy existing instance
     if (splideRef.current) {
       splideRef.current.destroy(true);
       splideRef.current = null;
     }
 
-    // Wait for DOM to be ready
     setTimeout(() => {
       const splideElement = document.querySelector(".home_ellipsis");
       if (!splideElement) return;
@@ -28,7 +26,7 @@ const Home = () => {
         perPage: Math.min(5, count),
         perMove: 1,
         pagination: false,
-        arrows: count > 2, // Only show arrows if looping
+        arrows: count > 2,
         autoplay: true,
         interval: 2000,
         speed: 800,
@@ -37,25 +35,25 @@ const Home = () => {
         pauseOnFocus: true,
         resetProgress: false,
         breakpoints: {
-          1098: { 
+          1098: {
             perPage: Math.min(5, count),
-            gap: "0.75rem"
+            gap: "0.75rem",
           },
-          768: { 
+          768: {
             perPage: Math.min(3, count),
-            gap: "0.5rem"
+            gap: "0.5rem",
           },
-          580: { 
+          580: {
             perPage: Math.min(2, count),
-            gap: "0.5rem"
+            gap: "0.5rem",
           },
-          480: { 
+          480: {
             perPage: Math.min(2, count),
-            gap: "0.5rem"
+            gap: "0.5rem",
           },
-          300: { 
+          300: {
             perPage: Math.min(1, count),
-            gap: "0.25rem"
+            gap: "0.25rem",
           },
         },
       });

@@ -6,9 +6,7 @@ import "../../components/Card/Category/Category.css";
 import { getAllCategories } from "../../service/api";
 import Loader from "../../components/Loader/Loader.jsx";
 
-const Product = lazy(() =>
-  import("../../components/Card/Product/Product.jsx")
-);
+const Product = lazy(() => import("../../components/Card/Product/Product.jsx"));
 // import ReelsShowcase from "../../components/ReelsShowCase/ReelsShowcase.jsx";
 
 const CategorySkeleton = () => (
@@ -78,7 +76,7 @@ const AllCategories = () => {
                   <Link
                     key={cat.id}
                     to={`/categoryproducts?category_id=${cat.id}&category=${encodeURIComponent(
-                      cat.category_name
+                      cat.category_name,
                     )}`}
                     className="category-card-link"
                   >
@@ -96,9 +94,6 @@ const AllCategories = () => {
                         <h6 className="mb-0">Upto 50% Off</h6>
                       </div>
                       <div className="category-bottom">
-                        <h6 className="mb-1 text-center">
-                          Stylish Clothes for
-                        </h6>
                         <h3 className="mb-0 text-center">
                           {cat.category_name}
                         </h3>

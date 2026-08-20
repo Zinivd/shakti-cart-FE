@@ -27,9 +27,10 @@ const Summary = ({ cartItems = [] }) => {
             <div className="summary-list mb-2">
               <div className="d-flex align-items-start column-gap-2">
                 <img
-                  src={item.product?.images?.[0]}
+                  src={item.product_color?.images?.[0]}
                   height="100"
-                  alt=""
+                  width="80"
+                  alt={item.product?.name || "Product"}
                   className="rounded-2 object-fit-cover"
                 />
                 <div className="summary-product">
@@ -46,7 +47,7 @@ const Summary = ({ cartItems = [] }) => {
                   </h5>
                   <h5 className="w-100">
                     <span className="text-dark">Color : </span>
-                    {item.product?.color}
+                    {item.product_color?.color?.name}
                   </h5>
                 </div>
               </div>
